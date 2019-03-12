@@ -49,6 +49,7 @@ public class Character : MonoBehaviour
     public Rigidbody2D _rigid;
     public CapsuleCollider2D _collider;
     public MeshRenderer _mesh;
+    public Material _material;
     public Animator _anim;
 
     public float flashTime = 0.5f;
@@ -62,6 +63,7 @@ public class Character : MonoBehaviour
         _rigid = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CapsuleCollider2D>();
         _mesh = GetComponent<MeshRenderer>();
+        _material = GetComponent<Material>();
         _anim = GetComponent<Animator>();
 
         origScale = transform.localScale;

@@ -4,6 +4,62 @@ using UnityEngine;
 
 public class Enemy : Character
 {
+    public enum EnemyControlState
+    {
+        Idling,
+        Patrolling,
+        Chasing,
+        Attacking
+    }
+
+    public enum EnemyLeftWeaponState
+    {
+        Idling,
+        Parrying,
+        Blocking,
+        Attacking1,
+        Attacking2,
+        Attacking3,
+        PowerAttacking1,
+        ComboAttacking1,
+        ComboAttacking2,
+        ComboAttacking3,
+        Casting
+    }
+
+    public enum EnemyRightWeaponState
+    {
+        Idling,
+        Parrying,
+        Blocking,
+        Attacking1,
+        Attacking2,
+        Attacking3,
+        PowerAttacking1,
+        ComboAttacking1,
+        ComboAttacking2,
+        ComboAttacking3,
+        Casting
+    }
+
+    public enum EnemyDirectionState
+    {
+        Forward,
+        Upward,
+        Downward
+    }
+
+    public EnemyControlState currentEnemyControlState;
+    public EnemyLeftWeaponState currentEnemyLeftWeaponState;
+    public EnemyRightWeaponState currentEnemyRightWeaponState;
+    public EnemyDirectionState currentEnemyDirectionState;
+
+    private int parryValue = 0;
+    private int blockValue = 0;
+    private int damageValue = 0;
+
+    
+
     public GameObject coin;
     public int enemyCoins;
 
@@ -18,13 +74,25 @@ public class Enemy : Character
     //[SerializeField] private List<int> allMoves = new List<int>();
     public float moveCooldownMin;
     public float moveCooldownMax;
+    private float moveCooldown;
+    private float chaseTimer = 0;
+    private bool nextMoveSet = false;
 
-    // Minimum and Maximum random durations for Idling and Patrolling
+    // Idling
 
     public float minIdle;
     public float maxIdle;
+    private float idleDuration;
+    private float idleTimer = 0;
+    private bool idleCooldownSet = false;
+
+    // Patrolling
+
     public float minPatrol;
     public float maxPatrol;
+    private float patrolDuration;
+    private float patrolTimer = 0;
+    private bool patrolCooldownSet = false;
 
     // The Move function checks on update whether the player is near enough on the x axis to warrant chasing
     // Potentially update this to include the y axis so that enemies vertically on the same region as the player don't randomly chase them
@@ -65,6 +133,9 @@ public class Enemy : Character
         base.Update();
 
         CheckSides();
+
+        ImplementState();
+        ChangeState();
 
         //if(isJumpingEnemy)
         //    Debug.Log(_rigid.velocity.x);
@@ -153,6 +224,9 @@ public class Enemy : Character
                 _rigid.velocity = new Vector2(0, _rigid.velocity.y);
             }
         }
+
+        _anim.SetFloat("Moving", _rigid.velocity.x);
+        _anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
     }
 
     public virtual void FacePlayer()
@@ -362,5 +436,64 @@ public class Enemy : Character
     {
         Instantiate(projectile_Left, projectilePos.position, Quaternion.identity);
         Instantiate(projectile_Right, projectilePos.position, Quaternion.identity);
+    }
+
+    //-------------------------------------------- Enum States ----------------------------------------------------------
+
+    public void ImplementState()
+    {
+        switch (currentEnemyControlState)
+        {
+            case EnemyControlState.Idling:
+                movementSpeed = 0;
+                idleTimer += Time.deltaTime;
+                if (!idleCooldownSet)
+                {
+                    idleDuration = Random.Range(minIdle, maxIdle);
+                }
+                if(idleTimer >= idleDuration)
+                {
+                    _anim.SetBool("EnemyPatrolling", true);
+                }
+                break;
+            case EnemyControlState.Patrolling:
+                patrolTimer += Time.deltaTime;
+                if (!patrolCooldownSet)
+                {
+                    patrolDuration = Random.Range(minPatrol, maxPatrol);
+                }
+                break;
+            case EnemyControlState.Chasing:
+                _anim.SetInteger("CurrentMove", 0);
+                chaseTimer += Time.deltaTime;
+                if(!nextMoveSet)
+                {
+                    moveCooldown = Random.Range(moveCooldownMin, moveCooldownMax);
+                }
+                if(chaseTimer >= moveCooldown)
+                {
+                    NextRandomMove();
+                }
+                break;
+            case EnemyControlState.Attacking:
+                break;
+        }
+
+        if(currentEnemyControlState != EnemyControlState.Idling)
+        {
+            idleTimer = 0;
+            movementSpeed = origMoveSpeed;
+        }
+
+        if(currentEnemyControlState != EnemyControlState.Chasing)
+        {
+            chaseTimer = 0;
+            nextMoveSet = false;
+        }
+    }
+
+    public void ChangeState()
+    {
+
     }
 }

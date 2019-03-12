@@ -53,9 +53,9 @@ public class Player : Character
 
     public enum PlayerDirectionState
     {
-        FacingForward,
-        FacingUpward,
-        FacingDownward
+        Forward,
+        Upward,
+        Downward
     }
 
     public LeftWeaponState currentLeftWeaponState;
@@ -580,7 +580,7 @@ public class Player : Character
 
         if (Input.GetKey(KeyCode.S))
         {
-            currentDirectionState = PlayerDirectionState.FacingDownward;
+            currentDirectionState = PlayerDirectionState.Downward;
             _anim.SetLayerWeight(1, 0);
             _anim.SetLayerWeight(2, 0);
             _anim.SetLayerWeight(3, 1);
@@ -590,7 +590,7 @@ public class Player : Character
         }
         else if(Input.GetKey(KeyCode.W))
         {
-            currentDirectionState = PlayerDirectionState.FacingUpward;
+            currentDirectionState = PlayerDirectionState.Upward;
             _anim.SetLayerWeight(1, 0);
             _anim.SetLayerWeight(2, 0);
             _anim.SetLayerWeight(3, 0);
@@ -600,7 +600,7 @@ public class Player : Character
         }
         else if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W))
         {
-            currentDirectionState = PlayerDirectionState.FacingForward;
+            currentDirectionState = PlayerDirectionState.Forward;
             _anim.SetLayerWeight(1, 1);
             _anim.SetLayerWeight(2, 1);
             _anim.SetLayerWeight(3, 0);
@@ -610,7 +610,7 @@ public class Player : Character
         }
         else
         {
-            currentDirectionState = PlayerDirectionState.FacingForward;
+            currentDirectionState = PlayerDirectionState.Forward;
             _anim.SetLayerWeight(1, 1);
             _anim.SetLayerWeight(2, 1);
             _anim.SetLayerWeight(3, 0);
@@ -664,13 +664,13 @@ public class Player : Character
                 currentLeftWeaponState = LeftWeaponState.Attacking1;
                 break;
             case "Nov_Left_Sword_Attack3_Override":
-                if(currentDirectionState == PlayerDirectionState.FacingForward)
+                if(currentDirectionState == PlayerDirectionState.Forward)
                 {
                     currentLeftWeaponState = LeftWeaponState.Attacking3;
                 }
                 break;
             case "Nov_Left_Sword_Attack4_Override":
-                if (currentDirectionState == PlayerDirectionState.FacingForward)
+                if (currentDirectionState == PlayerDirectionState.Forward)
                 {
                     currentLeftWeaponState = LeftWeaponState.Attacking4;
                 }
@@ -683,7 +683,7 @@ public class Player : Character
         switch (currentAnimationName_LeftArmDown)
         {
             case "Nov_Left_Sword_Attack_Down_Override":
-                if(currentDirectionState == PlayerDirectionState.FacingDownward)
+                if(currentDirectionState == PlayerDirectionState.Downward)
                 {
                     currentLeftWeaponState = LeftWeaponState.Attacking1;
                 }
@@ -693,7 +693,7 @@ public class Player : Character
         switch (currentAnimationName_LeftArmUp)
         {
             case "Nov_Left_Sword_Attack_Up_Override":
-                if (currentDirectionState == PlayerDirectionState.FacingUpward)
+                if (currentDirectionState == PlayerDirectionState.Upward)
                 {
                     currentLeftWeaponState = LeftWeaponState.Attacking1;
                 }
@@ -722,7 +722,7 @@ public class Player : Character
         switch (currentAnimationName_RightArmDown)
         {
             case "Nov_Right_Sword_Attack_Down_Override":
-                if (currentDirectionState == PlayerDirectionState.FacingDownward)
+                if (currentDirectionState == PlayerDirectionState.Downward)
                 {
                     currentRightWeaponState = RightWeaponState.Attacking1;
                 }
@@ -732,7 +732,7 @@ public class Player : Character
         switch (currentAnimationName_RightArmUp)
         {
             case "Nov_Right_Sword_Attack_Up_Override":
-                if (currentDirectionState == PlayerDirectionState.FacingUpward)
+                if (currentDirectionState == PlayerDirectionState.Upward)
                 {
                     currentRightWeaponState = RightWeaponState.Attacking1;
                 }
