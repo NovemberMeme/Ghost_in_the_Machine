@@ -12,6 +12,15 @@ public class Enemy : Character
         Attacking
     }
 
+    public enum EnemyChaseState
+    {
+        NotChasing,
+        ChasingToward,
+        ChasingForward,
+        ChasingBackward,
+        ChasingStill
+    }
+
     public enum EnemyLeftWeaponState
     {
         Idling,
@@ -50,6 +59,7 @@ public class Enemy : Character
     }
 
     public EnemyControlState currentEnemyControlState;
+    public EnemyChaseState currentEnemyChaseState;
     public EnemyLeftWeaponState currentEnemyLeftWeaponState;
     public EnemyRightWeaponState currentEnemyRightWeaponState;
     public EnemyDirectionState currentEnemyDirectionState;
@@ -74,9 +84,15 @@ public class Enemy : Character
     //[SerializeField] private List<int> allMoves = new List<int>();
     public float moveCooldownMin;
     public float moveCooldownMax;
-    private float moveCooldown;
-    private float chaseTimer = 0;
+    [SerializeField] private float moveCooldown;
+    [SerializeField] private float chaseTimer = 0;
     private bool nextMoveSet = false;
+
+    private bool notComboingSet = false;
+    [SerializeField] private bool isComboing = false;
+    [SerializeField] private int comboLengthMax = 2;
+    [SerializeField] private int comboLengthCurrent = 0;
+    [SerializeField] private int comboChance = 30;
 
     // Idling
 
@@ -85,7 +101,7 @@ public class Enemy : Character
     public float maxIdle;
     [SerializeField] private float idleDuration;
     [SerializeField] private float idleTimer = 0;
-    [SerializeField] private bool idleCooldownSet = false;
+    [SerializeField] private bool idleDurationSet = false;
 
     // Patrolling
 
@@ -93,7 +109,31 @@ public class Enemy : Character
     public float maxPatrol;
     [SerializeField] private float patrolDuration;
     [SerializeField] private float patrolTimer = 0;
-    [SerializeField] private bool patrolCooldownSet = false;
+    [SerializeField] private bool patrolDurationSet = false;
+
+    // ChasingStill
+
+    [SerializeField] private float chasingStillMin = 1.0f;
+    [SerializeField] private float chasingStillMax = 2.0f;
+    private float chasingStillDuration = 0;
+    private float chasingStillTimer = 0;
+    private bool chasingStillDurationSet = false;
+
+    // ChasingForward
+
+    [SerializeField] private float chasingForwardMin = 1.0f;
+    [SerializeField] private float chasingForwardMax = 2.0f;
+    private float chasingForwardDuration = 0;
+    private float chasingForwardTimer = 0;
+    private bool chasingForwardDurationSet = false;
+
+    // ChasingBackward
+
+    [SerializeField] private float chasingBackwardMin = 1.0f;
+    [SerializeField] private float chasingBackwardMax = 2.0f;
+    private float chasingBackwardDuration = 0;
+    private float chasingBackwardTimer = 0;
+    private bool chasingBackwardDurationSet = false;
 
     // The Move function checks on update whether the player is near enough on the x axis to warrant chasing
     // Potentially update this to include the y axis so that enemies vertically on the same region as the player don't randomly chase them
@@ -103,6 +143,10 @@ public class Enemy : Character
     [SerializeField] private float xDistance;
     public float chaseTriggerLength = 10.0f;
     public Vector3 playerDirection;
+
+    [SerializeField] private float chaseStillLength = 1.0f;
+    [SerializeField] private float chaseForwardLengthMax = 0.5f;
+    [SerializeField] private float chaseBackwardLengthMax = 2.0f;
 
     // Checks if it trigger-enters a wall on either side or trigger-exits a cliff on either side
     // This is to automatically flip the enemy and prevent them from running off cliffs or hitting walls
@@ -187,22 +231,15 @@ public class Enemy : Character
         {
             isHit = false;
             isChasing = false;
+            _anim.SetBool("EnemyChasing", false);
         }
-        else
+        else if(distance < chaseTriggerLength)
         {
             isChasing = true;
-        }
-
-        if (isChasing)
-        {
             _anim.SetBool("EnemyChasing", true);
 
             if (!isAttacking)
                 FacePlayer();
-        }
-        else
-        {
-            _anim.SetBool("EnemyChasing", false);
         }
     }
 
@@ -415,6 +452,7 @@ public class Enemy : Character
         int moveIndex = Random.Range(0, knownMoves.Count);
         currentMove = knownMoves[moveIndex];
         _anim.SetInteger("CurrentMove", currentMove);
+        currentEnemyControlState = EnemyControlState.Attacking;
         //Debug.Log(currentMove);
     }
 
@@ -454,49 +492,167 @@ public class Enemy : Character
             case EnemyControlState.Idling:
                 movementSpeed = 0;
                 idleTimer += Time.deltaTime;
-                if (!idleCooldownSet)
+                if (!idleDurationSet)
                 {
                     idleDuration = Random.Range(minIdle, maxIdle);
-                    idleCooldownSet = true;
+                    idleDurationSet = true;
                 }
                 if(idleTimer >= idleDuration)
                 {
                     _anim.SetBool("EnemyPatrolling", true);
                     currentEnemyControlState = EnemyControlState.Patrolling;
-                    idleCooldownSet = false;
+                    idleDurationSet = false;
                 }
                 break;
             case EnemyControlState.Patrolling:
-                patrolTimer += Time.deltaTime;
                 movementSpeed = origMoveSpeed;
-                if (!patrolCooldownSet)
+                patrolTimer += Time.deltaTime;
+                if (!patrolDurationSet)
                 {
                     patrolDuration = Random.Range(minPatrol, maxPatrol);
-                    patrolCooldownSet = true;
+                    patrolDurationSet = true;
                 }
                 if(patrolTimer >= patrolDuration)
                 {
                     _anim.SetBool("EnemyPatrolling", false);
                     currentEnemyControlState = EnemyControlState.Idling;
-                    patrolCooldownSet = false;
+                    patrolDurationSet = false;
                 }
                 break;
             case EnemyControlState.Chasing:
                 _anim.SetInteger("CurrentMove", 0);
                 movementSpeed = origMoveSpeed;
                 chaseTimer += Time.deltaTime;
-                if(!nextMoveSet)
+
+                if (!notComboingSet)
                 {
-                    moveCooldown = Random.Range(moveCooldownMin, moveCooldownMax);
-                    nextMoveSet = true;
+                    int comboChanceCurrent = Random.Range(1, 101);
+                    if (comboChanceCurrent > comboChance)
+                    {
+                        comboLengthCurrent = Random.Range(1, comboLengthMax);
+                        isComboing = true;
+                    }
+                    else
+                    {
+                        notComboingSet = true;
+                    }
                 }
-                if(chaseTimer >= moveCooldown)
+
+                if (comboLengthCurrent > 0)
+                {
+                    _anim.SetBool("Comboing", true);
+                    isComboing = true;
+                    comboLengthCurrent--;
+                }
+                else if (comboLengthCurrent <= 0)
+                {
+                    notComboingSet = true;
+
+                    isComboing = false;
+                    _anim.SetBool("Comboing", false);
+
+                    if (!nextMoveSet)
+                    {
+                        moveCooldown = Random.Range(moveCooldownMin, moveCooldownMax);
+                        nextMoveSet = true;
+                    }
+                }
+
+                if (isComboing)
+                {
+                    NextRandomMove();
+                }
+                else if (chaseTimer >= moveCooldown)
                 {
                     NextRandomMove();
                     nextMoveSet = false;
+                    notComboingSet = false;
                 }
                 break;
             case EnemyControlState.Attacking:
+                break;
+        }
+
+        switch (currentEnemyChaseState)
+        {
+            case EnemyChaseState.NotChasing:
+                if(currentEnemyControlState == EnemyControlState.Chasing)
+                {
+                    currentEnemyChaseState = EnemyChaseState.ChasingToward;
+                }
+                break;
+            case EnemyChaseState.ChasingToward:
+                if(xDistance < chaseStillLength)
+                {
+                    currentEnemyChaseState = EnemyChaseState.ChasingStill;
+                }
+                break;
+            case EnemyChaseState.ChasingStill:
+                chasingStillTimer += Time.deltaTime;
+                if(xDistance > chaseBackwardLengthMax)
+                {
+                    currentEnemyChaseState = EnemyChaseState.ChasingToward;
+                }
+                if(!chasingStillDurationSet)
+                {
+                    chasingStillDuration = Random.Range(chasingStillMin, chasingStillMax);
+                    chasingStillDurationSet = true;
+                }
+                if(chasingStillTimer >= chasingStillDuration)
+                {
+                    int forwardOrBackward = Random.Range(0, 2);
+                    if(forwardOrBackward == 1)
+                    {
+                        currentEnemyChaseState = EnemyChaseState.ChasingForward;
+                    }
+                    else
+                    {
+                        currentEnemyChaseState = EnemyChaseState.ChasingBackward;
+                    }
+                    chasingStillDurationSet = false;
+                }
+                break;
+            case EnemyChaseState.ChasingForward:
+                chasingForwardTimer += Time.deltaTime;
+                if (xDistance > chaseBackwardLengthMax)
+                {
+                    currentEnemyChaseState = EnemyChaseState.ChasingToward;
+                }
+                if(xDistance < chaseForwardLengthMax)
+                {
+                    movementSpeed = 0;
+                }
+                else
+                {
+                    movementSpeed = origMoveSpeed;
+                }
+                if (!chasingForwardDurationSet)
+                {
+                    chasingForwardDuration = Random.Range(chasingForwardMin, chasingForwardMax);
+                    chasingForwardDurationSet = true;
+                }
+                if(chasingForwardTimer >= chasingForwardDuration)
+                {
+                    currentEnemyChaseState = EnemyChaseState.ChasingStill;
+                    chasingForwardDurationSet = false;
+                }
+                break;
+            case EnemyChaseState.ChasingBackward:
+                chasingBackwardTimer += Time.deltaTime;
+                if (xDistance > chaseBackwardLengthMax)
+                {
+                    currentEnemyChaseState = EnemyChaseState.ChasingToward;
+                }
+                if (!chasingBackwardDurationSet)
+                {
+                    chasingBackwardDuration = Random.Range(chasingBackwardMin, chasingBackwardMax);
+                    chasingBackwardDurationSet = true;
+                }
+                if (chasingBackwardTimer >= chasingBackwardDuration)
+                {
+                    currentEnemyChaseState = EnemyChaseState.ChasingStill;
+                    chasingBackwardDurationSet = false;
+                }
                 break;
         }
 
@@ -516,21 +672,36 @@ public class Enemy : Character
             chaseTimer = 0;
             nextMoveSet = false;
         }
+
+        if(currentEnemyChaseState != EnemyChaseState.ChasingStill)
+        {
+            chasingStillTimer = 0;
+        }
+
+        if(currentEnemyChaseState != EnemyChaseState.ChasingForward)
+        {
+            chasingForwardTimer = 0;
+        }
+
+        if(currentEnemyChaseState != EnemyChaseState.ChasingBackward)
+        {
+            chasingBackwardTimer = 0;
+        }
     }
 
     public void ChangeState()
     {
-        //if (_anim.GetBool("EnemyChasing"))
-        //{
-        //    currentEnemyControlState = EnemyControlState.Chasing;
-        //    enemyIdleSet = false;
-        //}
+        if (_anim.GetBool("EnemyChasing"))
+        {
+            currentEnemyControlState = EnemyControlState.Chasing;
+            enemyIdleSet = false;
+        }
 
-        //if (!_anim.GetBool("EnemyChasing") && !enemyIdleSet)
-        //{
-        //    currentEnemyControlState = EnemyControlState.Idling;
-        //    enemyIdleSet = true;
-        //}
+        if (!_anim.GetBool("EnemyChasing") && !enemyIdleSet)
+        {
+            currentEnemyControlState = EnemyControlState.Idling;
+            enemyIdleSet = true;
+        }
     }
 
     // ------------------------------------------------- Animation Event Functions ---------------------------------------------
@@ -548,5 +719,6 @@ public class Enemy : Character
     public void SetEnemyChasingState()
     {
         currentEnemyControlState = EnemyControlState.Chasing;
+        notComboingSet = false;
     }
 }
