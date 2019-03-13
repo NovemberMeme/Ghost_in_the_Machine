@@ -52,6 +52,8 @@ public class Character : MonoBehaviour
     public Material _material;
     public Animator _anim;
 
+    public Vector2 colliderSize;
+
     public float flashTime = 0.5f;
     protected Color origColor;
     [SerializeField] protected float colliderSizeMultiplier;
@@ -66,7 +68,10 @@ public class Character : MonoBehaviour
         _material = GetComponent<Material>();
         _anim = GetComponent<Animator>();
 
+        colliderSize = _collider.size * transform.localScale.x;
+
         origScale = transform.localScale;
+        
         //origColor = _mesh.color;
         movementSpeed = origMoveSpeed;
     }
@@ -99,8 +104,8 @@ public class Character : MonoBehaviour
 
     public virtual void CheckGround()
     {
-        ground = Physics2D.Raycast(transform.position, Vector2.down, _collider.size.y, layerMask);
-        Debug.DrawRay(transform.position, Vector2.down * _collider.size.y, Color.cyan);
+        ground = Physics2D.Raycast(transform.position, Vector2.down, colliderSize.y, layerMask);
+        Debug.DrawRay(transform.position, Vector2.down * colliderSize.y, Color.cyan);
 
         if (ground.collider == null)
         {
@@ -164,14 +169,6 @@ public class Character : MonoBehaviour
         }
         else if (!_isPhasing)
         {
-            _mesh.enabled = true;
-            _collider.enabled = true;
-            _rigid.bodyType = RigidbodyType2D.Dynamic;
-        }
-
-        if (_isPhasing && Input.GetMouseButtonUp(1))
-        {
-            _isPhasing = false;
             _mesh.enabled = true;
             _collider.enabled = true;
             _rigid.bodyType = RigidbodyType2D.Dynamic;

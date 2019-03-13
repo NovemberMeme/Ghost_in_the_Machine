@@ -109,13 +109,14 @@ public class Player : Character
     private SpriteRenderer _swordArcSprite;
 
     private Vector2 origColliderSize;
-    private float transformSizeModifier = 0.1f;
+    private float transformSizeModifier;
     private float dashColliderSizeMultiplier = 0.4f;
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
+        transformSizeModifier = transform.localScale.x;
         _playerAnim = GetComponent<PlayerAnimation>();
         origColliderSize = _collider.size;
     }
@@ -131,14 +132,14 @@ public class Player : Character
         ChangeState();
         ApplyState();
 
-        if(Input.GetMouseButtonDown(0) && isGrounded && canAttack)
-        {
-            soundManager.PlaySound("attack");
-            //_playerAnim.Attack();
-            StartCoroutine(Attacking());
-        }
+        //if(Input.GetMouseButtonDown(0) && isGrounded && canAttack)
+        //{
+        //    soundManager.PlaySound("attack");
+        //    //_playerAnim.Attack();
+        //    StartCoroutine(Attacking());
+        //}
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetAxisRaw("LT") > 0)
         {
             isStrafing = true;
         }
@@ -166,6 +167,15 @@ public class Player : Character
         {
             soundManager.PlaySound("phase");
             StartCoroutine(Phasing());
+        }
+
+        if (Input.GetButton("LB"))
+        {
+            if (Input.GetButtonDown("X"))
+            {
+                soundManager.PlaySound("phase");
+                StartCoroutine(Phasing());
+            }
         }
 
         if(Input.GetKeyDown(KeyCode.U))
@@ -199,7 +209,7 @@ public class Player : Character
 
         // For jumping
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("A"))
         {
             if(isGrounded && currentMobilityState != PlayerMobilityState.Dashing)
             {
@@ -213,7 +223,7 @@ public class Player : Character
 
         // For Dashing
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetAxisRaw("RT") > 0)
         {
             if(canDash && unlockedDash)
             {
@@ -236,7 +246,7 @@ public class Player : Character
         {
             _rigid.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (_rigid.velocity.y > 0 && !Input.GetButton("Jump"))
+        else if (_rigid.velocity.y > 0 && (!Input.GetKey(KeyCode.Space) && !Input.GetButton("A")))
         {
             _rigid.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
@@ -414,6 +424,30 @@ public class Player : Character
         UIManager.Instance.UpdateCoinCount(coins);
     }
 
+    public override void Phase()
+    {
+        if (_isPhasing)
+        {
+            _mesh.enabled = false;
+            _collider.enabled = false;
+            _rigid.bodyType = RigidbodyType2D.Static;
+        }
+        else if (!_isPhasing)
+        {
+            _mesh.enabled = true;
+            _collider.enabled = true;
+            _rigid.bodyType = RigidbodyType2D.Dynamic;
+        }
+
+        if (_isPhasing && (Input.GetMouseButtonUp(1) || Input.GetButtonUp("X")))
+        {
+            _isPhasing = false;
+            _mesh.enabled = true;
+            _collider.enabled = true;
+            _rigid.bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
+
     //------------------------------------------------ Enum States --------------------------------------------------
 
     public void ImplementState()
@@ -492,7 +526,7 @@ public class Player : Character
                 _anim.ResetTrigger("Left_Attack");
                 _anim.ResetTrigger("Left_Attack2");
                 _anim.ResetTrigger("Left_Attack_Rushed");
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(0) || Input.GetButton("RB"))
                 {
                     _anim.SetTrigger("Left_Parry");
                 }
@@ -500,32 +534,32 @@ public class Player : Character
             case LeftWeaponState.Parrying:
                 _anim.ResetTrigger("Left_Parry");
                 _anim.ResetTrigger("Left_Attack");
-                if (!Input.GetMouseButton(0))
+                if (!Input.GetMouseButton(0) && !Input.GetButton("RB"))
                 {
                     _anim.SetTrigger("Left_Attack_Rushed");
                 }
                 break;
             case LeftWeaponState.Blocking:
                 _anim.ResetTrigger("Left_Attack");
-                if (!Input.GetMouseButton(0))
+                if (!Input.GetMouseButton(0) && !Input.GetButton("RB"))
                 {
                     _anim.SetTrigger("Left_Attack");
                 }
-                else if(Input.GetKeyDown(KeyCode.F))
+                else if(Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
                 {
                     _anim.SetTrigger("Left_PowerAttack");
                 }
                 break;
             case LeftWeaponState.Attacking1:
                 _anim.ResetTrigger("Left_Attack");
-                if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButtonUp(0) || Input.GetButtonUp("RB"))
                 {
                     _anim.SetTrigger("Left_Attack2");
                 }
                 break;
             case LeftWeaponState.Attacking3:
                 _anim.ResetTrigger("Left_Attack2");
-                if(Input.GetMouseButtonUp(0))
+                if(Input.GetMouseButtonUp(0) || Input.GetButtonUp("RB"))
                 {
                     _anim.SetTrigger("Left_Attack3");
                 }
@@ -540,24 +574,24 @@ public class Player : Character
             case RightWeaponState.Idling:
                 _anim.ResetTrigger("Right_Attack");
                 _anim.ResetTrigger("Right_Attack_Rushed");
-                if (Input.GetMouseButton(1))
+                if (Input.GetMouseButton(1) || Input.GetButton("LB"))
                 {
                     _anim.SetTrigger("Right_Parry");
                 }
                 break;
             case RightWeaponState.Parrying:
                 _anim.ResetTrigger("Right_Parry");
-                if (!Input.GetMouseButton(1))
+                if (!Input.GetMouseButton(1) && !Input.GetButton("LB"))
                 {
                     _anim.SetTrigger("Right_Attack_Rushed");
                 }
                 break;
             case RightWeaponState.Blocking:
-                if (!Input.GetMouseButton(1))
+                if (!Input.GetMouseButton(1) && !Input.GetButton("LB"))
                 {
                     _anim.SetTrigger("Right_Attack");
                 }
-                else if (Input.GetKeyDown(KeyCode.F))
+                else if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
                 {
                     _anim.SetTrigger("Right_PowerAttack");
                 }
@@ -578,7 +612,7 @@ public class Player : Character
 
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || Input.GetAxisRaw("Vertical") > 0)
         {
             currentDirectionState = PlayerDirectionState.Downward;
             _anim.SetLayerWeight(1, 0);
@@ -588,7 +622,7 @@ public class Player : Character
             _anim.SetLayerWeight(5, 0);
             _anim.SetLayerWeight(6, 0);
         }
-        else if(Input.GetKey(KeyCode.W))
+        else if(Input.GetKey(KeyCode.W) || Input.GetAxisRaw("Vertical") < 0)
         {
             currentDirectionState = PlayerDirectionState.Upward;
             _anim.SetLayerWeight(1, 0);
@@ -598,7 +632,7 @@ public class Player : Character
             _anim.SetLayerWeight(5, 1);
             _anim.SetLayerWeight(6, 1);
         }
-        else if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W))
+        else if((Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W)) || Input.GetAxisRaw("Vertical") == 0)
         {
             currentDirectionState = PlayerDirectionState.Forward;
             _anim.SetLayerWeight(1, 1);

@@ -80,19 +80,20 @@ public class Enemy : Character
 
     // Idling
 
+    public bool enemyIdleSet = false;
     public float minIdle;
     public float maxIdle;
-    private float idleDuration;
-    private float idleTimer = 0;
-    private bool idleCooldownSet = false;
+    [SerializeField] private float idleDuration;
+    [SerializeField] private float idleTimer = 0;
+    [SerializeField] private bool idleCooldownSet = false;
 
     // Patrolling
 
     public float minPatrol;
     public float maxPatrol;
-    private float patrolDuration;
-    private float patrolTimer = 0;
-    private bool patrolCooldownSet = false;
+    [SerializeField] private float patrolDuration;
+    [SerializeField] private float patrolTimer = 0;
+    [SerializeField] private bool patrolCooldownSet = false;
 
     // The Move function checks on update whether the player is near enough on the x axis to warrant chasing
     // Potentially update this to include the y axis so that enemies vertically on the same region as the player don't randomly chase them
@@ -133,6 +134,8 @@ public class Enemy : Character
         base.Update();
 
         CheckSides();
+
+        CheckPlayer();
 
         ImplementState();
         ChangeState();
@@ -175,12 +178,12 @@ public class Enemy : Character
         }
     }
 
-    public virtual void Move()
+    public virtual void CheckPlayer()
     {
         distance = Vector3.Distance(transform.localPosition, player.transform.localPosition);
         xDistance = Mathf.Abs(player.transform.position.x - transform.position.x);
 
-        if(distance > chaseTriggerLength)
+        if (distance > chaseTriggerLength)
         {
             isHit = false;
             isChasing = false;
@@ -192,16 +195,19 @@ public class Enemy : Character
 
         if (isChasing)
         {
-            _anim.SetBool("Chasing", true);
+            _anim.SetBool("EnemyChasing", true);
 
-            if(!isAttacking)
+            if (!isAttacking)
                 FacePlayer();
         }
         else
         {
-            _anim.SetBool("Chasing", false);
+            _anim.SetBool("EnemyChasing", false);
         }
+    }
 
+    public virtual void Move()
+    {
         if(!isHit && !isDead)
         {
             if(!isStopped)
@@ -225,7 +231,7 @@ public class Enemy : Character
             }
         }
 
-        _anim.SetFloat("Moving", _rigid.velocity.x);
+        _anim.SetFloat("Moving", Mathf.Abs(_rigid.velocity.x));
         _anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
     }
 
@@ -247,8 +253,8 @@ public class Enemy : Character
     {
         //Check for walls
 
-        rightWall = Physics2D.Raycast(new Vector2(transform.position.x + ((_collider.size.x/2) + 0.5f), transform.position.y + (_collider.size.y/2)), Vector2.down, _collider.size.y, layerMask);
-        Debug.DrawRay(new Vector2(transform.position.x + ((_collider.size.x / 2) + 0.5f), transform.position.y + (_collider.size.y / 2)), Vector2.down * _collider.size.y, Color.yellow);
+        rightWall = Physics2D.Raycast(new Vector2(transform.position.x + ((colliderSize.x/2) + 0.5f), transform.position.y + (colliderSize.y/2) + colliderSize.y), Vector2.down, 1.2f * colliderSize.y, layerMask);
+        Debug.DrawRay(new Vector2(transform.position.x + ((colliderSize.x / 2) + 0.5f), transform.position.y + (colliderSize.y / 2) + colliderSize.y), Vector2.down * 1.2f * colliderSize.y, Color.yellow);
 
         if (rightWall.collider != null)
         {
@@ -265,8 +271,8 @@ public class Enemy : Character
             }
         }
 
-        leftWall = Physics2D.Raycast(new Vector2(transform.position.x - ((_collider.size.x / 2) + 0.5f), transform.position.y + (_collider.size.y / 2)), Vector2.down, _collider.size.y, layerMask);
-        Debug.DrawRay(new Vector2(transform.position.x - ((_collider.size.x / 2) + 0.5f), transform.position.y + (_collider.size.y / 2)), Vector2.down * _collider.size.y, Color.blue);
+        leftWall = Physics2D.Raycast(new Vector2(transform.position.x - ((colliderSize.x / 2) + 0.5f), transform.position.y + (colliderSize.y / 2) + colliderSize.y), Vector2.down, 1.2f * colliderSize.y, layerMask);
+        Debug.DrawRay(new Vector2(transform.position.x - ((colliderSize.x / 2) + 0.5f), transform.position.y + (colliderSize.y / 2) + colliderSize.y), Vector2.down * 1.2f * colliderSize.y, Color.blue);
 
         if (leftWall.collider != null)
         {
@@ -285,8 +291,8 @@ public class Enemy : Character
 
         //Check for ledges
 
-        rightLedge = Physics2D.Raycast(new Vector2(transform.position.x + 0.7f * ((_collider.size.x / 2) + 0.5f), transform.position.y), Vector2.down, _collider.size.y, layerMask);
-        Debug.DrawRay(new Vector2(transform.position.x + 0.7f * ((_collider.size.x / 2) + 0.5f), transform.position.y), Vector2.down * _collider.size.y, Color.yellow);
+        rightLedge = Physics2D.Raycast(new Vector2(transform.position.x + 0.7f * ((colliderSize.x / 2) + 0.5f), transform.position.y + colliderSize.y), Vector2.down, 1.2f * colliderSize.y, layerMask);
+        Debug.DrawRay(new Vector2(transform.position.x + 0.7f * ((colliderSize.x / 2) + 0.5f), transform.position.y + colliderSize.y), Vector2.down * 1.2f * colliderSize.y, Color.yellow);
 
         if (rightLedge.collider == null)
         {
@@ -322,8 +328,8 @@ public class Enemy : Character
             }
         }
 
-        leftLedge = Physics2D.Raycast(new Vector2(transform.position.x - 0.7f * ((_collider.size.x / 2) + 0.5f), transform.position.y), Vector2.down, _collider.size.y, layerMask);
-        Debug.DrawRay(new Vector2(transform.position.x - 0.7f * ((_collider.size.x / 2) + 0.5f), transform.position.y), Vector2.down * _collider.size.y, Color.blue);
+        leftLedge = Physics2D.Raycast(new Vector2(transform.position.x - 0.7f * ((colliderSize.x / 2) + 0.5f), transform.position.y + colliderSize.y), Vector2.down, 1.2f * colliderSize.y, layerMask);
+        Debug.DrawRay(new Vector2(transform.position.x - 0.7f * ((colliderSize.x / 2) + 0.5f), transform.position.y + colliderSize.y), Vector2.down * 1.2f * colliderSize.y, Color.blue);
 
         if (leftLedge.collider == null)
         {
@@ -366,18 +372,19 @@ public class Enemy : Character
 
     public override void CheckGround()
     {
-        float length = (_collider.size.y / 2) - colliderOffsetY + 0.3f;
-        ground = Physics2D.Raycast(transform.position, Vector2.down, length, layerMask);
-        Debug.DrawRay(transform.position, Vector2.down * length, Color.cyan);
+        ground = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.down, colliderSize.y / 5, layerMask);
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y), Vector2.down * colliderSize.y / 5, Color.cyan);
 
         if (ground.collider == null)
         {
             isGrounded = false;
+            _anim.SetBool("Grounded", false);
             isStopped = false;
         }
         else if (ground.collider != null)
         {
             isGrounded = true;
+            _anim.SetBool("Grounded", true);
             canDoubleJump = true;
             canDash = true;
         }
@@ -450,29 +457,43 @@ public class Enemy : Character
                 if (!idleCooldownSet)
                 {
                     idleDuration = Random.Range(minIdle, maxIdle);
+                    idleCooldownSet = true;
                 }
                 if(idleTimer >= idleDuration)
                 {
                     _anim.SetBool("EnemyPatrolling", true);
+                    currentEnemyControlState = EnemyControlState.Patrolling;
+                    idleCooldownSet = false;
                 }
                 break;
             case EnemyControlState.Patrolling:
                 patrolTimer += Time.deltaTime;
+                movementSpeed = origMoveSpeed;
                 if (!patrolCooldownSet)
                 {
                     patrolDuration = Random.Range(minPatrol, maxPatrol);
+                    patrolCooldownSet = true;
+                }
+                if(patrolTimer >= patrolDuration)
+                {
+                    _anim.SetBool("EnemyPatrolling", false);
+                    currentEnemyControlState = EnemyControlState.Idling;
+                    patrolCooldownSet = false;
                 }
                 break;
             case EnemyControlState.Chasing:
                 _anim.SetInteger("CurrentMove", 0);
+                movementSpeed = origMoveSpeed;
                 chaseTimer += Time.deltaTime;
                 if(!nextMoveSet)
                 {
                     moveCooldown = Random.Range(moveCooldownMin, moveCooldownMax);
+                    nextMoveSet = true;
                 }
                 if(chaseTimer >= moveCooldown)
                 {
                     NextRandomMove();
+                    nextMoveSet = false;
                 }
                 break;
             case EnemyControlState.Attacking:
@@ -485,6 +506,11 @@ public class Enemy : Character
             movementSpeed = origMoveSpeed;
         }
 
+        if(currentEnemyControlState != EnemyControlState.Patrolling)
+        {
+            patrolTimer = 0;
+        }
+
         if(currentEnemyControlState != EnemyControlState.Chasing)
         {
             chaseTimer = 0;
@@ -494,6 +520,33 @@ public class Enemy : Character
 
     public void ChangeState()
     {
+        //if (_anim.GetBool("EnemyChasing"))
+        //{
+        //    currentEnemyControlState = EnemyControlState.Chasing;
+        //    enemyIdleSet = false;
+        //}
 
+        //if (!_anim.GetBool("EnemyChasing") && !enemyIdleSet)
+        //{
+        //    currentEnemyControlState = EnemyControlState.Idling;
+        //    enemyIdleSet = true;
+        //}
+    }
+
+    // ------------------------------------------------- Animation Event Functions ---------------------------------------------
+
+    public void SetEnemyIdlingState()
+    {
+        currentEnemyControlState = EnemyControlState.Idling;
+    }
+
+    public void SetEnemyPatrollingState()
+    {
+        currentEnemyControlState = EnemyControlState.Patrolling;
+    }
+
+    public void SetEnemyChasingState()
+    {
+        currentEnemyControlState = EnemyControlState.Chasing;
     }
 }
