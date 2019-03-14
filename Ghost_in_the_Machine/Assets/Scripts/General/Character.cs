@@ -97,11 +97,11 @@ public class Character : MonoBehaviour
     {
         // Resets canDamage via animations
 
-        if (canDamageSetter)
-        {
-            canDamage = true;
-            canDamageSetter = false;
-        }
+        //if (canDamageSetter)
+        //{
+        //    canDamage = true;
+        //    canDamageSetter = false;
+        //}
             
         UpdateDirection();
 

@@ -13,7 +13,7 @@ public class EnemyWeapon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (enemyScript.canDamage && coll.name == "Player")
+        if (coll.name == "Player")
         {
             Damage dmg = new Damage
             {
@@ -24,7 +24,6 @@ public class EnemyWeapon : MonoBehaviour
             };
 
             coll.gameObject.GetComponent<Player>().Damage(dmg);
-            enemyScript.canDamage = false;
         }
     }
 }

@@ -199,8 +199,6 @@ public class Enemy : Character
 
     public override void FixedUpdate()
     {
-        base.FixedUpdate();
-
         Move();
     }
 
@@ -261,7 +259,7 @@ public class Enemy : Character
                 {
                     _rigid.velocity = new Vector3(movementSpeed * dashMultiplier * Time.deltaTime * direction, _rigid.velocity.y);
                 }
-                else if ((!isChasing || (isChasing && distance > 0.5f && xDistance > 1.2f)))
+                else if ((!isChasing || (isChasing && xDistance > chaseStillLength)))
                 {
                     _rigid.velocity = new Vector2(direction * movementSpeed * Time.deltaTime, _rigid.velocity.y);
                 }

@@ -58,6 +58,8 @@ public class Player : Character
         Downward
     }
 
+    [SerializeField] private bool controllerMode = false;
+
     public LeftWeaponState currentLeftWeaponState;
     public RightWeaponState currentRightWeaponState;
     public PlayerMobilityState currentMobilityState;
@@ -131,6 +133,11 @@ public class Player : Character
         //    StartCoroutine(Attacking());
         //}
 
+        if (Input.GetKeyDown(KeyCode.J) || Input.GetButtonDown("View Button"))
+        {
+            controllerMode = !controllerMode;
+        }
+
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetAxisRaw("LT") > 0)
         {
             isStrafing = true;
@@ -193,11 +200,67 @@ public class Player : Character
         }
     }
 
+    public override void Damage(Damage damage)
+    {
+        if (isDead || !canBeDamaged || damage.layer != "EnemyAttack")
+            return;
+
+        int actualDamage = 0;
+
+        if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
+        {
+            actualDamage = damage.damageAmount - blockValue;
+        }
+        else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+        {
+            actualDamage = damage.damageAmount - blockValue;
+        }
+        else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+        {
+            actualDamage = damage.damageAmount - blockValue;
+        }
+        else
+        {
+            actualDamage = damage.damageAmount;
+        }
+
+        if (actualDamage > 0)
+        {
+            health -= actualDamage;
+            UIManager.Instance.UpdateLives((int)health);
+
+            if (health > 0)
+            {
+                //_playerAnim.GetHit();
+                
+                canBeDamaged = false;
+                StartCoroutine(ResetCanBeDamaged());
+                //StartCoroutine(ResetCanBeHit());
+            }
+            else
+            {
+                Death();
+            }
+        }
+        else
+        {
+            canBeDamaged = false;
+            StartCoroutine(ResetCanBeHit());
+        }
+    }
+
     void Movement()
     {
         // Later used in calculation for movement
 
-        move = Input.GetAxisRaw("Horizontal");
+        if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f)
+        {
+            move = Input.GetAxisRaw("Horizontal");
+        }
+        else
+        {
+            move = 0;
+        }
 
         // For jumping
 
@@ -382,54 +445,6 @@ public class Player : Character
 
         if (isGrounded)
             canDash = true;
-    }
-
-    public override void Damage(Damage damage)
-    {
-        if (isDead || !canBeDamaged || damage.layer != "EnemyAttack")
-            return;
-
-        int actualDamage = 0;
-
-        if(damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
-        {
-            actualDamage = damage.damageAmount - blockValue;
-        }
-        else if(damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
-        {
-            actualDamage = damage.damageAmount - blockValue;
-        }
-        else if(damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
-        {
-            actualDamage = damage.damageAmount - blockValue;
-        }
-        else
-        {
-            actualDamage = damage.damageAmount;
-        }
-
-        if(actualDamage > 0)
-        {
-            health -= actualDamage;
-
-            if (health > 0)
-            {
-                //_playerAnim.GetHit();
-                UIManager.Instance.UpdateLives((int)health);
-
-                canBeDamaged = false;
-                StartCoroutine(ResetCanBeDamaged());
-            }
-            else
-            {
-                Death();
-            }
-        }
-        else
-        {
-            canBeDamaged = false;
-            StartCoroutine(ResetCanBeHit());
-        }
     }
 
     public override void Death()
@@ -667,46 +682,73 @@ public class Player : Character
 
         }
 
-        if (Input.GetKey(KeyCode.S) || Input.GetAxisRaw("Vertical") > 0)
+        if (controllerMode)
         {
-            currentPlayerDirectionState = PlayerDirectionState.Downward;
-            _anim.SetLayerWeight(1, 0);
-            _anim.SetLayerWeight(2, 0);
-            _anim.SetLayerWeight(3, 1);
-            _anim.SetLayerWeight(4, 1);
-            _anim.SetLayerWeight(5, 0);
-            _anim.SetLayerWeight(6, 0);
-        }
-        else if(Input.GetKey(KeyCode.W) || Input.GetAxisRaw("Vertical") < 0)
-        {
-            currentPlayerDirectionState = PlayerDirectionState.Upward;
-            _anim.SetLayerWeight(1, 0);
-            _anim.SetLayerWeight(2, 0);
-            _anim.SetLayerWeight(3, 0);
-            _anim.SetLayerWeight(4, 0);
-            _anim.SetLayerWeight(5, 1);
-            _anim.SetLayerWeight(6, 1);
-        }
-        else if((Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W)) || Input.GetAxisRaw("Vertical") == 0)
-        {
-            currentPlayerDirectionState = PlayerDirectionState.Forward;
-            _anim.SetLayerWeight(1, 1);
-            _anim.SetLayerWeight(2, 1);
-            _anim.SetLayerWeight(3, 0);
-            _anim.SetLayerWeight(4, 0);
-            _anim.SetLayerWeight(5, 0);
-            _anim.SetLayerWeight(6, 0);
+            if (Input.GetAxis("Vertical") > 0.25f)
+            {
+                currentPlayerDirectionState = PlayerDirectionState.Downward;
+                _anim.SetLayerWeight(1, 0);
+                _anim.SetLayerWeight(2, 0);
+                _anim.SetLayerWeight(3, 1);
+                _anim.SetLayerWeight(4, 1);
+                _anim.SetLayerWeight(5, 0);
+                _anim.SetLayerWeight(6, 0);
+            }
+            else if (Input.GetAxis("Vertical") < -0.25f)
+            {
+                currentPlayerDirectionState = PlayerDirectionState.Upward;
+                _anim.SetLayerWeight(1, 0);
+                _anim.SetLayerWeight(2, 0);
+                _anim.SetLayerWeight(3, 0);
+                _anim.SetLayerWeight(4, 0);
+                _anim.SetLayerWeight(5, 1);
+                _anim.SetLayerWeight(6, 1);
+            }
+            else
+            {
+                currentPlayerDirectionState = PlayerDirectionState.Forward;
+                _anim.SetLayerWeight(1, 1);
+                _anim.SetLayerWeight(2, 1);
+                _anim.SetLayerWeight(3, 0);
+                _anim.SetLayerWeight(4, 0);
+                _anim.SetLayerWeight(5, 0);
+                _anim.SetLayerWeight(6, 0);
+            }
         }
         else
         {
-            currentPlayerDirectionState = PlayerDirectionState.Forward;
-            _anim.SetLayerWeight(1, 1);
-            _anim.SetLayerWeight(2, 1);
-            _anim.SetLayerWeight(3, 0);
-            _anim.SetLayerWeight(4, 0);
-            _anim.SetLayerWeight(5, 0);
-            _anim.SetLayerWeight(6, 0);
+            if (Input.GetKey(KeyCode.S))
+            {
+                currentPlayerDirectionState = PlayerDirectionState.Downward;
+                _anim.SetLayerWeight(1, 0);
+                _anim.SetLayerWeight(2, 0);
+                _anim.SetLayerWeight(3, 1);
+                _anim.SetLayerWeight(4, 1);
+                _anim.SetLayerWeight(5, 0);
+                _anim.SetLayerWeight(6, 0);
+            }
+            else if (Input.GetKey(KeyCode.W))
+            {
+                currentPlayerDirectionState = PlayerDirectionState.Upward;
+                _anim.SetLayerWeight(1, 0);
+                _anim.SetLayerWeight(2, 0);
+                _anim.SetLayerWeight(3, 0);
+                _anim.SetLayerWeight(4, 0);
+                _anim.SetLayerWeight(5, 1);
+                _anim.SetLayerWeight(6, 1);
+            }
+            else
+            {
+                currentPlayerDirectionState = PlayerDirectionState.Forward;
+                _anim.SetLayerWeight(1, 1);
+                _anim.SetLayerWeight(2, 1);
+                _anim.SetLayerWeight(3, 0);
+                _anim.SetLayerWeight(4, 0);
+                _anim.SetLayerWeight(5, 0);
+                _anim.SetLayerWeight(6, 0);
+            }
         }
+        
 
         if(currentLeftWeaponState != LeftWeaponState.Idling || currentRightWeaponState != RightWeaponState.Idling)
         {
