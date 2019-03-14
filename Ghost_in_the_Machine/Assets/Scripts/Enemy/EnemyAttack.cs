@@ -16,7 +16,7 @@ public class EnemyAttack : MonoBehaviour
     {
         if (_canDamage && coll.name == "Player")
         {
-            coll.gameObject.GetComponent<Player>().Damage();
+            //coll.gameObject.GetComponent<Player>().Damage();
             _canDamage = false;
             StartCoroutine(ResetDamage());
         }

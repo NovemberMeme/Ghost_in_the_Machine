@@ -61,7 +61,8 @@ public class Player : Character
     public LeftWeaponState currentLeftWeaponState;
     public RightWeaponState currentRightWeaponState;
     public PlayerMobilityState currentMobilityState;
-    public PlayerDirectionState currentDirectionState;
+    public PlayerDirectionState currentPlayerDirectionState;
+    public AttackDirectionState playerAttackDirectionState = AttackDirectionState.AttackingForward;
 
     private AnimatorClipInfo[] currentAnimatorClipInfo_BaseLayer;
     private AnimatorClipInfo[] currentAnimatorClipInfo_LeftArm;
@@ -77,13 +78,6 @@ public class Player : Character
     [SerializeField] private string currentAnimationName_RightArmDown;
     [SerializeField] private string currentAnimationName_LeftArmUp;
     [SerializeField] private string currentAnimationName_RightArmUp;
-
-
-    private int parryValue = 0;
-    private int blockValue = 0;
-    private int damageValue = 0;
-
-
 
     public bool isStrafing = false;
 
@@ -112,7 +106,6 @@ public class Player : Character
     private float transformSizeModifier;
     private float dashColliderSizeMultiplier = 0.4f;
 
-    // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
@@ -121,7 +114,6 @@ public class Player : Character
         origColliderSize = _collider.size;
     }
 
-    // Update is called once per frame
     public override void Update()
     {
         base.Update();
@@ -180,7 +172,7 @@ public class Player : Character
 
         if(Input.GetKeyDown(KeyCode.U))
         {
-            Damage();
+            //Damage(____);
         }
 
         if(Input.GetKeyDown(KeyCode.F))
@@ -392,23 +384,51 @@ public class Player : Character
             canDash = true;
     }
 
-    public override void Damage()
+    public override void Damage(Damage damage)
     {
-        base.Damage();
+        if (isDead || !canBeDamaged || damage.layer != "EnemyAttack")
+            return;
 
-        if (!isDead)
+        int actualDamage = 0;
+
+        if(damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
         {
-            health -= 1;
-            UIManager.Instance.UpdateLives((int)health);
+            actualDamage = damage.damageAmount - blockValue;
+        }
+        else if(damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+        {
+            actualDamage = damage.damageAmount - blockValue;
+        }
+        else if(damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+        {
+            actualDamage = damage.damageAmount - blockValue;
+        }
+        else
+        {
+            actualDamage = damage.damageAmount;
+        }
+
+        if(actualDamage > 0)
+        {
+            health -= actualDamage;
 
             if (health > 0)
             {
                 //_playerAnim.GetHit();
+                UIManager.Instance.UpdateLives((int)health);
+
+                canBeDamaged = false;
+                StartCoroutine(ResetCanBeDamaged());
             }
             else
             {
                 Death();
             }
+        }
+        else
+        {
+            canBeDamaged = false;
+            StartCoroutine(ResetCanBeHit());
         }
     }
 
@@ -455,26 +475,29 @@ public class Player : Character
         switch (currentLeftWeaponState)
         {
             case LeftWeaponState.Idling:
-                parryValue = 0;
-                blockValue = 0;
-                damageValue = 0;
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 0;
                 break;
             case LeftWeaponState.Parrying:
-                parryValue = 1;
-                blockValue = 0;
-                damageValue = 0;
+                leftParryValue = 1;
+                leftBlockValue = 0;
+                leftDamageValue = 0;
                 break;
             case LeftWeaponState.Blocking:
-                parryValue = 0;
-                blockValue = 1;
-                damageValue = 0;
+                leftParryValue = 0;
+                leftBlockValue = 1;
+                leftDamageValue = 0;
                 break;
             case LeftWeaponState.Attacking1:
-                parryValue = 0;
-                blockValue = 0;
-                damageValue = 1;
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
                 break;
             case LeftWeaponState.PowerAttacking:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
                 movementSpeed = 0;
                 break;
         }
@@ -482,28 +505,60 @@ public class Player : Character
         switch (currentRightWeaponState)
         {
             case RightWeaponState.Idling:
-                parryValue = 0;
-                blockValue = 0;
-                damageValue = 0;
+                rightParryValue = 0;
+                rightBlockValue = 0;
+                rightDamageValue = 0;
                 break;
             case RightWeaponState.Parrying:
-                parryValue = 1;
-                blockValue = 0;
-                damageValue = 0;
+                rightParryValue = 1;
+                rightBlockValue = 0;
+                rightDamageValue = 0;
                 break;
             case RightWeaponState.Blocking:
-                parryValue = 0;
-                blockValue = 1;
-                damageValue = 0;
+                rightParryValue = 0;
+                rightBlockValue = 1;
+                rightDamageValue = 0;
                 break;
             case RightWeaponState.Attacking1:
-                parryValue = 0;
-                blockValue = 0;
-                damageValue = 1;
+                rightParryValue = 0;
+                rightBlockValue = 0;
+                rightDamageValue = 1;
                 break;
             case RightWeaponState.PowerAttacking:
+                rightParryValue = 0;
+                rightBlockValue = 0;
+                rightDamageValue = 1;
                 movementSpeed = 0;
                 break;
+        }
+
+        // parry/ block/ attack values are equal to the greater value among both weapons
+
+        if(leftParryValue > rightParryValue)
+        {
+            parryValue = leftParryValue;
+        }
+        else
+        {
+            parryValue = rightParryValue;
+        }
+
+        if (leftBlockValue > rightBlockValue)
+        {
+            blockValue = leftBlockValue;
+        }
+        else
+        {
+            blockValue = rightBlockValue;
+        }
+
+        if(leftDamageValue > rightDamageValue)
+        {
+            damageValue = leftDamageValue;
+        }
+        else
+        {
+            damageValue = rightDamageValue;
         }
 
         switch (currentMobilityState)
@@ -614,7 +669,7 @@ public class Player : Character
 
         if (Input.GetKey(KeyCode.S) || Input.GetAxisRaw("Vertical") > 0)
         {
-            currentDirectionState = PlayerDirectionState.Downward;
+            currentPlayerDirectionState = PlayerDirectionState.Downward;
             _anim.SetLayerWeight(1, 0);
             _anim.SetLayerWeight(2, 0);
             _anim.SetLayerWeight(3, 1);
@@ -624,7 +679,7 @@ public class Player : Character
         }
         else if(Input.GetKey(KeyCode.W) || Input.GetAxisRaw("Vertical") < 0)
         {
-            currentDirectionState = PlayerDirectionState.Upward;
+            currentPlayerDirectionState = PlayerDirectionState.Upward;
             _anim.SetLayerWeight(1, 0);
             _anim.SetLayerWeight(2, 0);
             _anim.SetLayerWeight(3, 0);
@@ -634,7 +689,7 @@ public class Player : Character
         }
         else if((Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W)) || Input.GetAxisRaw("Vertical") == 0)
         {
-            currentDirectionState = PlayerDirectionState.Forward;
+            currentPlayerDirectionState = PlayerDirectionState.Forward;
             _anim.SetLayerWeight(1, 1);
             _anim.SetLayerWeight(2, 1);
             _anim.SetLayerWeight(3, 0);
@@ -644,7 +699,7 @@ public class Player : Character
         }
         else
         {
-            currentDirectionState = PlayerDirectionState.Forward;
+            currentPlayerDirectionState = PlayerDirectionState.Forward;
             _anim.SetLayerWeight(1, 1);
             _anim.SetLayerWeight(2, 1);
             _anim.SetLayerWeight(3, 0);
@@ -698,13 +753,13 @@ public class Player : Character
                 currentLeftWeaponState = LeftWeaponState.Attacking1;
                 break;
             case "Nov_Left_Sword_Attack3_Override":
-                if(currentDirectionState == PlayerDirectionState.Forward)
+                if(currentPlayerDirectionState == PlayerDirectionState.Forward)
                 {
                     currentLeftWeaponState = LeftWeaponState.Attacking3;
                 }
                 break;
             case "Nov_Left_Sword_Attack4_Override":
-                if (currentDirectionState == PlayerDirectionState.Forward)
+                if (currentPlayerDirectionState == PlayerDirectionState.Forward)
                 {
                     currentLeftWeaponState = LeftWeaponState.Attacking4;
                 }
@@ -717,7 +772,7 @@ public class Player : Character
         switch (currentAnimationName_LeftArmDown)
         {
             case "Nov_Left_Sword_Attack_Down_Override":
-                if(currentDirectionState == PlayerDirectionState.Downward)
+                if(currentPlayerDirectionState == PlayerDirectionState.Downward)
                 {
                     currentLeftWeaponState = LeftWeaponState.Attacking1;
                 }
@@ -727,7 +782,7 @@ public class Player : Character
         switch (currentAnimationName_LeftArmUp)
         {
             case "Nov_Left_Sword_Attack_Up_Override":
-                if (currentDirectionState == PlayerDirectionState.Upward)
+                if (currentPlayerDirectionState == PlayerDirectionState.Upward)
                 {
                     currentLeftWeaponState = LeftWeaponState.Attacking1;
                 }
@@ -756,7 +811,7 @@ public class Player : Character
         switch (currentAnimationName_RightArmDown)
         {
             case "Nov_Right_Sword_Attack_Down_Override":
-                if (currentDirectionState == PlayerDirectionState.Downward)
+                if (currentPlayerDirectionState == PlayerDirectionState.Downward)
                 {
                     currentRightWeaponState = RightWeaponState.Attacking1;
                 }
@@ -766,7 +821,7 @@ public class Player : Character
         switch (currentAnimationName_RightArmUp)
         {
             case "Nov_Right_Sword_Attack_Up_Override":
-                if (currentDirectionState == PlayerDirectionState.Upward)
+                if (currentPlayerDirectionState == PlayerDirectionState.Upward)
                 {
                     currentRightWeaponState = RightWeaponState.Attacking1;
                 }

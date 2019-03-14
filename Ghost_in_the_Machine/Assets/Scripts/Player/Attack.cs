@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    private bool _canDamage = true;
-    private Character charScript;
+    private Player playerScript;
 
     private void Start()
     {
-        charScript = transform.parent.parent.GetComponent<Character>();
+        playerScript = transform.parent.GetComponent<Player>();
     }
 
     private void OnTriggerEnter2D(Collider2D coll)
@@ -17,20 +16,17 @@ public class Attack : MonoBehaviour
         if (coll.name == "Player")
             return;
 
-        if (_canDamage)
+        if(coll.gameObject.GetComponent<Enemy>() != null && coll.gameObject.GetComponent<Enemy>().canBeDamaged)
         {
-            if(coll.gameObject.GetComponent<Character>() != null)
+            Damage dmg = new Damage
             {
-                coll.gameObject.GetComponent<Character>().Damage();
-                _canDamage = false;
-                StartCoroutine(ResetDamage());
-            }
-        }
-    }
+                damageAmount = playerScript.damageValue,
+                attackDirectionState = playerScript.playerAttackDirectionState,
+                layer = LayerMask.LayerToName(gameObject.layer),
+                stunningDuration = 0
+            };
 
-    private IEnumerator ResetDamage()
-    {
-        yield return new WaitForSeconds(charScript.attackHitBoxCooldown);
-        _canDamage = true;
+            coll.gameObject.GetComponent<Character>().Damage(dmg);
+        }
     }
 }

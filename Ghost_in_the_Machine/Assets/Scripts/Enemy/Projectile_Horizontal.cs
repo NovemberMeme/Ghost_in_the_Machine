@@ -27,7 +27,7 @@ public class Projectile_Horizontal : MonoBehaviour
     {
         if (coll.tag == "Player")
         {
-            coll.gameObject.GetComponent<Player>().Damage();
+            //coll.gameObject.GetComponent<Player>().Damage();
             Destroy(gameObject);
         }
     }

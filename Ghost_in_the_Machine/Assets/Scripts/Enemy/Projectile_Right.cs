@@ -22,7 +22,7 @@ public class Projectile_Right : MonoBehaviour
     {
         if (coll.tag == "Player")
         {
-            coll.gameObject.GetComponent<Player>().Damage();
+            //coll.gameObject.GetComponent<Player>().Damage();
             Destroy(gameObject);
         }
     }

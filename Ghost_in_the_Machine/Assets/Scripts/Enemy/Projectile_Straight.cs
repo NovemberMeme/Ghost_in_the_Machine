@@ -33,7 +33,7 @@ public class Projectile_Straight : MonoBehaviour
     {
         if (coll.tag == "Player")
         {
-            coll.gameObject.GetComponent<Player>().Damage();
+            //coll.gameObject.GetComponent<Player>().Damage();
             Destroy(gameObject);
         }
     }

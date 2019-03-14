@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackDirectionState
+{
+    AttackingForward,
+    AttackingUpward,
+    AttackingDownward
+}
+
 public class Enemy : Character
 {
     public enum EnemyControlState
@@ -63,12 +70,7 @@ public class Enemy : Character
     public EnemyLeftWeaponState currentEnemyLeftWeaponState;
     public EnemyRightWeaponState currentEnemyRightWeaponState;
     public EnemyDirectionState currentEnemyDirectionState;
-
-    private int parryValue = 0;
-    private int blockValue = 0;
-    private int damageValue = 0;
-
-    
+    public AttackDirectionState currentAttackDirectionState = AttackDirectionState.AttackingForward;
 
     public GameObject coin;
     public int enemyCoins;
@@ -118,6 +120,11 @@ public class Enemy : Character
     private float chasingStillDuration = 0;
     private float chasingStillTimer = 0;
     private bool chasingStillDurationSet = false;
+
+    // Animation Event Replacements
+
+    [SerializeField] private bool callChasingFunctionSet = false;
+    [SerializeField] private bool callAttackingFunctionSet = false;
 
     // ChasingForward
 
@@ -181,6 +188,8 @@ public class Enemy : Character
 
         CheckPlayer();
 
+        ImplementAnimationEventReplacements();
+
         ImplementState();
         ChangeState();
 
@@ -195,15 +204,15 @@ public class Enemy : Character
         Move();
     }
 
-    public override void Damage()
+    public override void Damage(Damage damage)
     {
-        if (isDead)
+        if (isDead || !canBeDamaged || damage.layer != "Sword")
             return;
 
         health -= 1;
         //_anim.SetTrigger("Hit");
-        isHit = true;
-        StartCoroutine(ResetInvulnerability());
+        canBeDamaged = false;
+        StartCoroutine(ResetCanBeDamaged());
 
         if (health <= 0)
         {
@@ -229,11 +238,10 @@ public class Enemy : Character
 
         if (distance > chaseTriggerLength)
         {
-            isHit = false;
             isChasing = false;
             _anim.SetBool("EnemyChasing", false);
         }
-        else if(distance < chaseTriggerLength)
+        else if(distance < chaseTriggerLength && !_anim.GetBool("EnemyChasing"))
         {
             isChasing = true;
             _anim.SetBool("EnemyChasing", true);
@@ -245,7 +253,7 @@ public class Enemy : Character
 
     public virtual void Move()
     {
-        if(!isHit && !isDead)
+        if(!isDead)
         {
             if(!isStopped)
             {
@@ -452,8 +460,9 @@ public class Enemy : Character
         int moveIndex = Random.Range(0, knownMoves.Count);
         currentMove = knownMoves[moveIndex];
         _anim.SetInteger("CurrentMove", currentMove);
+        _anim.SetBool("Attacking", true);
         currentEnemyControlState = EnemyControlState.Attacking;
-        //Debug.Log(currentMove);
+        Debug.Log("Attacking!");
     }
 
     public virtual void Projectile_Straight()
@@ -485,8 +494,29 @@ public class Enemy : Character
 
     //-------------------------------------------- Enum States ----------------------------------------------------------
 
+    // Animation Event Replacement Implementation
+
+    public void ImplementAnimationEventReplacements()
+    {
+        if (callChasingFunctionSet)
+        {
+            SetEnemyChasingStateIfChasing();
+            callChasingFunctionSet = false;
+        }
+
+        if (callAttackingFunctionSet)
+        {
+            SetEnemyAttackingState();
+            callAttackingFunctionSet = false;
+        }
+    }
+
+    // Implement the behaviors and functions of each State
+
     public void ImplementState()
     {
+        // Enemy Control State
+
         switch (currentEnemyControlState)
         {
             case EnemyControlState.Idling:
@@ -527,29 +557,23 @@ public class Enemy : Character
                 if (!notComboingSet)
                 {
                     int comboChanceCurrent = Random.Range(1, 101);
-                    if (comboChanceCurrent > comboChance)
+
+                    if (comboChanceCurrent <= comboChance)
                     {
                         comboLengthCurrent = Random.Range(1, comboLengthMax);
-                        isComboing = true;
                     }
-                    else
-                    {
-                        notComboingSet = true;
-                    }
+
+                    notComboingSet = true;
                 }
 
                 if (comboLengthCurrent > 0)
                 {
-                    _anim.SetBool("Comboing", true);
-                    isComboing = true;
                     comboLengthCurrent--;
+                    NextRandomMove();
                 }
                 else if (comboLengthCurrent <= 0)
                 {
                     notComboingSet = true;
-
-                    isComboing = false;
-                    _anim.SetBool("Comboing", false);
 
                     if (!nextMoveSet)
                     {
@@ -558,20 +582,18 @@ public class Enemy : Character
                     }
                 }
 
-                if (isComboing)
+                if (chaseTimer >= moveCooldown)
                 {
-                    NextRandomMove();
-                }
-                else if (chaseTimer >= moveCooldown)
-                {
-                    NextRandomMove();
                     nextMoveSet = false;
                     notComboingSet = false;
+                    NextRandomMove();
                 }
                 break;
             case EnemyControlState.Attacking:
                 break;
         }
+
+        // Enemy Chase State
 
         switch (currentEnemyChaseState)
         {
@@ -656,6 +678,8 @@ public class Enemy : Character
                 break;
         }
 
+        // If current state is not the following
+
         if(currentEnemyControlState != EnemyControlState.Idling)
         {
             idleTimer = 0;
@@ -687,11 +711,137 @@ public class Enemy : Character
         {
             chasingBackwardTimer = 0;
         }
+
+        // Enemy Left Weapon State
+
+        switch (currentEnemyLeftWeaponState)
+        {
+            case EnemyLeftWeaponState.Idling:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 0;
+                break;
+            case EnemyLeftWeaponState.Parrying:
+                leftParryValue = 1;
+                leftBlockValue = 0;
+                leftDamageValue = 0;
+                break;
+            case EnemyLeftWeaponState.Blocking:
+                leftParryValue = 0;
+                leftBlockValue = 1;
+                leftDamageValue = 0;
+                break;
+            case EnemyLeftWeaponState.Attacking1:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+            case EnemyLeftWeaponState.Attacking2:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+            case EnemyLeftWeaponState.Attacking3:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+            case EnemyLeftWeaponState.ComboAttacking1:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+            case EnemyLeftWeaponState.ComboAttacking2:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+            case EnemyLeftWeaponState.ComboAttacking3:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+            case EnemyLeftWeaponState.PowerAttacking1:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+        }
+
+        // Enemy Right Weapon State
+
+        switch (currentEnemyRightWeaponState)
+        {
+            case EnemyRightWeaponState.Idling:
+                rightParryValue = 0;
+                rightBlockValue = 0;
+                rightDamageValue = 0;
+                break;
+            case EnemyRightWeaponState.Parrying:
+                rightParryValue = 1;
+                rightBlockValue = 0;
+                rightDamageValue = 0;
+                break;
+            case EnemyRightWeaponState.Blocking:
+                rightParryValue = 0;
+                rightBlockValue = 1;
+                rightDamageValue = 0;
+                break;
+            case EnemyRightWeaponState.Attacking1:
+                rightParryValue = 0;
+                rightBlockValue = 0;
+                rightDamageValue = 1;
+                break;
+            case EnemyRightWeaponState.Attacking2:
+                rightParryValue = 0;
+                rightBlockValue = 0;
+                rightDamageValue = 1;
+                break;
+            case EnemyRightWeaponState.Attacking3:
+                rightParryValue = 0;
+                rightBlockValue = 0;
+                rightDamageValue = 1;
+                break;
+            case EnemyRightWeaponState.PowerAttacking1:
+                rightParryValue = 0;
+                rightBlockValue = 0;
+                rightDamageValue = 1;
+                break;
+        }
+
+        // parry/ block/ attack values are equal to the greater value among both weapons
+
+        if (leftParryValue > rightParryValue)
+        {
+            parryValue = leftParryValue;
+        }
+        else
+        {
+            parryValue = rightParryValue;
+        }
+
+        if (leftBlockValue > rightBlockValue)
+        {
+            blockValue = leftBlockValue;
+        }
+        else
+        {
+            blockValue = rightBlockValue;
+        }
+
+        if (leftDamageValue > rightDamageValue)
+        {
+            damageValue = leftDamageValue;
+        }
+        else
+        {
+            damageValue = rightDamageValue;
+        }
     }
 
     public void ChangeState()
     {
-        if (_anim.GetBool("EnemyChasing"))
+        if (_anim.GetBool("EnemyChasing") && !_anim.GetBool("Attacking"))
         {
             currentEnemyControlState = EnemyControlState.Chasing;
             enemyIdleSet = false;
@@ -720,5 +870,28 @@ public class Enemy : Character
     {
         currentEnemyControlState = EnemyControlState.Chasing;
         notComboingSet = false;
+        _anim.SetTrigger("SetChasing");
+        _anim.ResetTrigger("SetChasing");
+    }
+
+    public void SetEnemyChasingStateIfChasing()
+    {
+        if(isChasing == true)
+        {
+            chaseTimer = 0;
+            currentEnemyControlState = EnemyControlState.Chasing;
+            notComboingSet = false;
+            _anim.SetTrigger("SetChasing");
+            //_anim.ResetTrigger("SetChasing");
+            _anim.SetTrigger("SetChasingDone");
+            //_anim.ResetTrigger("SetChasingDone");
+            _anim.SetBool("Attacking", false);
+            //Debug.Log("SetChasing Done!");
+        }
+    }
+
+    public void SetEnemyAttackingState()
+    {
+        currentEnemyControlState = EnemyControlState.Attacking;
     }
 }

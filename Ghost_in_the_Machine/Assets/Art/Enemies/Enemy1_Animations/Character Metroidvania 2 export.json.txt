@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "mH6KQ1XVp58RCkevnfxCmFhlfrQ", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
+"skeleton": { "hash": "lnpWoeU+GBL4fZRJBHhlZmpgS5Y", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "length": 2270.3, "rotation": 90, "x": -2.53, "y": -5.27 },
@@ -464,9 +464,12 @@
 					{ "time": 0.6667, "x": 214.11, "y": -72.39 },
 					{ "time": 0.7, "x": 307.41, "y": -160.35 },
 					{ "time": 0.7333, "x": 1.32, "y": -3.77, "curve": "stepped" },
-					{ "time": 0.8333, "x": 1.32, "y": -3.77 },
-					{ "time": 0.9667, "x": 307.41, "y": -160.35 },
-					{ "time": 1, "x": 1.32, "y": -3.77, "curve": "stepped" },
+					{ "time": 0.8333, "x": 1.32, "y": -3.77, "curve": "stepped" },
+					{ "time": 0.9, "x": 1.32, "y": -3.77 },
+					{ "time": 0.9333, "x": -43.01, "y": -227.68 },
+					{ "time": 0.9667, "x": 228.4, "y": -512.45 },
+					{ "time": 1, "x": 403, "y": -403.03 },
+					{ "time": 1.0333, "x": 1.32, "y": -3.77, "curve": "stepped" },
 					{ "time": 1.1667, "x": 1.32, "y": -3.77, "curve": "stepped" },
 					{ "time": 1.6667, "x": 1.32, "y": -3.77 }
 				]
@@ -1538,12 +1541,478 @@
 			}
 		}
 	},
-	"Enemy_Idling": {
+	"Enemy_Idle": {
 		"bones": {
 			"Collar_Front": {
 				"shear": [
 					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 2, "x": 0, "y": 0 }
+				]
+			}
+		}
+	},
+	"Enemy_Idle_Left": {
+		"bones": {
+			"Left_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -14.79,
+						"curve": [ 0.291, 0.57, 0.604, 1 ]
+					},
+					{
+						"time": 0.3333,
+						"angle": -18.67,
+						"curve": [ 0.448, 0, 0.598, 1 ]
+					},
+					{
+						"time": 1.3333,
+						"angle": 17.77,
+						"curve": [ 0.452, 0, 0.703, 0.6 ]
+					},
+					{ "time": 2, "angle": -14.79 }
+				]
+			},
+			"Left_Lower_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -18.34,
+						"curve": [ 0.288, 0.51, 0.582, 0.99 ]
+					},
+					{
+						"time": 0.4667,
+						"angle": -22.26,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 1.4667,
+						"angle": -6.74,
+						"curve": [ 0.429, 0.01, 0.711, 0.52 ]
+					},
+					{ "time": 2, "angle": -18.34 }
+				]
+			},
+			"Left_Hand": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 1.66,
+						"curve": [ 0.435, 0, 0.616, 0.99 ]
+					},
+					{
+						"time": 0.4667,
+						"angle": -10.01,
+						"curve": [ 0.435, 0, 0.616, 0.99 ]
+					},
+					{ "time": 1.3333, "angle": -14.68 },
+					{ "time": 2, "angle": 1.66 }
+				]
+			}
+		}
+	},
+	"Enemy_Idle_Left_FaceDown": {
+		"bones": {
+			"Left_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -14.79,
+						"curve": [ 0.291, 0.57, 0.604, 1 ]
+					},
+					{
+						"time": 0.3333,
+						"angle": -18.67,
+						"curve": [ 0.448, 0, 0.598, 1 ]
+					},
+					{
+						"time": 1.3333,
+						"angle": 17.77,
+						"curve": [ 0.452, 0, 0.703, 0.6 ]
+					},
+					{ "time": 2, "angle": -14.79 }
+				]
+			},
+			"Left_Lower_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -18.34,
+						"curve": [ 0.288, 0.51, 0.582, 0.99 ]
+					},
+					{
+						"time": 0.4667,
+						"angle": -22.26,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 1.4667,
+						"angle": -6.74,
+						"curve": [ 0.429, 0.01, 0.711, 0.52 ]
+					},
+					{ "time": 2, "angle": -18.34 }
+				]
+			},
+			"Left_Hand": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 1.66,
+						"curve": [ 0.435, 0, 0.616, 0.99 ]
+					},
+					{
+						"time": 0.4667,
+						"angle": -10.01,
+						"curve": [ 0.435, 0, 0.616, 0.99 ]
+					},
+					{ "time": 1.3333, "angle": -14.68 },
+					{ "time": 2, "angle": 1.66 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "time": 0, "angle": -24.53, "curve": "stepped" },
+					{ "time": 2, "angle": -24.53 }
+				]
+			}
+		}
+	},
+	"Enemy_Idle_Left_FaceUp": {
+		"bones": {
+			"Left_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -14.79,
+						"curve": [ 0.291, 0.57, 0.604, 1 ]
+					},
+					{
+						"time": 0.3333,
+						"angle": -18.67,
+						"curve": [ 0.448, 0, 0.598, 1 ]
+					},
+					{
+						"time": 1.3333,
+						"angle": 17.77,
+						"curve": [ 0.452, 0, 0.703, 0.6 ]
+					},
+					{ "time": 2, "angle": -14.79 }
+				]
+			},
+			"Left_Lower_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -18.34,
+						"curve": [ 0.288, 0.51, 0.582, 0.99 ]
+					},
+					{
+						"time": 0.4667,
+						"angle": -22.26,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 1.4667,
+						"angle": -6.74,
+						"curve": [ 0.429, 0.01, 0.711, 0.52 ]
+					},
+					{ "time": 2, "angle": -18.34 }
+				]
+			},
+			"Left_Hand": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 1.66,
+						"curve": [ 0.435, 0, 0.616, 0.99 ]
+					},
+					{
+						"time": 0.4667,
+						"angle": -10.01,
+						"curve": [ 0.435, 0, 0.616, 0.99 ]
+					},
+					{ "time": 1.3333, "angle": -14.68 },
+					{ "time": 2, "angle": 1.66 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "time": 0, "angle": 39.17, "curve": "stepped" },
+					{ "time": 2, "angle": 39.17 }
+				]
+			}
+		}
+	},
+	"Enemy_Idle_Right": {
+		"bones": {
+			"Right_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -42.73,
+						"curve": [ 0.461, 0, 0.686, 0.62 ]
+					},
+					{
+						"time": 0.6,
+						"angle": -58.13,
+						"curve": [ 0.448, 0, 0.717, 0.52 ]
+					},
+					{ "time": 1.3333, "angle": -22.61 },
+					{ "time": 1.6667, "angle": -26.12 },
+					{ "time": 2, "angle": -42.73 }
+				]
+			},
+			"Right_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -61.79 },
+					{ "time": 0.4667, "angle": -51.15 },
+					{ "time": 1.3333, "angle": -73.58 },
+					{ "time": 1.6667, "angle": -59.68 },
+					{ "time": 2, "angle": -61.79 }
+				]
+			},
+			"Right_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": -11.58 }
+				]
+			},
+			"Right_Handle": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 10.8,
+						"curve": [ 0.438, 0, 0.579, 1 ]
+					},
+					{
+						"time": 0.8,
+						"angle": 50.18,
+						"curve": [ 0.405, 0, 0.719, 0.43 ]
+					},
+					{ "time": 1.3333, "angle": 10.8 }
+				]
+			}
+		}
+	},
+	"Enemy_Idle_Right_FaceDown": {
+		"bones": {
+			"Right_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -42.73,
+						"curve": [ 0.461, 0, 0.686, 0.62 ]
+					},
+					{
+						"time": 0.6,
+						"angle": -58.13,
+						"curve": [ 0.448, 0, 0.717, 0.52 ]
+					},
+					{ "time": 1.3333, "angle": -22.61 },
+					{ "time": 1.6667, "angle": -26.12 },
+					{ "time": 2, "angle": -42.73 }
+				]
+			},
+			"Right_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -61.79 },
+					{ "time": 0.4667, "angle": -51.15 },
+					{ "time": 1.3333, "angle": -73.58 },
+					{ "time": 1.6667, "angle": -59.68 },
+					{ "time": 2, "angle": -61.79 }
+				]
+			},
+			"Right_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": -11.58 }
+				]
+			},
+			"Right_Handle": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 10.8,
+						"curve": [ 0.438, 0, 0.579, 1 ]
+					},
+					{
+						"time": 0.8,
+						"angle": 50.18,
+						"curve": [ 0.405, 0, 0.719, 0.43 ]
+					},
+					{ "time": 1.3333, "angle": 10.8 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "time": 0, "angle": -24.53, "curve": "stepped" },
+					{ "time": 2, "angle": -24.53 }
+				]
+			}
+		}
+	},
+	"Enemy_Idle_Right_FaceUp": {
+		"bones": {
+			"Right_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -42.73,
+						"curve": [ 0.461, 0, 0.686, 0.62 ]
+					},
+					{
+						"time": 0.6,
+						"angle": -58.13,
+						"curve": [ 0.448, 0, 0.717, 0.52 ]
+					},
+					{ "time": 1.3333, "angle": -22.61 },
+					{ "time": 1.6667, "angle": -26.12 },
+					{ "time": 2, "angle": -42.73 }
+				]
+			},
+			"Right_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -61.79 },
+					{ "time": 0.4667, "angle": -51.15 },
+					{ "time": 1.3333, "angle": -73.58 },
+					{ "time": 1.6667, "angle": -59.68 },
+					{ "time": 2, "angle": -61.79 }
+				]
+			},
+			"Right_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": -11.58 }
+				]
+			},
+			"Right_Handle": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 10.8,
+						"curve": [ 0.438, 0, 0.579, 1 ]
+					},
+					{
+						"time": 0.8,
+						"angle": 50.18,
+						"curve": [ 0.405, 0, 0.719, 0.43 ]
+					},
+					{ "time": 1.3333, "angle": 10.8 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "time": 0, "angle": 39.17, "curve": "stepped" },
+					{ "time": 2, "angle": 39.17 }
+				]
+			}
+		}
+	},
+	"Enemy_Idle_SetChase": {
+		"bones": {
+			"Collar_Front": {
+				"shear": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2, "x": 0, "y": 0 }
+				]
+			}
+		}
+	},
+	"Enemy_Idle_Still": {
+		"bones": {
+			"Left_Leg": {
+				"rotate": [
+					{ "time": 0, "angle": -2.91 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				]
+			},
+			"Left_Foot": {
+				"rotate": [
+					{ "time": 0, "angle": -1.06 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0.6, "y": -4.3 }
+				]
+			},
+			"Right_Leg": {
+				"rotate": [
+					{ "time": 0, "angle": 0.6 }
+				],
+				"translate": [
+					{ "time": 0, "x": -13.02, "y": 0 }
+				]
+			},
+			"Right_Foot": {
+				"rotate": [
+					{ "time": 0, "angle": -0.16 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				]
+			},
+			"Crotch": {
+				"rotate": [
+					{ "time": 0, "angle": -1 }
+				],
+				"translate": [
+					{ "time": 0, "x": -8.25, "y": 0 }
+				]
+			},
+			"Chest": {
+				"rotate": [
+					{ "time": 0, "angle": -0.12 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "time": 0, "angle": 10.84 }
+				]
+			},
+			"Left_Upper_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": 5.66 }
+				],
+				"translate": [
+					{ "time": 0, "x": -2.93, "y": 3.1 }
+				]
+			},
+			"Left_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -7.26 }
+				]
+			},
+			"Left_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": -15.58 }
+				]
+			},
+			"Right_Upper_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -26.94 }
+				]
+			},
+			"Right_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -54.24 }
+				]
+			},
+			"Right_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": 3.05 }
+				]
+			},
+			"Right_Handle": {
+				"rotate": [
+					{ "time": 0, "angle": -0.47 }
+				]
+			},
+			"Left_Sword": {
+				"rotate": [
+					{ "time": 0, "angle": 0.37 }
+				]
+			},
+			"Right_Shield": {
+				"rotate": [
+					{ "time": 0, "angle": 1.37 }
 				]
 			}
 		}
@@ -3043,10 +3512,7 @@
 					{ "time": 2, "angle": 1.66 }
 				]
 			}
-		},
-		"events": [
-			{ "time": 0, "name": "LeftIdle" }
-		]
+		}
 	},
 	"Nov_Idle_Right_FaceDown_Override": {
 		"bones": {
