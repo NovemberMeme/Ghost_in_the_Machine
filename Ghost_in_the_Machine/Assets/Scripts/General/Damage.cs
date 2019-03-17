@@ -8,4 +8,5 @@ public struct Damage
     public AttackDirectionState attackDirectionState;
     public string layer;
     public float stunningDuration;
+    public string damageElement;
 }

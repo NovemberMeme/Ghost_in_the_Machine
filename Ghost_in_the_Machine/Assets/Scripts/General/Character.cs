@@ -5,6 +5,7 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     public int health = 4;
+    public string elementType;
 
     public int leftParryValue = 0;
     public int leftBlockValue = 0;
@@ -119,6 +120,53 @@ public class Character : MonoBehaviour
     public virtual void Damage(Damage damage)
     {
         FlashRed();
+    }
+
+    public virtual int ElementCompute(string currentElemetType, string damageElement, int damage)
+    {
+        //Elements: Soul => Psionic => Spirit => Soul
+
+        switch (elementType)
+        {
+            case "Soul":
+                if (damageElement == "Spirit")
+                {
+                    damage *= 2;
+                    return damage;
+                }
+                else if (damageElement == "Psionic")
+                {
+                    damage /= 2;
+                    return damage;
+                }
+                return damage;
+            case "Spirit":
+                if (damageElement == "Psionic")
+                {
+                    damage *= 2;
+                    return damage;
+                }
+                else if (damageElement == "Soul")
+                {
+                    damage /= 2;
+                    return damage;
+                }
+                return damage;
+            case "Psionic":
+                if (damageElement == "Soul")
+                {
+                    damage *= 2;
+                    return damage;
+                }
+                else if (damageElement == "Spirit")
+                {
+                    damage /= 2;
+                    return damage;
+                }
+                return damage;
+            default:
+                return damage;
+        }
     }
 
     public virtual void Hit()

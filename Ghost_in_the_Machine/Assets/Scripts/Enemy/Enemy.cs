@@ -207,7 +207,9 @@ public class Enemy : Character
         if (isDead || !canBeDamaged || damage.layer != "Sword")
             return;
 
-        health -= 1;
+        int actualDamage = ElementCompute(elementType, damage.damageElement, damage.damageAmount);
+
+        health -= actualDamage;
         //_anim.SetTrigger("Hit");
         canBeDamaged = false;
         StartCoroutine(ResetCanBeDamaged());
@@ -239,7 +241,7 @@ public class Enemy : Character
             isChasing = false;
             _anim.SetBool("EnemyChasing", false);
         }
-        else if(distance < chaseTriggerLength && !_anim.GetBool("EnemyChasing"))
+        else if(distance < chaseTriggerLength)
         {
             isChasing = true;
             _anim.SetBool("EnemyChasing", true);
@@ -460,7 +462,7 @@ public class Enemy : Character
         _anim.SetInteger("CurrentMove", currentMove);
         _anim.SetBool("Attacking", true);
         currentEnemyControlState = EnemyControlState.Attacking;
-        Debug.Log("Attacking!");
+        //Debug.Log("Attacking!");
     }
 
     public virtual void Projectile_Straight()
