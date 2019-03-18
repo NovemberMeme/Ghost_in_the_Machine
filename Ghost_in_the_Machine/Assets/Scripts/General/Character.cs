@@ -25,19 +25,23 @@ public class Character : MonoBehaviour
     public float attackCooldown = 0.5f;
     public float attackHitBoxCooldown = 0.5f;
 
-
+    [Header("Invulnerability stats: ")]
     public bool canBeDamaged = true;
     public float canBeHitCooldown = 0.17f;
     public float canBeDamagedCooldown = 1.0f;
 
+    [Header("Death stats: ")]
     public bool isDead = false;
 
+    [Header("Projectile stats: ")]
     public Transform projectilePos;
     public GameObject projectilePrefab;
     public GameObject projectile_Right;
     public GameObject projectile_Left;
     public GameObject projectile_horizontal;
 
+    [Header("Move stats: ")]
+    [SerializeField] protected float move;
     public float origMoveSpeed;
     public float movementSpeed;
     public float slowMultiplier = 0.5f;
@@ -45,6 +49,7 @@ public class Character : MonoBehaviour
     public float direction = 1;
     public Vector3 origScale;
 
+    [Header("Jump stats: ")]
     public float jumpVelocity;
     public float jumpCooldown = 1.5f;
     public bool isGrounded = true;
@@ -53,18 +58,21 @@ public class Character : MonoBehaviour
     public bool canDoubleJump = false;
     [SerializeField] protected LayerMask layerMask;
     protected RaycastHit2D ground;
-
+    
+    [Header("Dash stats: ")]
     public float dashMultiplier = 3.5f;
     public float dashDuration = 0.4f;
     public float dashCooldown = 1.0f;
     public bool _isDashing = false;
     public bool canDash = true;
 
+    [Header("Phase stats: ")]
     public float phaseDuration = 3.0f;
     public float phaseCooldown = 5.0f;
     public bool canPhase = true;
     public bool _isPhasing = false;
 
+    [Header("Components: ")]
     public Rigidbody2D _rigid;
     public CapsuleCollider2D _collider;
     public MeshRenderer _mesh;
@@ -120,6 +128,11 @@ public class Character : MonoBehaviour
     public virtual void Damage(Damage damage)
     {
         FlashRed();
+    }
+
+    public virtual void Move()
+    {
+        
     }
 
     public virtual int ElementCompute(string currentElemetType, string damageElement, int damage)

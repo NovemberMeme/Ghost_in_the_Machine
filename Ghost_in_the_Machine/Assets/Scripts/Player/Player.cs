@@ -60,6 +60,7 @@ public class Player : Character
 
     [SerializeField] private bool controllerMode = false;
 
+    [Header("Enum states: ")]
     public LeftWeaponState currentLeftWeaponState;
     public RightWeaponState currentRightWeaponState;
     public PlayerMobilityState currentMobilityState;
@@ -90,13 +91,13 @@ public class Player : Character
     // For adjusting gravity value when falling down so that player falls down faster when they don't hold the jump button
     // but they still jump higher and longer when they hold down the jump button
 
+    [Header("Player Jump Multiplier stats: ")]
     [SerializeField] private float fallMultiplier = 3.5f;
     [SerializeField] private float lowJumpMultiplier = 2.0f;
-
-    private float move;
     
     // For unlocking new player abilities
 
+    [Header("Unlock stats: ")]
     public bool unlockedDoubleJump = true;
     public bool unlockedDash = true;
     public bool unlockedPhase = true;
@@ -120,7 +121,8 @@ public class Player : Character
     {
         base.Update();
 
-        Movement();
+        DetermineMovement();
+        Move();
 
         ImplementState();
         ChangeState();
@@ -200,6 +202,11 @@ public class Player : Character
         }
     }
 
+    public override void FixedUpdate()
+    {
+
+    }
+
     public override void Damage(Damage damage)
     {
         if (isDead || !canBeDamaged || damage.layer != "EnemyAttack")
@@ -209,15 +216,15 @@ public class Player : Character
 
         if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
         {
-            actualDamage = damage.damageAmount - blockValue;
+            actualDamage = damage.damageAmount - blockValue - parryValue;
         }
         else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
         {
-            actualDamage = damage.damageAmount - blockValue;
+            actualDamage = damage.damageAmount - blockValue - parryValue;
         }
         else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
         {
-            actualDamage = damage.damageAmount - blockValue;
+            actualDamage = damage.damageAmount - blockValue - parryValue;
         }
         else
         {
@@ -249,11 +256,11 @@ public class Player : Character
         }
     }
 
-    void Movement()
+    public virtual void DetermineMovement()
     {
         // Later used in calculation for movement
 
-        if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f)
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f)
         {
             move = Input.GetAxisRaw("Horizontal");
         }
@@ -261,7 +268,10 @@ public class Player : Character
         {
             move = 0;
         }
+    }
 
+    public override void Move()
+    {
         // For jumping
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("A"))
@@ -505,6 +515,16 @@ public class Player : Character
                 leftDamageValue = 0;
                 break;
             case LeftWeaponState.Attacking1:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+            case LeftWeaponState.Attacking3:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
+            case LeftWeaponState.Attacking4:
                 leftParryValue = 0;
                 leftBlockValue = 0;
                 leftDamageValue = 1;

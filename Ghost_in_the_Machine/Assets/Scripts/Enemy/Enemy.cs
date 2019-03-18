@@ -65,6 +65,7 @@ public class Enemy : Character
         Downward
     }
 
+    [Header("Enum States: ")]
     public EnemyControlState currentEnemyControlState;
     public EnemyChaseState currentEnemyChaseState;
     public EnemyLeftWeaponState currentEnemyLeftWeaponState;
@@ -80,6 +81,7 @@ public class Enemy : Character
     // The list of known moves dictates which moves in the animator this enemy is allowed to access
     // Minimum and maximum random cooldowns in between moves differs greatly per enemy
 
+    [Header("Attack stats: ")]
     public bool isAttacking = false;
     public int currentMove;
     public List<int> knownMoves = new List<int>();
@@ -90,6 +92,7 @@ public class Enemy : Character
     [SerializeField] private float chaseTimer = 0;
     private bool nextMoveSet = false;
 
+    [Header("Combo stats: ")]
     private bool notComboingSet = false;
     [SerializeField] private bool isComboing = false;
     [SerializeField] private int comboLengthMax = 2;
@@ -98,6 +101,7 @@ public class Enemy : Character
 
     // Idling
 
+    [Header("Idle stats: ")]
     public bool enemyIdleSet = false;
     public float minIdle;
     public float maxIdle;
@@ -107,6 +111,7 @@ public class Enemy : Character
 
     // Patrolling
 
+    [Header("Patrol stats: ")]
     public float minPatrol;
     public float maxPatrol;
     [SerializeField] private float patrolDuration;
@@ -115,6 +120,7 @@ public class Enemy : Character
 
     // ChasingStill
 
+    [Header("Chase stats: ")]
     [SerializeField] private float chasingStillMin = 1.0f;
     [SerializeField] private float chasingStillMax = 2.0f;
     private float chasingStillDuration = 0;
@@ -123,11 +129,13 @@ public class Enemy : Character
 
     // Animation Event Replacements
 
+    [Header("Animation event replacements: ")]
     [SerializeField] private bool callChasingFunctionSet = false;
     [SerializeField] private bool callAttackingFunctionSet = false;
 
     // ChasingForward
 
+    [Header("Chasing forward stats: ")]
     [SerializeField] private float chasingForwardMin = 1.0f;
     [SerializeField] private float chasingForwardMax = 2.0f;
     private float chasingForwardDuration = 0;
@@ -136,6 +144,7 @@ public class Enemy : Character
 
     // ChasingBackward
 
+    [Header("Chasing backward stats: ")]
     [SerializeField] private float chasingBackwardMin = 1.0f;
     [SerializeField] private float chasingBackwardMax = 2.0f;
     private float chasingBackwardDuration = 0;
@@ -145,6 +154,7 @@ public class Enemy : Character
     // The Move function checks on update whether the player is near enough on the x axis to warrant chasing
     // Potentially update this to include the y axis so that enemies vertically on the same region as the player don't randomly chase them
 
+    [Header("Distance stats: ")]
     public bool isChasing = false;
     [SerializeField] private float distance;
     [SerializeField] private float xDistance;
@@ -209,6 +219,8 @@ public class Enemy : Character
 
         int actualDamage = ElementCompute(elementType, damage.damageElement, damage.damageAmount);
 
+        _anim.SetTrigger("Damaged");
+
         health -= actualDamage;
         //_anim.SetTrigger("Hit");
         canBeDamaged = false;
@@ -251,7 +263,7 @@ public class Enemy : Character
         }
     }
 
-    public virtual void Move()
+    public override void Move()
     {
         if(!isDead)
         {
