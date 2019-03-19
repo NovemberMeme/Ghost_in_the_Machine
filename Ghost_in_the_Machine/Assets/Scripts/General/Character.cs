@@ -46,7 +46,9 @@ public class Character : MonoBehaviour
     public float movementSpeed;
     public float slowMultiplier = 0.5f;
     public bool isStopped = false;
-    public float direction = 1;
+    public float faceDirection = 1;
+    public float origMoveDirection = 1;
+    public float moveDirection = 1;
     public Vector3 origScale;
 
     [Header("Jump stats: ")]
@@ -212,11 +214,11 @@ public class Character : MonoBehaviour
 
     protected virtual void UpdateDirection()
     {
-        if(direction > 0)
+        if(faceDirection > 0)
         {
             transform.localScale = new Vector3(origScale.x, origScale.y, origScale.z);
         }
-        else if(direction < 0)
+        else if(faceDirection < 0)
         {
             transform.localScale = new Vector3(-origScale.x, origScale.y, origScale.z);
         }
@@ -224,7 +226,7 @@ public class Character : MonoBehaviour
 
     public void FlipX()
     {
-        direction = -direction;
+        faceDirection = -faceDirection;
     }
 
     public virtual void Dash()
@@ -285,19 +287,16 @@ public class Character : MonoBehaviour
 
     protected virtual IEnumerator Dashing()
     {
+        _anim.SetBool("Dashing", true);
         movementSpeed = origMoveSpeed;
         _isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 
+        _anim.SetBool("Dashing", false);
         _isDashing = false;
 
-        StartCoroutine(DashCooldown());
-    }
-
-    protected virtual IEnumerator DashCooldown()
-    {
         yield return new WaitForSeconds(dashCooldown);
 
         canDash = true;
@@ -305,11 +304,13 @@ public class Character : MonoBehaviour
 
     protected virtual IEnumerator JumpDashing()
     {
+        _anim.SetBool("Dashing", true);
         _isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 
+        _anim.SetBool("Dashing", false);
         _isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
@@ -349,7 +350,7 @@ public class Character : MonoBehaviour
     {
         if(!isGrounded && value == 1 || isGrounded && value == 0)
         {
-            if(direction == 1)
+            if(faceDirection == 1)
             {
                 GameObject tmp = (GameObject)Instantiate(projectilePrefab, projectilePos.position, Quaternion.identity);
 

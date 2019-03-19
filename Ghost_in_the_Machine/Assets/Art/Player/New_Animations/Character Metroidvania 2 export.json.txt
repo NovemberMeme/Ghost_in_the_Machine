@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "tj9HbREvs3pJJ/veG/vJ0Gvr9/o", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
+"skeleton": { "hash": "vFKYKySQrnaB9fxpaiWeZrX7bX0", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "length": 2270.3, "rotation": 90, "x": -2.53, "y": -5.27 },
@@ -151,6 +151,116 @@
 				"shear": [
 					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 2, "x": 0, "y": 0 }
+				]
+			}
+		}
+	},
+	"Nov_Damaged": {
+		"bones": {
+			"Right_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -26.94,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 0.0333, "angle": 155.59, "curve": "stepped" },
+					{ "time": 0.4, "angle": 155.59 },
+					{ "time": 0.6667, "angle": -26.94 }
+				]
+			},
+			"Right_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -54.24 }
+				]
+			},
+			"Right_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": 3.05 }
+				]
+			},
+			"Left_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 5.66,
+						"curve": [ 0.429, 0, 0.579, 1 ]
+					},
+					{
+						"time": 0.0333,
+						"angle": -77.18,
+						"curve": [ 0, 0.91, 0.75, 1 ]
+					},
+					{ "time": 0.4, "angle": -98.19 },
+					{ "time": 0.6667, "angle": 5.66 }
+				],
+				"translate": [
+					{ "time": 0, "x": -2.93, "y": 3.1 }
+				]
+			},
+			"Left_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -7.26 },
+					{ "time": 0.4, "angle": -31.13 },
+					{ "time": 0.6667, "angle": -7.26 }
+				]
+			},
+			"Left_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": -15.58 }
+				]
+			},
+			"Right_Handle": {
+				"rotate": [
+					{ "time": 0, "angle": -0.47 }
+				]
+			},
+			"Crotch": {
+				"rotate": [
+					{ "time": 0, "angle": -1 },
+					{ "time": 0.0333, "angle": 27.88, "curve": "stepped" },
+					{
+						"time": 0.4,
+						"angle": 27.88,
+						"curve": [ 0, 0.91, 0.75, 1 ]
+					},
+					{ "time": 0.6667, "angle": -1 }
+				],
+				"translate": [
+					{ "time": 0, "x": -8.25, "y": 0 },
+					{ "time": 0.0333, "x": 73.11, "y": 0, "curve": "stepped" },
+					{
+						"time": 0.4,
+						"x": 73.11,
+						"y": 0,
+						"curve": [ 0, 0.91, 0.75, 1 ]
+					},
+					{ "time": 0.6667, "x": -8.25, "y": 0 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "time": 0, "angle": 10.84 },
+					{ "time": 0.0333, "angle": 27.56 },
+					{ "time": 0.6667, "angle": 10.84 }
+				]
+			},
+			"Left_Sword": {
+				"rotate": [
+					{ "time": 0, "angle": 0.37 },
+					{ "time": 0.4, "angle": -64.01 },
+					{ "time": 0.6667, "angle": 0.37 }
+				]
+			},
+			"Right_Shield": {
+				"rotate": [
+					{ "time": 0, "angle": 1.37 },
+					{
+						"time": 0.0333,
+						"angle": 49.01,
+						"curve": [ 0, 0.91, 0.75, 1 ]
+					},
+					{ "time": 0.6667, "angle": 1.37 }
 				]
 			}
 		}
@@ -1189,7 +1299,7 @@
 					},
 					{
 						"time": 0.0667,
-						"angle": -91.81,
+						"angle": -106.14,
 						"curve": [ 0.31, 0.65, 0.734, 0.85 ]
 					},
 					{ "time": 0.1667, "angle": -72.84 }
@@ -1204,7 +1314,7 @@
 					},
 					{
 						"time": 0.0667,
-						"angle": 24.71,
+						"angle": 46.59,
 						"curve": [ 0.31, 0.65, 0.734, 0.85 ]
 					},
 					{ "time": 0.1667, "angle": -4.71 }
@@ -1225,7 +1335,7 @@
 					},
 					{
 						"time": 0.0667,
-						"angle": -11.49,
+						"angle": -23.34,
 						"curve": [ 0.31, 0.65, 0.734, 0.85 ]
 					},
 					{ "time": 0.1667, "angle": -3.67 }

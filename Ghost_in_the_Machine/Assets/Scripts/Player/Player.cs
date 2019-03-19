@@ -36,12 +36,12 @@ public class Player : Character
         JumpFalling,
         JumpLanding,
         Dashing,
+        Phasing,
         HealStarting,
         Healing,
         NeutralChargeStarting,
         NeutralCharging,
-        NeutralAttacking,
-        Phasing
+        NeutralAttacking
     }
 
     //public enum PlayerAirState
@@ -122,7 +122,6 @@ public class Player : Character
         base.Update();
 
         DetermineMovement();
-        Move();
 
         ImplementState();
         ChangeState();
@@ -204,7 +203,7 @@ public class Player : Character
 
     public override void FixedUpdate()
     {
-
+        Move();
     }
 
     public override void Damage(Damage damage)
@@ -214,21 +213,71 @@ public class Player : Character
 
         int actualDamage = 0;
 
-        if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
+        if (currentLeftWeaponState == LeftWeaponState.Parrying || currentRightWeaponState == RightWeaponState.Parrying)
         {
-            actualDamage = damage.damageAmount - blockValue - parryValue;
+            if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
+            {
+                actualDamage = damage.damageAmount - parryValue;
+            }
+            else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+            {
+                actualDamage = damage.damageAmount - parryValue;
+            }
+            else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+            {
+                actualDamage = damage.damageAmount - parryValue;
+            }
+            else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
+            {
+                if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
+                {
+                    actualDamage = damage.damageAmount - blockValue;
+                    _anim.SetTrigger("Hit");
+                }
+                else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+                {
+                    actualDamage = damage.damageAmount - blockValue;
+                    _anim.SetTrigger("Hit");
+                }
+                else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+                {
+                    actualDamage = damage.damageAmount - blockValue;
+                    _anim.SetTrigger("Hit");
+                }
+                else
+                {
+                    actualDamage = damage.damageAmount;
+                    _anim.SetTrigger("Damaged");
+                }
+            }
         }
-        else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+        else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
         {
-            actualDamage = damage.damageAmount - blockValue - parryValue;
-        }
-        else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
-        {
-            actualDamage = damage.damageAmount - blockValue - parryValue;
+            if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
+            {
+                actualDamage = damage.damageAmount - blockValue;
+                _anim.SetTrigger("Hit");
+            }
+            else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+            {
+                actualDamage = damage.damageAmount - blockValue;
+                _anim.SetTrigger("Hit");
+            }
+            else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+            {
+                actualDamage = damage.damageAmount - blockValue;
+                _anim.SetTrigger("Hit");
+            }
+            else
+            {
+                actualDamage = damage.damageAmount;
+                _anim.SetTrigger("Damaged");
+            }
         }
         else
         {
             actualDamage = damage.damageAmount;
+            _anim.SetTrigger("Damaged");
         }
 
         if (actualDamage > 0)
@@ -268,19 +317,16 @@ public class Player : Character
         {
             move = 0;
         }
-    }
 
-    public override void Move()
-    {
         // For jumping
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("A"))
         {
-            if(isGrounded && currentMobilityState != PlayerMobilityState.Dashing)
+            if (isGrounded && currentMobilityState != PlayerMobilityState.Dashing)
             {
                 Jump();
             }
-            else if(canDoubleJump && unlockedDoubleJump && currentMobilityState != PlayerMobilityState.Dashing)
+            else if (canDoubleJump && unlockedDoubleJump && currentMobilityState != PlayerMobilityState.Dashing)
             {
                 DoubleJump();
             }
@@ -288,22 +334,27 @@ public class Player : Character
 
         // For Dashing
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetAxisRaw("RT") > 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetAxisRaw("RT") > 0)
         {
-            if(canDash && unlockedDash)
+            if (canDash && unlockedDash)
             {
-                if(isGrounded)
+                if (isGrounded)
                 {
                     soundManager.PlaySound("dash");
                     Dash();
                 }
-                else if(!isGrounded)
+                else if (!isGrounded)
                 {
                     JumpDash();
                 }
+
+                canDash = false;
             }
         }
+    }
 
+    public override void Move()
+    {
         // The actual adjustments for gravity values which result in varying jump heights and durations based on button pressed duration
         // is here
 
@@ -328,21 +379,12 @@ public class Player : Character
                     _rigid.velocity = new Vector3(move * movementSpeed * slowMultiplier * Time.deltaTime, _rigid.velocity.y);
                     break;
                 case PlayerMobilityState.Dashing:
-                    _rigid.velocity = new Vector3(direction * movementSpeed * dashMultiplier * Time.deltaTime, 0);
+                    _rigid.velocity = new Vector3(faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
                     break;
                 default:
                     _rigid.velocity = new Vector3(move * movementSpeed * Time.deltaTime, _rigid.velocity.y);
                     break;
             }
-
-            //if (!_isDashing)
-            //{
-            //    _rigid.velocity = new Vector3(move * movementSpeed * Time.deltaTime, _rigid.velocity.y);
-            //}
-            //else if (_isDashing)
-            //{
-            //    _rigid.velocity = new Vector3(direction * movementSpeed * dashMultiplier * Time.deltaTime, _rigid.velocity.y);
-            //}
 
             if (isGrounded)
             {
@@ -359,24 +401,33 @@ public class Player : Character
 
     protected override void UpdateDirection()
     {
+        if (faceDirection == 1)
+        {
+            transform.localScale = new Vector3(origScale.x, origScale.y, origScale.z);
+        }
+        else if (faceDirection == -1)
+        {
+            transform.localScale = new Vector3(-origScale.x, origScale.y, origScale.z);
+        }
+
         if (move > 0)
         {
-            direction = 1;
+            moveDirection = 1;
         }
         else if (move < 0)
         {
-            direction = -1;
+            moveDirection = -1;
         }
 
         if (!isStrafing)
         {
-            if (direction == 1)
+            if (moveDirection == 1)
             {
-                transform.localScale = new Vector3(origScale.x, origScale.y, origScale.z);
+                faceDirection = 1;
             }
-            else if (direction == -1)
+            else if (moveDirection == -1)
             {
-                transform.localScale = new Vector3(-origScale.x, origScale.y, origScale.z);
+                faceDirection = -1;
             }
         }
     }
@@ -433,10 +484,14 @@ public class Player : Character
         //_collider.size = origColliderSize;
         //_collider.offset = Vector2.zero;
 
+        _anim.SetBool("Dashing", false);
         _isDashing = false;
         //_playerAnim.StopDash();
 
-        StartCoroutine(DashCooldown());
+        yield return new WaitForSeconds(dashCooldown);
+
+        if (isGrounded)
+            canDash = true;
     }
 
     protected override IEnumerator JumpDashing()
@@ -448,6 +503,7 @@ public class Player : Character
 
         yield return new WaitForSeconds(dashDuration);
 
+        _anim.SetBool("Dashing", false);
         _isDashing = false;
         //_playerAnim.StopJumpDash();
 
@@ -497,6 +553,18 @@ public class Player : Character
 
     public void ImplementState()
     {
+        switch (currentMobilityState)
+        {
+            case PlayerMobilityState.Standing:
+                break;
+            case PlayerMobilityState.Walking:
+                break;
+            case PlayerMobilityState.Running:
+                break;
+            case PlayerMobilityState.Dashing:
+                break;
+        }
+
         switch (currentLeftWeaponState)
         {
             case LeftWeaponState.Idling:
@@ -929,6 +997,6 @@ public class Player : Character
     {
         _anim.SetBool("Dashing", false);
         _isDashing = false;
-        StartCoroutine(DashCooldown());
+        //StartCoroutine(DashCooldown());
     }
 }
