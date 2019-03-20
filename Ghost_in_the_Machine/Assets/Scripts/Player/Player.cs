@@ -100,6 +100,11 @@ public class Player : Character
     [SerializeField] private float healTimer = 0;
     [SerializeField] private float healCooldown = 1;
     [SerializeField] private bool healSet = false;
+    [SerializeField] private float healManaCost = 4;
+
+    [Header("Mana stats: ")]
+    public float maxMana = 12;
+    public float currentMana = 12;
 
     private PlayerAnimation _playerAnim;
     private SpriteRenderer _swordArcSprite;
@@ -154,7 +159,7 @@ public class Player : Character
 
         // Healing
 
-        if(health < 4 && isGrounded)
+        if(health < 4 && isGrounded && currentMana >= healManaCost)
         {
             if (Input.GetKey(KeyCode.E) || Input.GetButton("X"))
             {
@@ -622,6 +627,8 @@ public class Player : Character
                     if (healTimer < 4)
                     {
                         health++;
+                        currentMana -= healManaCost;
+                        UIManager.Instance.UpdateMana(currentMana);
                         UIManager.Instance.UpdateLives(health);
                         healTimer = 0;
                     }

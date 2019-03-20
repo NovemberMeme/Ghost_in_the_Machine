@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        manaBarOrigScale = manaBar.transform.localScale;
     }
 
     public TMP_Text playerCoinCountText;
@@ -30,6 +31,10 @@ public class UIManager : MonoBehaviour
     public TMP_Text coinCountText;
 
     public List<Image> lifeUnits = new List<Image>();
+
+    public Image manaBar;
+    public Vector2 manaBarOrigScale;
+    public float maxMana = 12;
 
     public void UpdateShop(int coinCount)
     {
@@ -59,5 +64,10 @@ public class UIManager : MonoBehaviour
                 lifeUnits[i].enabled = true;
             }
         }
+    }
+
+    public void UpdateMana(float mana)
+    {
+        manaBar.transform.localScale = new Vector2((mana / maxMana) * manaBarOrigScale.x, manaBarOrigScale.y);
     }
 }

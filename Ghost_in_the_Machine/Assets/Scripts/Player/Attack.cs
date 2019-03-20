@@ -27,6 +27,12 @@ public class Attack : MonoBehaviour
             };
 
             coll.gameObject.GetComponent<Character>().Damage(dmg);
+
+            if(playerScript.currentMana < playerScript.maxMana)
+            {
+                playerScript.currentMana++;
+                UIManager.Instance.UpdateMana(playerScript.currentMana);
+            }
         }
     }
 }
