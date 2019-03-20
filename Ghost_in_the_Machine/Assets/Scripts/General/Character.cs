@@ -67,12 +67,18 @@ public class Character : MonoBehaviour
     public float dashCooldown = 1.0f;
     public bool _isDashing = false;
     public bool canDash = true;
+    public bool canAirDash = true;
 
     [Header("Phase stats: ")]
     public float phaseDuration = 3.0f;
     public float phaseCooldown = 5.0f;
     public bool canPhase = true;
     public bool _isPhasing = false;
+
+    [Header("Time Lapse stats: ")]
+    [SerializeField] protected GameObject ghost;
+    [SerializeField] protected float timeLapseDuration = 1;
+    [SerializeField] protected bool isTimeLapsing = false;
 
     [Header("Components: ")]
     public Rigidbody2D _rigid;
@@ -234,6 +240,21 @@ public class Character : MonoBehaviour
         StartCoroutine(Dashing());
     }
 
+    public virtual void JumpDash()
+    {
+        StartCoroutine(JumpDashing());
+    }
+
+    public virtual void BackDash()
+    {
+        StartCoroutine(BackDashing());
+    }
+
+    public virtual void BackJumpDash()
+    {
+        StartCoroutine(BackJumpDashing());
+    }
+
     public virtual void Jump()
     {
         if(isGrounded)
@@ -246,12 +267,7 @@ public class Character : MonoBehaviour
         canDoubleJump = false;
     }
 
-    public virtual void JumpDash()
-    {
-        StartCoroutine(JumpDashing());
-    }
-
-    public virtual void Phase()
+    public virtual void ImplementPhase()
     {
         if (_isPhasing)
         {
@@ -267,6 +283,30 @@ public class Character : MonoBehaviour
         }
     }
 
+    protected virtual void TimeLapse()
+    {
+        StartCoroutine(TimeLapsing());
+    }
+
+    public virtual IEnumerator TimeLapsing()
+    {
+        transform.position = ghost.GetComponent<TimeLapse_Position>().timeLapsePosition;
+        health = ghost.GetComponent<TimeLapse_Position>().timeLapsePlayerHealth;
+        UIManager.Instance.UpdateLives((int)health);
+
+        _mesh.enabled = false;
+        _collider.enabled = false;
+        _rigid.bodyType = RigidbodyType2D.Static;
+        isTimeLapsing = true;
+
+        yield return new WaitForSeconds(timeLapseDuration);
+
+        _mesh.enabled = true;
+        _collider.enabled = true;
+        _rigid.bodyType = RigidbodyType2D.Dynamic;
+        isTimeLapsing = false;
+    }
+
     protected virtual IEnumerator Attacking()
     {
         canAttack = false;
@@ -274,6 +314,18 @@ public class Character : MonoBehaviour
         yield return new WaitForSeconds(attackCooldown);
 
         canAttack = true;
+    }
+
+    public virtual IEnumerator ResetCanBeHit()
+    {
+        yield return new WaitForSeconds(canBeHitCooldown);
+        canBeDamaged = true;
+    }
+
+    public virtual IEnumerator ResetCanBeDamaged()
+    {
+        yield return new WaitForSeconds(canBeDamagedCooldown);
+        canBeDamaged = true;
     }
 
     public virtual IEnumerator Jumping()
@@ -302,6 +354,23 @@ public class Character : MonoBehaviour
         canDash = true;
     }
 
+    protected virtual IEnumerator BackDashing()
+    {
+        _anim.SetBool("BackDashing", true);
+        movementSpeed = origMoveSpeed;
+        _isDashing = true;
+        canDash = false;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        _anim.SetBool("BackDashing", false);
+        _isDashing = false;
+
+        yield return new WaitForSeconds(dashCooldown);
+
+        canDash = true;
+    }
+
     protected virtual IEnumerator JumpDashing()
     {
         _anim.SetBool("Dashing", true);
@@ -315,8 +384,23 @@ public class Character : MonoBehaviour
 
         yield return new WaitForSeconds(dashCooldown);
 
-        if (isGrounded)
-            canDash = true;
+        canDash = true;
+    }
+
+    protected virtual IEnumerator BackJumpDashing()
+    {
+        _anim.SetBool("BackDashing", true);
+        _isDashing = true;
+        canDash = false;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        _anim.SetBool("BackDashing", false);
+        _isDashing = false;
+
+        yield return new WaitForSeconds(dashCooldown);
+
+        canDash = true;
     }
 
     protected virtual IEnumerator Phasing()
@@ -332,18 +416,6 @@ public class Character : MonoBehaviour
         canPhase = false;
         yield return new WaitForSeconds(phaseCooldown);
         canPhase = true;
-    }
-
-    public virtual IEnumerator ResetCanBeHit()
-    {
-        yield return new WaitForSeconds(canBeHitCooldown);
-        canBeDamaged = true;
-    }
-
-    public virtual IEnumerator ResetCanBeDamaged()
-    {
-        yield return new WaitForSeconds(canBeDamagedCooldown);
-        canBeDamaged = true;
     }
 
     public virtual void ShootProjectile(int value)

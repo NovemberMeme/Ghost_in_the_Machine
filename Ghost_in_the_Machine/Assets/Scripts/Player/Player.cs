@@ -36,6 +36,7 @@ public class Player : Character
         JumpFalling,
         JumpLanding,
         Dashing,
+        BackDashing,
         Phasing,
         HealStarting,
         Healing,
@@ -127,28 +128,46 @@ public class Player : Character
         ChangeState();
         ApplyState();
 
-        //if(Input.GetMouseButtonDown(0) && isGrounded && canAttack)
-        //{
-        //    soundManager.PlaySound("attack");
-        //    //_playerAnim.Attack();
-        //    StartCoroutine(Attacking());
-        //}
+        ImplementPhase();
+
+        // Controller mode
 
         if (Input.GetKeyDown(KeyCode.J) || Input.GetButtonDown("View Button"))
         {
             controllerMode = !controllerMode;
         }
 
+        // Strafing
+
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetAxisRaw("LT") > 0)
         {
             isStrafing = true;
+            _anim.SetBool("Slowed", true);
         }
-        else
+        else if(currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling && !Input.GetKey(KeyCode.LeftControl) && Input.GetAxisRaw("LT") <= 0)
         {
             isStrafing = false;
+            _anim.SetBool("Slowed", false);
         }
 
-        if(Input.GetKeyDown(KeyCode.P))
+        // Phase
+
+        if (!isTimeLapsing && ((Input.GetKey(KeyCode.Q) || Input.GetButton("L3")) && canPhase && unlockedPhase))
+        {
+            soundManager.PlaySound("phase");
+            StartCoroutine(Phasing());
+        }
+
+        // Time Lapse
+
+        if(!isTimeLapsing && !_isPhasing && (Input.GetKeyDown(KeyCode.E) || (Input.GetButtonDown("Y") && currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)))
+        {
+            TimeLapse();
+        }
+
+        // Unlock buttons
+
+        if (Input.GetKeyDown(KeyCode.P))
         {
             unlockedDoubleJump = !unlockedDoubleJump;
         }
@@ -162,38 +181,6 @@ public class Player : Character
         {
             unlockedPhase = !unlockedPhase;
         }
-
-        if(Input.GetKey(KeyCode.Q) && canPhase && unlockedPhase)
-        {
-            soundManager.PlaySound("phase");
-            StartCoroutine(Phasing());
-        }
-
-        if (Input.GetButton("LB"))
-        {
-            if (Input.GetButtonDown("X"))
-            {
-                soundManager.PlaySound("phase");
-                StartCoroutine(Phasing());
-            }
-        }
-
-        if(Input.GetKeyDown(KeyCode.U))
-        {
-            //Damage(____);
-        }
-
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            //_playerAnim.Death();
-        }
-
-        if(Input.GetKeyDown(KeyCode.X))
-        {
-            //_playerAnim.GetHit();
-        }
-
-        Phase();
 
         if(health <= 0)
         {
@@ -322,11 +309,11 @@ public class Player : Character
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("A"))
         {
-            if (isGrounded && currentMobilityState != PlayerMobilityState.Dashing)
+            if (isGrounded)
             {
                 Jump();
             }
-            else if (canDoubleJump && unlockedDoubleJump && currentMobilityState != PlayerMobilityState.Dashing)
+            else if (canDoubleJump && unlockedDoubleJump)
             {
                 DoubleJump();
             }
@@ -338,19 +325,45 @@ public class Player : Character
         {
             if (canDash && unlockedDash)
             {
-                if (isGrounded)
+                if(move == 0 || moveDirection - faceDirection != 0)
                 {
-                    soundManager.PlaySound("dash");
-                    Dash();
+                    if (isGrounded)
+                    {
+                        soundManager.PlaySound("dash");
+                        BackDash();
+                        canDash = false;
+                    }
+                    else if (!isGrounded)
+                    {
+                        if (canAirDash)
+                        {
+                            BackJumpDash();
+                            canAirDash = false;
+                        }
+                    }
                 }
-                else if (!isGrounded)
+                else
                 {
-                    JumpDash();
+                    if (isGrounded)
+                    {
+                        soundManager.PlaySound("dash");
+                        Dash();
+                        canDash = false;
+                    }
+                    else if (!isGrounded)
+                    {
+                        if (canAirDash)
+                        {
+                            JumpDash();
+                            canAirDash = false;
+                        }
+                    }
                 }
-
-                canDash = false;
             }
         }
+
+        _anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
+        _anim.SetFloat("Moving", Mathf.Abs(move));
     }
 
     public override void Move()
@@ -367,8 +380,6 @@ public class Player : Character
             _rigid.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
 
-        _anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
-
         // The actual Movement is here
 
         if(!isStopped && !isDead)
@@ -381,17 +392,13 @@ public class Player : Character
                 case PlayerMobilityState.Dashing:
                     _rigid.velocity = new Vector3(faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
                     break;
+                case PlayerMobilityState.BackDashing:
+                    _rigid.velocity = new Vector3(-faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
+                    break;
                 default:
                     _rigid.velocity = new Vector3(move * movementSpeed * Time.deltaTime, _rigid.velocity.y);
                     break;
             }
-
-            if (isGrounded)
-            {
-                _anim.SetFloat("Moving", Mathf.Abs(move));
-                //_playerAnim.Move(move);
-            }
-
         }
         else if(isStopped || isDead)
         {
@@ -419,7 +426,7 @@ public class Player : Character
             moveDirection = -1;
         }
 
-        if (!isStrafing)
+        if (!isStrafing && !_isDashing)
         {
             if (moveDirection == 1)
             {
@@ -448,7 +455,8 @@ public class Player : Character
             isGrounded = true;
             _anim.SetBool("Grounded", true);
             canDoubleJump = true;
-            canDash = true;
+            canAirDash = true;
+            //canDash = true;
             //_playerAnim.Jump(false);
         }
     }
@@ -457,15 +465,15 @@ public class Player : Character
     {
         if (isGrounded)
         {
+            currentMobilityState = PlayerMobilityState.JumpRising;
             _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
-            //_playerAnim.Jump(true);
         }
     }
 
     public override void DoubleJump()
     {
+        currentMobilityState = PlayerMobilityState.JumpRising;
         _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
-        //_playerAnim.Jump(true);
         canDoubleJump = false;
     }
 
@@ -477,7 +485,6 @@ public class Player : Character
         _anim.SetBool("Dashing", true);
         _isDashing = true;
         canDash = false;
-        //_playerAnim.StartDash();
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -486,12 +493,10 @@ public class Player : Character
 
         _anim.SetBool("Dashing", false);
         _isDashing = false;
-        //_playerAnim.StopDash();
 
         yield return new WaitForSeconds(dashCooldown);
 
-        if (isGrounded)
-            canDash = true;
+        canDash = true;
     }
 
     protected override IEnumerator JumpDashing()
@@ -499,18 +504,15 @@ public class Player : Character
         _anim.SetBool("Dashing", true);
         _isDashing = true;
         canDash = false;
-        //_playerAnim.StartJumpDash();
 
         yield return new WaitForSeconds(dashDuration);
 
         _anim.SetBool("Dashing", false);
         _isDashing = false;
-        //_playerAnim.StopJumpDash();
 
         yield return new WaitForSeconds(dashCooldown);
 
-        if (isGrounded)
-            canDash = true;
+        canDash = true;
     }
 
     public override void Death()
@@ -525,7 +527,7 @@ public class Player : Character
         UIManager.Instance.UpdateCoinCount(coins);
     }
 
-    public override void Phase()
+    public override void ImplementPhase()
     {
         if (_isPhasing)
         {
@@ -533,14 +535,14 @@ public class Player : Character
             _collider.enabled = false;
             _rigid.bodyType = RigidbodyType2D.Static;
         }
-        else if (!_isPhasing)
+        else if (!_isPhasing && !isTimeLapsing)
         {
             _mesh.enabled = true;
             _collider.enabled = true;
             _rigid.bodyType = RigidbodyType2D.Dynamic;
         }
 
-        if (_isPhasing && (Input.GetMouseButtonUp(1) || Input.GetButtonUp("X")))
+        if (_isPhasing && (Input.GetKeyUp(KeyCode.Q) || Input.GetButtonUp("L3")))
         {
             _isPhasing = false;
             _mesh.enabled = true;
@@ -972,11 +974,14 @@ public class Player : Character
             case "Nov_Dash":
                 currentMobilityState = PlayerMobilityState.Dashing;
                 break;
+            case "Nov_Dash_Back":
+                currentMobilityState = PlayerMobilityState.BackDashing;
+                break;
             case "Nov_Jump_Fall":
                 currentMobilityState = PlayerMobilityState.JumpFalling;
                 break;
             case "Nov_Jump_Rise":
-                //currentMobilityState = PlayerMobilityState.JumpRising;
+                currentMobilityState = PlayerMobilityState.JumpRising;
                 break;
             case "Nov_Jump_Land":
                 currentMobilityState = PlayerMobilityState.JumpLanding;

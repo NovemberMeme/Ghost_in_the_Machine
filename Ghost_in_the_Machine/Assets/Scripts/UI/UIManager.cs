@@ -54,6 +54,10 @@ public class UIManager : MonoBehaviour
             {
                 lifeUnits[i].enabled = false;
             }
+            else
+            {
+                lifeUnits[i].enabled = true;
+            }
         }
     }
 }

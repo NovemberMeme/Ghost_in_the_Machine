@@ -468,7 +468,7 @@ public class Enemy : Character
             isGrounded = true;
             _anim.SetBool("Grounded", true);
             canDoubleJump = true;
-            canDash = true;
+            //canDash = true;
         }
     }
 
