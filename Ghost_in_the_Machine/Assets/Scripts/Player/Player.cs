@@ -187,7 +187,7 @@ public class Player : Character
 
         // Time Lapse
 
-        if (!isTimeLapsing && !_isPhasing)
+        if (!isTimeLapsing && !_isPhasing && currentMana >= timeLapseManaCost)
         {
             if (Input.GetKeyDown(KeyCode.F) && currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)
             {
@@ -560,6 +560,27 @@ public class Player : Character
         yield return new WaitForSeconds(dashCooldown);
 
         canDash = true;
+    }
+
+    public override IEnumerator TimeLapsing()
+    {
+        transform.position = ghost.GetComponent<TimeLapse_Position>().timeLapsePosition;
+        health = ghost.GetComponent<TimeLapse_Position>().timeLapsePlayerHealth;
+        UIManager.Instance.UpdateLives((int)health);
+        currentMana -= 12;
+        UIManager.Instance.UpdateMana(currentMana);
+
+        _mesh.enabled = false;
+        _collider.enabled = false;
+        _rigid.bodyType = RigidbodyType2D.Static;
+        isTimeLapsing = true;
+
+        yield return new WaitForSeconds(timeLapseDuration);
+
+        _mesh.enabled = true;
+        _collider.enabled = true;
+        _rigid.bodyType = RigidbodyType2D.Dynamic;
+        isTimeLapsing = false;
     }
 
     public override void Death()

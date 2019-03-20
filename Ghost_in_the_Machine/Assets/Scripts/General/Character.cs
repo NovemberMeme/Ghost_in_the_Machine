@@ -2,6 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackDirectionState
+{
+    AttackingForward,
+    AttackingUpward,
+    AttackingDownward
+}
+
+public enum Element
+{
+    Soul,
+    Spirit,
+    Psionic
+}
+
 public class Character : MonoBehaviour
 {
     public int health = 4;
@@ -79,6 +93,11 @@ public class Character : MonoBehaviour
     [SerializeField] protected GameObject ghost;
     [SerializeField] protected float timeLapseDuration = 1;
     [SerializeField] protected bool isTimeLapsing = false;
+    [SerializeField] protected float timeLapseManaCost = 12;
+
+    [Header("Element stats: ")]
+    public Element currentElement;
+    public Element weaponElement;
 
     [Header("Components: ")]
     public Rigidbody2D _rigid;
@@ -143,45 +162,45 @@ public class Character : MonoBehaviour
         
     }
 
-    public virtual int ElementCompute(string currentElemetType, string damageElement, int damage)
+    public virtual int ElementCompute(Element currentElemetType, Element damageElement, int damage)
     {
         //Elements: Soul => Psionic => Spirit => Soul
 
-        switch (elementType)
+        switch (currentElement)
         {
-            case "Soul":
-                if (damageElement == "Spirit")
+            case Element.Soul:
+                if (damageElement == Element.Spirit)
                 {
-                    damage *= 2;
+                    damage += 1;
                     return damage;
                 }
-                else if (damageElement == "Psionic")
+                else if (damageElement == Element.Psionic)
                 {
-                    damage /= 2;
-                    return damage;
-                }
-                return damage;
-            case "Spirit":
-                if (damageElement == "Psionic")
-                {
-                    damage *= 2;
-                    return damage;
-                }
-                else if (damageElement == "Soul")
-                {
-                    damage /= 2;
+                    damage -= 1;
                     return damage;
                 }
                 return damage;
-            case "Psionic":
-                if (damageElement == "Soul")
+            case Element.Spirit:
+                if (damageElement == Element.Psionic)
                 {
-                    damage *= 2;
+                    damage += 1;
                     return damage;
                 }
-                else if (damageElement == "Spirit")
+                else if (damageElement == Element.Psionic)
                 {
-                    damage /= 2;
+                    damage -= 1;
+                    return damage;
+                }
+                return damage;
+            case Element.Psionic:
+                if (damageElement == Element.Psionic)
+                {
+                    damage += 1;
+                    return damage;
+                }
+                else if (damageElement == Element.Spirit)
+                {
+                    damage -= 1;
                     return damage;
                 }
                 return damage;
