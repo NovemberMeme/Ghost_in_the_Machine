@@ -633,7 +633,7 @@ public class Enemy : Character
             case EnemyMobilityState.Running:
                 break;
             case EnemyMobilityState.Dashing:
-                movementSpeed = origMoveDirection * dashMultiplier;
+                movementSpeed = moveDirection * dashMultiplier;
                 _anim.SetBool("Dashing", true);
                 break;
         }

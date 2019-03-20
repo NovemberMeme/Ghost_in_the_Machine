@@ -147,6 +147,10 @@ public class Player : Character
             isStrafing = false;
             _anim.SetBool("Slowed", false);
         }
+        else if(!Input.GetKey(KeyCode.LeftControl) && Input.GetAxisRaw("LT") <= 0)
+        {
+            isStrafing = false;
+        }
 
         // Healing
 
@@ -596,6 +600,10 @@ public class Player : Character
         switch (currentMobilityState)
         {
             case PlayerMobilityState.Standing:
+                if(currentLeftWeaponState != LeftWeaponState.Idling || currentRightWeaponState != RightWeaponState.Idling)
+                {
+                    _anim.SetBool("Still", true);
+                }
                 break;
             case PlayerMobilityState.Walking:
                 _anim.SetBool("Still", false);
