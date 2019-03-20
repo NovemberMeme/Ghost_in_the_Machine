@@ -684,8 +684,8 @@ public class Enemy : Character
                 }
                 if(chasingStillTimer >= chasingStillDuration)
                 {
-                    int forwardOrBackward = Random.Range(0, 5);
-                    if(forwardOrBackward == 1)
+                    int forwardOrBackward = Random.Range(0, 2);
+                    if(forwardOrBackward <= 1)
                     {
                         currentEnemyChaseState = EnemyChaseState.ChasingForward;
                     }

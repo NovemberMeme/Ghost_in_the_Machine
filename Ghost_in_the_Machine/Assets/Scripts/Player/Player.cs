@@ -45,13 +45,6 @@ public class Player : Character
         NeutralAttacking
     }
 
-    //public enum PlayerAirState
-    //{
-    //    JumpRising,
-    //    JumpFalling,
-    //    JumpLanding
-    //}
-
     public enum PlayerDirectionState
     {
         Forward,
@@ -103,6 +96,11 @@ public class Player : Character
     public bool unlockedDash = true;
     public bool unlockedPhase = true;
 
+    [Header("Heal stats: ")]
+    [SerializeField] private float healTimer = 0;
+    [SerializeField] private float healCooldown = 1;
+    [SerializeField] private bool healSet = false;
+
     private PlayerAnimation _playerAnim;
     private SpriteRenderer _swordArcSprite;
 
@@ -150,6 +148,26 @@ public class Player : Character
             _anim.SetBool("Slowed", false);
         }
 
+        // Healing
+
+        if(health < 4 && isGrounded)
+        {
+            if (Input.GetKey(KeyCode.E) || Input.GetButton("X"))
+            {
+                _anim.SetBool("HealStarting", true);
+            }
+            else
+            {
+                _anim.SetBool("HealStarting", false);
+                _anim.SetBool("Healing", false);
+            }
+        }
+        else
+        {
+            _anim.SetBool("HealStarting", false);
+            _anim.SetBool("Healing", false);
+        }
+
         // Phase
 
         if (!isTimeLapsing && ((Input.GetKey(KeyCode.Q) || Input.GetButton("L3")) && canPhase && unlockedPhase))
@@ -160,9 +178,16 @@ public class Player : Character
 
         // Time Lapse
 
-        if(!isTimeLapsing && !_isPhasing && (Input.GetKeyDown(KeyCode.E) || (Input.GetButtonDown("Y") && currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)))
+        if (!isTimeLapsing && !_isPhasing)
         {
-            TimeLapse();
+            if (Input.GetKeyDown(KeyCode.F) && currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)
+            {
+                TimeLapse();
+            }
+            else if (Input.GetButtonDown("Y") && currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)
+            {
+                TimeLapse();
+            }
         }
 
         // Unlock buttons
@@ -296,9 +321,16 @@ public class Player : Character
     {
         // Later used in calculation for movement
 
-        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f)
+        if(!_anim.GetBool("HealStarting") && !_anim.GetBool("Healing"))
         {
-            move = Input.GetAxisRaw("Horizontal");
+            if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f)
+            {
+                move = Input.GetAxisRaw("Horizontal");
+            }
+            else
+            {
+                move = 0;
+            }
         }
         else
         {
@@ -394,6 +426,12 @@ public class Player : Character
                     break;
                 case PlayerMobilityState.BackDashing:
                     _rigid.velocity = new Vector3(-faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
+                    break;
+                case PlayerMobilityState.HealStarting:
+                    _rigid.velocity = new Vector3(0, _rigid.velocity.y);
+                    break;
+                case PlayerMobilityState.Healing:
+                    _rigid.velocity = new Vector3(0, _rigid.velocity.y);
                     break;
                 default:
                     _rigid.velocity = new Vector3(move * movementSpeed * Time.deltaTime, _rigid.velocity.y);
@@ -560,10 +598,26 @@ public class Player : Character
             case PlayerMobilityState.Standing:
                 break;
             case PlayerMobilityState.Walking:
-                break;
-            case PlayerMobilityState.Running:
+                _anim.SetBool("Still", false);
                 break;
             case PlayerMobilityState.Dashing:
+                break;
+            case PlayerMobilityState.HealStarting:
+                healTimer = 0;
+                break;
+            case PlayerMobilityState.Healing:
+                _anim.SetBool("HealStarting", false);
+                healTimer += Time.deltaTime;
+
+                if (healTimer >= healCooldown)
+                {
+                    if (healTimer < 4)
+                    {
+                        health++;
+                        UIManager.Instance.UpdateLives(health);
+                        healTimer = 0;
+                    }
+                }
                 break;
         }
 
@@ -666,12 +720,6 @@ public class Player : Character
             damageValue = rightDamageValue;
         }
 
-        switch (currentMobilityState)
-        {
-            case PlayerMobilityState.Dashing:
-                break;
-        }
-
         if(currentLeftWeaponState != LeftWeaponState.PowerAttacking && currentRightWeaponState != RightWeaponState.PowerAttacking)
         {
             movementSpeed = origMoveSpeed;
@@ -758,18 +806,6 @@ public class Player : Character
                 break;
             case RightWeaponState.Attacking1:
                 break;
-        }
-
-        switch (currentMobilityState)
-        {
-            case PlayerMobilityState.Standing:
-                break;
-            case PlayerMobilityState.Walking:
-                _anim.SetBool("Still", false);
-                break;
-            case PlayerMobilityState.Dashing:
-                break;
-
         }
 
         if (controllerMode)
