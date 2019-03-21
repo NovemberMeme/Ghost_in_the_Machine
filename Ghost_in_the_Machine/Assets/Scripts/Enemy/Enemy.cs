@@ -241,9 +241,11 @@ public class Enemy : Character
         if (isDead || !canBeDamaged || damage.layer != "Sword")
             return;
 
+        //Debug.Log(damage.damageAmount);
+
         int actualDamage = ElementCompute(currentElement, damage.damageElement, damage.damageAmount)/* - blockValue - parryValue*/;
 
-        Debug.Log(actualDamage);
+        //Debug.Log(actualDamage);
 
         if(actualDamage > 0)
         {
@@ -935,7 +937,7 @@ public class Enemy : Character
                 break;
         }
 
-        if(currentEnemyRightWeaponState != EnemyRightWeaponState.Blocking)
+        if(currentEnemyRightWeaponState != EnemyRightWeaponState.Idling)
         {
             exposureTimer = 0;
         }

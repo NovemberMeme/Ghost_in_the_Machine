@@ -52,6 +52,7 @@ public class Player : Character
         Downward
     }
 
+    [Header("Controller mode stats: ")]
     [SerializeField] private bool controllerMode = false;
 
     [Header("Enum states: ")]
@@ -61,25 +62,13 @@ public class Player : Character
     public PlayerDirectionState currentPlayerDirectionState;
     public AttackDirectionState playerAttackDirectionState = AttackDirectionState.AttackingForward;
 
-    private AnimatorClipInfo[] currentAnimatorClipInfo_BaseLayer;
-    private AnimatorClipInfo[] currentAnimatorClipInfo_LeftArm;
-    private AnimatorClipInfo[] currentAnimatorClipInfo_RightArm;
-    private AnimatorClipInfo[] currentAnimatorClipInfo_LeftArmDown;
-    private AnimatorClipInfo[] currentAnimatorClipInfo_RightArmDown;
-    private AnimatorClipInfo[] currentAnimatorClipInfo_LeftArmUp;
-    private AnimatorClipInfo[] currentAnimatorClipInfo_RightArmUp;
-    [SerializeField] private string currentAnimationName_BaseLayer;
-    [SerializeField] private string currentAnimationName_LeftArm;
-    [SerializeField] private string currentAnimationName_RightArm;
-    [SerializeField] private string currentAnimationName_LeftArmDown;
-    [SerializeField] private string currentAnimationName_RightArmDown;
-    [SerializeField] private string currentAnimationName_LeftArmUp;
-    [SerializeField] private string currentAnimationName_RightArmUp;
-
+    [Header("Strafe stats: ")]
     public bool isStrafing = false;
 
+    [Header("Currency stats: ")]
     public int coins;
 
+    [Header("Sound Manager: ")]
     public SoundManager soundManager;
 
     // For adjusting gravity value when falling down so that player falls down faster when they don't hold the jump button
@@ -106,7 +95,6 @@ public class Player : Character
     public float maxMana = 12;
     public float currentMana = 12;
 
-    private PlayerAnimation _playerAnim;
     private SpriteRenderer _swordArcSprite;
 
     private Vector2 origColliderSize;
@@ -117,7 +105,6 @@ public class Player : Character
     {
         base.Start();
         transformSizeModifier = transform.localScale.x;
-        _playerAnim = GetComponent<PlayerAnimation>();
         origColliderSize = _collider.size;
     }
 
@@ -129,7 +116,6 @@ public class Player : Character
 
         ImplementState();
         ChangeState();
-        ApplyState();
 
         ImplementPhase();
 
@@ -307,9 +293,7 @@ public class Player : Character
             UIManager.Instance.UpdateLives((int)health);
 
             if (health > 0)
-            {
-                //_playerAnim.GetHit();
-                
+            {   
                 canBeDamaged = false;
                 StartCoroutine(ResetCanBeDamaged());
                 //StartCoroutine(ResetCanBeHit());
@@ -495,7 +479,6 @@ public class Player : Character
         {
             isGrounded = false;
             _anim.SetBool("Grounded", false);
-            //_playerAnim.Jump(true);
         }
         else if (ground.collider != null)
         {
@@ -503,8 +486,6 @@ public class Player : Character
             _anim.SetBool("Grounded", true);
             canDoubleJump = true;
             canAirDash = true;
-            //canDash = true;
-            //_playerAnim.Jump(false);
         }
     }
 
@@ -586,7 +567,6 @@ public class Player : Character
     public override void Death()
     {
         base.Death();
-        //_playerAnim.Death();
     }
 
     public void AddCoins(int amount)
@@ -921,143 +901,6 @@ public class Player : Character
         {
             _anim.SetBool("Still", false);
             _anim.SetBool("Slowed", false);
-        }
-    }
-
-    public void ApplyState()
-    {
-        currentAnimatorClipInfo_BaseLayer = _anim.GetCurrentAnimatorClipInfo(0);
-        currentAnimatorClipInfo_LeftArm = _anim.GetCurrentAnimatorClipInfo(1);
-        currentAnimatorClipInfo_RightArm = _anim.GetCurrentAnimatorClipInfo(2);
-        currentAnimatorClipInfo_LeftArmDown = _anim.GetCurrentAnimatorClipInfo(3);
-        currentAnimatorClipInfo_RightArmDown = _anim.GetCurrentAnimatorClipInfo(4);
-        currentAnimatorClipInfo_LeftArmUp = _anim.GetCurrentAnimatorClipInfo(5);
-        currentAnimatorClipInfo_RightArmUp = _anim.GetCurrentAnimatorClipInfo(6);
-
-        currentAnimationName_BaseLayer = currentAnimatorClipInfo_BaseLayer[0].clip.name;
-        currentAnimationName_LeftArm = currentAnimatorClipInfo_LeftArm[0].clip.name;
-        currentAnimationName_RightArm = currentAnimatorClipInfo_RightArm[0].clip.name;
-        currentAnimationName_LeftArmDown = currentAnimatorClipInfo_LeftArmDown[0].clip.name;
-        currentAnimationName_RightArmDown = currentAnimatorClipInfo_RightArmDown[0].clip.name;
-        currentAnimationName_LeftArmUp = currentAnimatorClipInfo_LeftArmUp[0].clip.name;
-        currentAnimationName_RightArmUp = currentAnimatorClipInfo_RightArmUp[0].clip.name;
-
-        switch (currentAnimationName_LeftArm)
-        {
-            case "Nov_Idle_Left_Override":
-                currentLeftWeaponState = LeftWeaponState.Idling;
-                break;
-            case "Nov_Left_Sword_Parry1_Override":
-                currentLeftWeaponState = LeftWeaponState.Parrying;
-                break;
-            case "Nov_Left_Sword_Block1_Override":
-                currentLeftWeaponState = LeftWeaponState.Blocking;
-                break;
-            case "Nov_Left_Sword_Attack1_Override":
-                currentLeftWeaponState = LeftWeaponState.Attacking1;
-                break;
-            case "Nov_Left_Sword_Attack3_Override":
-                if(currentPlayerDirectionState == PlayerDirectionState.Forward)
-                {
-                    currentLeftWeaponState = LeftWeaponState.Attacking3;
-                }
-                break;
-            case "Nov_Left_Sword_Attack4_Override":
-                if (currentPlayerDirectionState == PlayerDirectionState.Forward)
-                {
-                    currentLeftWeaponState = LeftWeaponState.Attacking4;
-                }
-                break;
-            case "Nov_Left_Sword_PowerAttack":
-                currentLeftWeaponState = LeftWeaponState.PowerAttacking;
-                break;
-        }
-
-        switch (currentAnimationName_LeftArmDown)
-        {
-            case "Nov_Left_Sword_Attack_Down_Override":
-                if(currentPlayerDirectionState == PlayerDirectionState.Downward)
-                {
-                    currentLeftWeaponState = LeftWeaponState.Attacking1;
-                }
-                break;
-        }
-
-        switch (currentAnimationName_LeftArmUp)
-        {
-            case "Nov_Left_Sword_Attack_Up_Override":
-                if (currentPlayerDirectionState == PlayerDirectionState.Upward)
-                {
-                    currentLeftWeaponState = LeftWeaponState.Attacking1;
-                }
-                break;
-        }
-
-        switch (currentAnimationName_RightArm)
-        {
-            case "Nov_Idle_Right_Override":
-                currentRightWeaponState = RightWeaponState.Idling;
-                break;
-            case "Nov_Right_Shield_Parry1_Override":
-                currentRightWeaponState = RightWeaponState.Parrying;
-                break;
-            case "Nov_Right_Shield_Block1_Override":
-                currentRightWeaponState = RightWeaponState.Blocking;
-                break;
-            case "Nov_Right_Shield_Attack1_Override":
-                currentRightWeaponState = RightWeaponState.Attacking1;
-                break;
-            case "Nov_Right_Shield_PowerAttack":
-                currentRightWeaponState = RightWeaponState.PowerAttacking;
-                break;
-        }
-
-        switch (currentAnimationName_RightArmDown)
-        {
-            case "Nov_Right_Sword_Attack_Down_Override":
-                if (currentPlayerDirectionState == PlayerDirectionState.Downward)
-                {
-                    currentRightWeaponState = RightWeaponState.Attacking1;
-                }
-                break;
-        }
-
-        switch (currentAnimationName_RightArmUp)
-        {
-            case "Nov_Right_Sword_Attack_Up_Override":
-                if (currentPlayerDirectionState == PlayerDirectionState.Upward)
-                {
-                    currentRightWeaponState = RightWeaponState.Attacking1;
-                }
-                break;
-        }
-
-        switch (currentAnimationName_BaseLayer)
-        {
-            case "Nov_Idle":
-                currentMobilityState = PlayerMobilityState.Standing;
-                break;
-            case "Nov_Walk":
-                currentMobilityState = PlayerMobilityState.Walking;
-                break;
-            case "Nov_Run":
-                currentMobilityState = PlayerMobilityState.Running;
-                break;
-            case "Nov_Dash":
-                currentMobilityState = PlayerMobilityState.Dashing;
-                break;
-            case "Nov_Dash_Back":
-                currentMobilityState = PlayerMobilityState.BackDashing;
-                break;
-            case "Nov_Jump_Fall":
-                currentMobilityState = PlayerMobilityState.JumpFalling;
-                break;
-            case "Nov_Jump_Rise":
-                currentMobilityState = PlayerMobilityState.JumpRising;
-                break;
-            case "Nov_Jump_Land":
-                currentMobilityState = PlayerMobilityState.JumpLanding;
-                break;
         }
     }
 

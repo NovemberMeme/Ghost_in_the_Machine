@@ -179,6 +179,10 @@ public class Character : MonoBehaviour
                     damage -= 1;
                     return damage;
                 }
+                else if(damageElement == Element.Soul)
+                {
+                    return damage;
+                }
                 return damage;
             case Element.Spirit:
                 if (damageElement == Element.Psionic)
@@ -186,14 +190,18 @@ public class Character : MonoBehaviour
                     damage += 1;
                     return damage;
                 }
-                else if (damageElement == Element.Psionic)
+                else if (damageElement == Element.Soul)
                 {
                     damage -= 1;
                     return damage;
                 }
+                else if (damageElement == Element.Spirit)
+                {
+                    return damage;
+                }
                 return damage;
             case Element.Psionic:
-                if (damageElement == Element.Psionic)
+                if (damageElement == Element.Soul)
                 {
                     damage += 1;
                     return damage;
@@ -201,6 +209,10 @@ public class Character : MonoBehaviour
                 else if (damageElement == Element.Spirit)
                 {
                     damage -= 1;
+                    return damage;
+                }
+                else if (damageElement == Element.Psionic)
+                {
                     return damage;
                 }
                 return damage;
