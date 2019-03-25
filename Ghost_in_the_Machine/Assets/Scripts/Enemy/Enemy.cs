@@ -243,7 +243,7 @@ public class Enemy : Character
 
         //Debug.Log(damage.damageAmount);
 
-        int actualDamage = ElementCompute(currentElement, damage.damageElement, damage.damageAmount)/* - blockValue - parryValue*/;
+        int actualDamage = ElementCompute(currentElement, damage.damageElement, damage.damageAmount) - blockValue - parryValue;
 
         //Debug.Log(actualDamage);
 

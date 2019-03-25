@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "IqmERJR+13yGbkLtgs1XvZdd72c", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
+"skeleton": { "hash": "wAD/MPfmkrAceuDwQS2/QnHN2Bo", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "length": 2270.3, "rotation": 90, "x": -2.53, "y": -5.27 },
@@ -2329,6 +2329,85 @@
 				"shear": [
 					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 2, "x": 0, "y": 0 }
+				]
+			}
+		}
+	},
+	"Enemy_Shield_Block": {
+		"bones": {
+			"Right_Upper_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -25.34, "curve": "stepped" },
+					{ "time": 0.1667, "angle": -25.34 }
+				]
+			},
+			"Right_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": 58.7, "curve": "stepped" },
+					{ "time": 0.1667, "angle": 58.7 }
+				]
+			},
+			"Right_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": -3.73, "curve": "stepped" },
+					{ "time": 0.1667, "angle": -3.73 }
+				]
+			},
+			"Right_Handle": {
+				"rotate": [
+					{ "time": 0, "angle": -0.47, "curve": "stepped" },
+					{ "time": 0.1667, "angle": -0.47 }
+				]
+			},
+			"Right_Shield": {
+				"rotate": [
+					{ "time": 0, "angle": -24.41, "curve": "stepped" },
+					{ "time": 0.1667, "angle": -24.41 }
+				]
+			}
+		}
+	},
+	"Enemy_Shield_Parry": {
+		"bones": {
+			"Right_Upper_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -26.94,
+						"curve": [ 0.06, 0.26, 0.485, 1 ]
+					},
+					{ "time": 0.3333, "angle": -25.34 }
+				]
+			},
+			"Right_Lower_Arm": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -54.24,
+						"curve": [ 0.06, 0.26, 0.485, 1 ]
+					},
+					{ "time": 0.3333, "angle": 58.7 }
+				]
+			},
+			"Right_Hand": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 3.05,
+						"curve": [ 0.06, 0.26, 0.485, 1 ]
+					},
+					{ "time": 0.3333, "angle": -3.73 }
+				]
+			},
+			"Right_Handle": {
+				"rotate": [
+					{ "time": 0, "angle": -0.47 }
+				]
+			},
+			"Right_Shield": {
+				"rotate": [
+					{ "time": 0, "angle": 1.46 },
+					{ "time": 0.3333, "angle": -24.41 }
 				]
 			}
 		}
