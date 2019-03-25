@@ -1,0 +1,160 @@
+
+Character Metroidvania 2 export.png
+size: 2545,2545
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Chest
+  rotate: false
+  xy: 1979, 1464
+  size: 480, 254
+  orig: 480, 254
+  offset: 0, 0
+  index: -1
+Chest_Light
+  rotate: false
+  xy: 1124, 94
+  size: 114, 107
+  orig: 114, 107
+  offset: 0, 0
+  index: -1
+Collar_Back
+  rotate: true
+  xy: 1409, 391
+  size: 458, 480
+  orig: 458, 480
+  offset: 0, 0
+  index: -1
+Collar_Front
+  rotate: false
+  xy: 1325, 45
+  size: 355, 344
+  orig: 355, 344
+  offset: 0, 0
+  index: -1
+Crotch
+  rotate: true
+  xy: 2201, 1054
+  size: 408, 280
+  orig: 408, 280
+  offset: 0, 0
+  index: -1
+Head
+  rotate: false
+  xy: 1346, 851
+  size: 542, 635
+  orig: 542, 635
+  offset: 0, 0
+  index: -1
+Left_Hand
+  rotate: false
+  xy: 1124, 203
+  size: 199, 217
+  orig: 199, 217
+  offset: 0, 0
+  index: -1
+Left_Handle
+  rotate: false
+  xy: 1314, 1488
+  size: 663, 684
+  orig: 663, 684
+  offset: 0, 0
+  index: -1
+Right_Handle
+  rotate: false
+  xy: 1314, 1488
+  size: 663, 684
+  orig: 663, 684
+  offset: 0, 0
+  index: -1
+Left_Lower_Arm
+  rotate: true
+  xy: 1860, 2247
+  size: 296, 655
+  orig: 296, 655
+  offset: 0, 0
+  index: -1
+Left_Lower_Leg
+  rotate: false
+  xy: 474, 1457
+  size: 838, 715
+  orig: 838, 715
+  offset: 0, 0
+  index: -1
+Left_Shoulder
+  rotate: true
+  xy: 1890, 865
+  size: 597, 309
+  orig: 597, 309
+  offset: 0, 0
+  index: -1
+Left_Sword
+  rotate: false
+  xy: 2, 2174
+  size: 1856, 369
+  orig: 1856, 369
+  offset: 0, 0
+  index: -1
+Left_Thigh
+  rotate: true
+  xy: 567, 422
+  size: 405, 840
+  orig: 405, 840
+  offset: 0, 0
+  index: -1
+Right_Hand
+  rotate: false
+  xy: 2201, 894
+  size: 168, 158
+  orig: 168, 158
+  offset: 0, 0
+  index: -1
+Right_Lower_Arm
+  rotate: false
+  xy: 1891, 2
+  size: 430, 412
+  orig: 430, 412
+  offset: 0, 0
+  index: -1
+Right_Lower_Leg
+  rotate: true
+  xy: 474, 829
+  size: 626, 870
+  orig: 626, 870
+  offset: 0, 0
+  index: -1
+Right_Shield
+  rotate: false
+  xy: 2, 770
+  size: 470, 1402
+  orig: 470, 1402
+  offset: 0, 0
+  index: -1
+Right_Shield_Extension
+  rotate: false
+  xy: 1979, 1720
+  size: 531, 525
+  orig: 531, 525
+  offset: 0, 0
+  index: -1
+Right_Shoulder
+  rotate: false
+  xy: 1891, 416
+  size: 363, 447
+  orig: 363, 447
+  offset: 0, 0
+  index: -1
+Right_Thigh
+  rotate: true
+  xy: 2, 15
+  size: 753, 563
+  orig: 753, 563
+  offset: 0, 0
+  index: -1
+Waist
+  rotate: false
+  xy: 567, 62
+  size: 555, 358
+  orig: 555, 358
+  offset: 0, 0
+  index: -1

@@ -334,6 +334,30 @@ public class Enemy : Character
         _anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
     }
 
+    protected override void UpdateDirection()
+    {
+        if (faceDirection > 0)
+        {
+            transform.localScale = new Vector3(origScale.x, origScale.y, origScale.z);
+        }
+        else if (faceDirection < 0)
+        {
+            transform.localScale = new Vector3(-origScale.x, origScale.y, origScale.z);
+        }
+
+        if (!_isDashing && !isChasing)
+        {
+            if (moveDirection == 1)
+            {
+                faceDirection = 1;
+            }
+            else if (moveDirection == -1)
+            {
+                faceDirection = -1;
+            }
+        }
+    }
+
     public virtual void FacePlayer()
     {
         playerDirection = player.transform.position - transform.position;
@@ -368,7 +392,7 @@ public class Enemy : Character
         {
             if (!isChasing)
             {
-                faceDirection = -1;
+                moveDirection = -1;
             }
             else
             {
@@ -386,7 +410,7 @@ public class Enemy : Character
         {
             if (!isChasing)
             {
-                faceDirection = 1;
+                moveDirection = 1;
             }
             else
             {
@@ -406,7 +430,7 @@ public class Enemy : Character
         {
             if (!isChasing)
             {
-                faceDirection = -1;
+                moveDirection = -1;
             }
             else if(isChasing)
             {
@@ -443,7 +467,7 @@ public class Enemy : Character
         {
             if (!isChasing)
             {
-                faceDirection = 1;
+                moveDirection = 1;
             }
             else if(isChasing)
             {
@@ -678,7 +702,7 @@ public class Enemy : Character
         {
             case EnemyChaseState.NotChasing:
 
-                movementSpeed = origMoveSpeed;
+                //movementSpeed = origMoveSpeed;
                 _anim.SetBool("Slowed", false);
 
                 if (currentEnemyControlState == EnemyControlState.Chasing)
