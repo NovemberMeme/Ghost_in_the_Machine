@@ -20,7 +20,8 @@ public class EnemyWeapon : MonoBehaviour
                 damageAmount = enemyScript.damageValue,
                 attackDirectionState = enemyScript.currentAttackDirectionState,
                 layer = LayerMask.LayerToName(gameObject.layer),
-                stunningDuration = 0
+                stunningDuration = enemyScript.stunDuration,
+                damageElement = Element.Soul
             };
 
             coll.gameObject.GetComponent<Player>().Damage(dmg);

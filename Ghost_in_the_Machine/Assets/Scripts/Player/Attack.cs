@@ -23,7 +23,8 @@ public class Attack : MonoBehaviour
                 damageAmount = playerScript.damageValue,
                 attackDirectionState = playerScript.playerAttackDirectionState,
                 layer = LayerMask.LayerToName(gameObject.layer),
-                stunningDuration = 0
+                stunningDuration = playerScript.stunDuration,
+                damageElement = Element.Soul
             };
 
             coll.gameObject.GetComponent<Character>().Damage(dmg);

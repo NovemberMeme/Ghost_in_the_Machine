@@ -39,6 +39,11 @@ public class Character : MonoBehaviour
     public float attackCooldown = 0.5f;
     public float attackHitBoxCooldown = 0.5f;
 
+    [Header("Stun stats: ")]
+    public float stunDuration = 0;
+    public float swordStunDuration = 2.0f;
+    public float shieldStunDuration = 0.6f;
+
     [Header("Invulnerability stats: ")]
     public bool canBeDamaged = true;
     public float canBeHitCooldown = 0.17f;
@@ -319,25 +324,6 @@ public class Character : MonoBehaviour
         StartCoroutine(TimeLapsing());
     }
 
-    public virtual IEnumerator TimeLapsing()
-    {
-        transform.position = ghost.GetComponent<TimeLapse_Position>().timeLapsePosition;
-        health = ghost.GetComponent<TimeLapse_Position>().timeLapsePlayerHealth;
-        UIManager.Instance.UpdateLives((int)health);
-
-        _mesh.enabled = false;
-        _collider.enabled = false;
-        _rigid.bodyType = RigidbodyType2D.Static;
-        isTimeLapsing = true;
-
-        yield return new WaitForSeconds(timeLapseDuration);
-
-        _mesh.enabled = true;
-        _collider.enabled = true;
-        _rigid.bodyType = RigidbodyType2D.Dynamic;
-        isTimeLapsing = false;
-    }
-
     protected virtual IEnumerator Attacking()
     {
         canAttack = false;
@@ -357,6 +343,13 @@ public class Character : MonoBehaviour
     {
         yield return new WaitForSeconds(canBeDamagedCooldown);
         canBeDamaged = true;
+    }
+
+    public virtual IEnumerator Stunned(float dmgStunDuration)
+    {
+        _anim.SetBool("Stunned", true);
+        yield return new WaitForSeconds(dmgStunDuration);
+        _anim.SetBool("Stunned", false);
     }
 
     public virtual IEnumerator Jumping()
@@ -447,6 +440,25 @@ public class Character : MonoBehaviour
         canPhase = false;
         yield return new WaitForSeconds(phaseCooldown);
         canPhase = true;
+    }
+
+    public virtual IEnumerator TimeLapsing()
+    {
+        transform.position = ghost.GetComponent<TimeLapse_Position>().timeLapsePosition;
+        health = ghost.GetComponent<TimeLapse_Position>().timeLapsePlayerHealth;
+        UIManager.Instance.UpdateLives((int)health);
+
+        _mesh.enabled = false;
+        _collider.enabled = false;
+        _rigid.bodyType = RigidbodyType2D.Static;
+        isTimeLapsing = true;
+
+        yield return new WaitForSeconds(timeLapseDuration);
+
+        _mesh.enabled = true;
+        _collider.enabled = true;
+        _rigid.bodyType = RigidbodyType2D.Dynamic;
+        isTimeLapsing = false;
     }
 
     public virtual void ShootProjectile(int value)

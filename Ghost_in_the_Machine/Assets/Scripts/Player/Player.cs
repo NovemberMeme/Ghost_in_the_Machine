@@ -42,7 +42,8 @@ public class Player : Character
         Healing,
         NeutralChargeStarting,
         NeutralCharging,
-        NeutralAttacking
+        NeutralAttacking,
+        Stunned
     }
 
     public enum PlayerDirectionState
@@ -90,6 +91,10 @@ public class Player : Character
     [SerializeField] private float healCooldown = 1;
     [SerializeField] private bool healSet = false;
     [SerializeField] private float healManaCost = 4;
+
+    [Header("Power Attack stats: ")]
+    [SerializeField] private float swordPowerAttackManaCost = 6;
+    [SerializeField] private float shieldPowerAttackManaCost = 6;
 
     [Header("Mana stats: ")]
     public float maxMana = 12;
@@ -308,6 +313,11 @@ public class Player : Character
             canBeDamaged = false;
             StartCoroutine(ResetCanBeHit());
         }
+
+        if(damage.stunningDuration > 0)
+        {
+            StartCoroutine(Stunned(damage.stunningDuration));
+        }
     }
 
     public virtual void DetermineMovement()
@@ -424,6 +434,9 @@ public class Player : Character
                     _rigid.velocity = new Vector3(0, _rigid.velocity.y);
                     break;
                 case PlayerMobilityState.Healing:
+                    _rigid.velocity = new Vector3(0, _rigid.velocity.y);
+                    break;
+                case PlayerMobilityState.Stunned:
                     _rigid.velocity = new Vector3(0, _rigid.velocity.y);
                     break;
                 default:
@@ -635,6 +648,11 @@ public class Player : Character
                     }
                 }
                 break;
+            case PlayerMobilityState.Stunned:
+                currentLeftWeaponState = LeftWeaponState.Idling;
+                currentRightWeaponState = RightWeaponState.Idling;
+                currentPlayerDirectionState = PlayerDirectionState.Forward;
+                break;
         }
 
         switch (currentLeftWeaponState)
@@ -744,6 +762,9 @@ public class Player : Character
 
     public void ChangeState()
     {
+        if (_anim.GetBool("Stunned"))
+            return;
+
         switch (currentLeftWeaponState)
         {
             case LeftWeaponState.Idling:
@@ -771,7 +792,12 @@ public class Player : Character
                 }
                 else if(Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
                 {
-                    _anim.SetTrigger("Left_PowerAttack");
+                    if(currentMana >= swordPowerAttackManaCost)
+                    {
+                        _anim.SetTrigger("Left_PowerAttack");
+                        currentMana -= swordPowerAttackManaCost;
+                        UIManager.Instance.UpdateMana(currentMana);
+                    }
                 }
                 break;
             case LeftWeaponState.Attacking1:
@@ -790,6 +816,9 @@ public class Player : Character
                 break;
             case LeftWeaponState.Attacking4:
                 _anim.ResetTrigger("Left_Attack3");
+                break;
+            case LeftWeaponState.PowerAttacking:
+                stunDuration = swordStunDuration;
                 break;
         }
 
@@ -817,10 +846,18 @@ public class Player : Character
                 }
                 else if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
                 {
-                    _anim.SetTrigger("Right_PowerAttack");
+                    if(currentMana >= shieldPowerAttackManaCost)
+                    {
+                        _anim.SetTrigger("Right_PowerAttack");
+                        currentMana -= shieldPowerAttackManaCost;
+                        UIManager.Instance.UpdateMana(currentMana);
+                    }
                 }
                 break;
             case RightWeaponState.Attacking1:
+                break;
+            case RightWeaponState.PowerAttacking:
+                stunDuration = shieldStunDuration;
                 break;
         }
 
@@ -901,6 +938,16 @@ public class Player : Character
         {
             _anim.SetBool("Still", false);
             _anim.SetBool("Slowed", false);
+        }
+
+        if(currentLeftWeaponState != LeftWeaponState.PowerAttacking && currentRightWeaponState != RightWeaponState.PowerAttacking)
+        {
+            stunDuration = 0;
+        }
+
+        if(currentMobilityState != PlayerMobilityState.Stunned && !_anim.GetBool("Slowed"))
+        {
+            movementSpeed = origMoveSpeed;
         }
     }
 

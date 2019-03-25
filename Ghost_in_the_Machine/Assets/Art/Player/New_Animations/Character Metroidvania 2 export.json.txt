@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "otSEifI+QwJEdlwiYXyvCcb4hQU", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
+"skeleton": { "hash": "LaxqfybSQ6mdStbfVkFSw6u/RuA", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "length": 2270.3, "rotation": 90, "x": -2.53, "y": -5.27 },
@@ -9764,6 +9764,163 @@
 					{ "time": 0.4667, "angle": -110.26 },
 					{ "time": 0.5667, "angle": -92.56 },
 					{ "time": 0.6667, "angle": -15 }
+				]
+			}
+		}
+	},
+	"Nov_Stunned": {
+		"bones": {
+			"Left_Leg": {
+				"rotate": [
+					{ "time": 0, "angle": -2.91, "curve": "stepped" },
+					{ "time": 3, "angle": -2.91 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 3, "x": 0, "y": 0 }
+				]
+			},
+			"Right_Leg": {
+				"rotate": [
+					{ "time": 0, "angle": 0.6, "curve": "stepped" },
+					{ "time": 3, "angle": 0.6 }
+				],
+				"translate": [
+					{ "time": 0, "x": -13.02, "y": 0, "curve": "stepped" },
+					{ "time": 3, "x": -13.02, "y": 0 }
+				]
+			},
+			"Left_Foot": {
+				"rotate": [
+					{ "time": 0, "angle": -1.06, "curve": "stepped" },
+					{ "time": 3, "angle": -1.06 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0.6, "y": -4.3, "curve": "stepped" },
+					{ "time": 3, "x": 0.6, "y": -4.3 }
+				]
+			},
+			"Right_Foot": {
+				"rotate": [
+					{ "time": 0, "angle": -0.16, "curve": "stepped" },
+					{ "time": 3, "angle": -0.16 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 3, "x": 0, "y": 0 }
+				]
+			},
+			"Right_Upper_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -52.05 },
+					{
+						"time": 0.4,
+						"angle": -30.72,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1.9, "angle": -110.71 },
+					{ "time": 3, "angle": -52.05 }
+				]
+			},
+			"Right_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -40.86 },
+					{ "time": 0.8, "angle": -7.93 },
+					{ "time": 2.3, "angle": -69.68 },
+					{ "time": 3, "angle": -40.86 }
+				]
+			},
+			"Right_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": 3.05, "curve": "stepped" },
+					{ "time": 3, "angle": 3.05 }
+				]
+			},
+			"Left_Upper_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -18.32 },
+					{
+						"time": 0.4,
+						"angle": -2.09,
+						"curve": [ 0.429, 0, 0.579, 1 ]
+					},
+					{ "time": 1.9, "angle": -62.93 },
+					{ "time": 3, "angle": -18.32 }
+				],
+				"translate": [
+					{ "time": 0, "x": -2.93, "y": 3.1, "curve": "stepped" },
+					{ "time": 0.4, "x": -2.93, "y": 3.1, "curve": "stepped" },
+					{ "time": 3, "x": -2.93, "y": 3.1 }
+				]
+			},
+			"Left_Lower_Arm": {
+				"rotate": [
+					{ "time": 0, "angle": -13.43 },
+					{ "time": 0.8, "angle": 8.36 },
+					{ "time": 2.3, "angle": -32.5 },
+					{ "time": 3, "angle": -13.43 }
+				]
+			},
+			"Left_Hand": {
+				"rotate": [
+					{ "time": 0, "angle": -15.58, "curve": "stepped" },
+					{ "time": 3, "angle": -15.58 }
+				]
+			},
+			"Right_Handle": {
+				"rotate": [
+					{ "time": 0, "angle": -0.47, "curve": "stepped" },
+					{ "time": 3, "angle": -0.47 }
+				]
+			},
+			"Crotch": {
+				"rotate": [
+					{ "time": 0, "angle": 75.7 },
+					{ "time": 1.5, "angle": -17.67 },
+					{ "time": 3, "angle": 75.7 }
+				],
+				"translate": [
+					{ "time": 0, "x": -8.25, "y": 0, "curve": "stepped" },
+					{ "time": 3, "x": -8.25, "y": 0 }
+				]
+			},
+			"Chest": {
+				"rotate": [
+					{ "time": 0, "angle": -5.23 },
+					{
+						"time": 0.5,
+						"angle": -0.12,
+						"curve": [ 0.438, 0, 0.588, 1 ]
+					},
+					{ "time": 2, "angle": -15.43 },
+					{ "time": 3, "angle": -5.23 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "time": 0, "angle": 0.39 },
+					{ "time": 0.2667, "angle": 40.09 },
+					{ "time": 1, "angle": 24.6 },
+					{ "time": 1.5, "angle": 12.49 },
+					{ "time": 1.7667, "angle": -41.65 },
+					{ "time": 2.5, "angle": -11.72 },
+					{ "time": 3, "angle": 0.39 }
+				]
+			},
+			"Left_Sword": {
+				"rotate": [
+					{ "time": 0, "angle": -46.73 },
+					{ "time": 1, "angle": 0.37 },
+					{ "time": 2.5, "angle": -70.28 },
+					{ "time": 3, "angle": -46.73 }
+				]
+			},
+			"Right_Shield": {
+				"rotate": [
+					{ "time": 0, "angle": 1.01 },
+					{ "time": 1, "angle": 43.91 },
+					{ "time": 2.5, "angle": -20.44 },
+					{ "time": 3, "angle": 1.01 }
 				]
 			}
 		}

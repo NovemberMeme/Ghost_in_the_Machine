@@ -20,7 +20,8 @@ public class Enemy : Character
         JumpFalling,
         JumpLanding,
         Dashing,
-        Phasing
+        Phasing,
+        Stunned
     }
 
     public enum EnemyChaseState
@@ -276,6 +277,11 @@ public class Enemy : Character
         {
             _anim.SetTrigger("Hit");
             StartCoroutine(ResetCanBeHit());
+        }
+
+        if (damage.stunningDuration > 0)
+        {
+            StartCoroutine(Stunned(damage.stunningDuration));
         }
     }
 
@@ -604,6 +610,9 @@ public class Enemy : Character
 
     public virtual void ImplementControlState()
     {
+        if (_anim.GetBool("Stunned"))
+            return;
+
         switch (currentEnemyControlState)
         {
             case EnemyControlState.Idling:
@@ -682,14 +691,23 @@ public class Enemy : Character
         switch (currentEnemyMobilityState)
         {
             case EnemyMobilityState.Standing:
+                movementSpeed = 0;
                 break;
             case EnemyMobilityState.Walking:
+                movementSpeed = origMoveSpeed * slowMultiplier;
                 break;
             case EnemyMobilityState.Running:
+                movementSpeed = origMoveSpeed;
                 break;
             case EnemyMobilityState.Dashing:
-                movementSpeed = moveDirection * dashMultiplier;
+                movementSpeed = origMoveSpeed * dashMultiplier * moveDirection;
                 _anim.SetBool("Dashing", true);
+                break;
+            case EnemyMobilityState.Stunned:
+                currentEnemyLeftWeaponState = EnemyLeftWeaponState.Idling;
+                currentEnemyRightWeaponState = EnemyRightWeaponState.Idling;
+                currentEnemyDirectionState = EnemyDirectionState.Forward;
+                movementSpeed = 0;
                 break;
         }
     }
@@ -698,6 +716,9 @@ public class Enemy : Character
 
     public virtual void ImplementChaseState()
     {
+        if (_anim.GetBool("Stunned"))
+            return;
+
         switch (currentEnemyChaseState)
         {
             case EnemyChaseState.NotChasing:
@@ -849,6 +870,11 @@ public class Enemy : Character
             chasingBackwardTimer = 0;
             movingTowardsPlayer = true;
         }
+
+        if(currentEnemyLeftWeaponState != EnemyLeftWeaponState.PowerAttacking1 && currentEnemyRightWeaponState != EnemyRightWeaponState.PowerAttacking1)
+        {
+            stunDuration = 0;
+        }
     }
 
     // Enemy Left Weapon State
@@ -906,6 +932,7 @@ public class Enemy : Character
                 leftParryValue = 0;
                 leftBlockValue = 0;
                 leftDamageValue = 1;
+                stunDuration = swordStunDuration;
                 break;
         }
     }
@@ -943,21 +970,25 @@ public class Enemy : Character
                 rightParryValue = 0;
                 rightBlockValue = 0;
                 rightDamageValue = 1;
+                stunDuration = shieldStunDuration;
                 break;
             case EnemyRightWeaponState.Attacking2:
                 rightParryValue = 0;
                 rightBlockValue = 0;
                 rightDamageValue = 1;
+                stunDuration = shieldStunDuration;
                 break;
             case EnemyRightWeaponState.Attacking3:
                 rightParryValue = 0;
                 rightBlockValue = 0;
                 rightDamageValue = 1;
+                stunDuration = shieldStunDuration;
                 break;
             case EnemyRightWeaponState.PowerAttacking1:
                 rightParryValue = 0;
                 rightBlockValue = 0;
                 rightDamageValue = 1;
+                stunDuration = shieldStunDuration;
                 break;
         }
 
