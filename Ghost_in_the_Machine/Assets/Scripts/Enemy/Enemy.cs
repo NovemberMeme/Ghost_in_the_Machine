@@ -237,14 +237,14 @@ public class Enemy : Character
         Move();
     }
 
-    public override void Damage(Damage damage)
+    public override void TakeDamamge(Damage dmg)
     {
-        if (isDead || !canBeDamaged || damage.layer != "Sword")
+        if (isDead || !canBeDamaged || dmg.layer != "Sword")
             return;
 
         //Debug.Log(damage.damageAmount);
 
-        int actualDamage = ElementCompute(currentElement, damage.damageElement, damage.damageAmount) - blockValue - parryValue;
+        int actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount) - blockValue - parryValue;
 
         //Debug.Log(actualDamage);
 
@@ -279,9 +279,9 @@ public class Enemy : Character
             StartCoroutine(ResetCanBeHit());
         }
 
-        if (damage.stunningDuration > 0)
+        if (dmg.stunningDuration > 0)
         {
-            StartCoroutine(Stunned(damage.stunningDuration));
+            StartCoroutine(Stunned(dmg.stunningDuration));
         }
     }
 

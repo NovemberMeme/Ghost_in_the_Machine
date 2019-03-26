@@ -157,7 +157,7 @@ public class Character : MonoBehaviour
 
     }
 
-    public virtual void Damage(Damage damage)
+    public virtual void TakeDamamge(Damage dmg)
     {
         FlashRed();
     }

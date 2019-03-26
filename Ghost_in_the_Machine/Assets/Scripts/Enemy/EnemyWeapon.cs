@@ -24,7 +24,7 @@ public class EnemyWeapon : MonoBehaviour
                 damageElement = Element.Soul
             };
 
-            coll.gameObject.GetComponent<Player>().Damage(dmg);
+            coll.gameObject.GetComponent<Player>().TakeDamamge(dmg);
         }
     }
 }

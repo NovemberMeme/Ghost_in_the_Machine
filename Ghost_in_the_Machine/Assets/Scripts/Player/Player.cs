@@ -218,77 +218,77 @@ public class Player : Character
         Move();
     }
 
-    public override void Damage(Damage damage)
+    public override void TakeDamamge(Damage dmg)
     {
-        if (isDead || !canBeDamaged || damage.layer != "EnemyAttack")
+        if (isDead || !canBeDamaged || dmg.layer != "EnemyAttack")
             return;
 
         int actualDamage = 0;
 
         if (currentLeftWeaponState == LeftWeaponState.Parrying || currentRightWeaponState == RightWeaponState.Parrying)
         {
-            if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
+            if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
             {
-                actualDamage = damage.damageAmount - parryValue;
+                actualDamage = dmg.damageAmount - parryValue;
             }
-            else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+            else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
             {
-                actualDamage = damage.damageAmount - parryValue;
+                actualDamage = dmg.damageAmount - parryValue;
             }
-            else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+            else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
             {
-                actualDamage = damage.damageAmount - parryValue;
+                actualDamage = dmg.damageAmount - parryValue;
             }
             else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
             {
-                if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
+                if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
                 {
-                    actualDamage = damage.damageAmount - blockValue;
+                    actualDamage = dmg.damageAmount - blockValue;
                     _anim.SetTrigger("Hit");
                 }
-                else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+                else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
                 {
-                    actualDamage = damage.damageAmount - blockValue;
+                    actualDamage = dmg.damageAmount - blockValue;
                     _anim.SetTrigger("Hit");
                 }
-                else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+                else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
                 {
-                    actualDamage = damage.damageAmount - blockValue;
+                    actualDamage = dmg.damageAmount - blockValue;
                     _anim.SetTrigger("Hit");
                 }
                 else
                 {
-                    actualDamage = damage.damageAmount;
+                    actualDamage = dmg.damageAmount;
                     _anim.SetTrigger("Damaged");
                 }
             }
         }
         else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
         {
-            if (damage.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
+            if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
             {
-                actualDamage = damage.damageAmount - blockValue;
+                actualDamage = dmg.damageAmount - blockValue;
                 _anim.SetTrigger("Hit");
             }
-            else if (damage.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
+            else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
             {
-                actualDamage = damage.damageAmount - blockValue;
+                actualDamage = dmg.damageAmount - blockValue;
                 _anim.SetTrigger("Hit");
             }
-            else if (damage.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+            else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
             {
-                actualDamage = damage.damageAmount - blockValue;
+                actualDamage = dmg.damageAmount - blockValue;
                 _anim.SetTrigger("Hit");
             }
             else
             {
-                actualDamage = damage.damageAmount;
+                actualDamage = dmg.damageAmount;
                 _anim.SetTrigger("Damaged");
             }
         }
         else
         {
-            actualDamage = damage.damageAmount;
+            actualDamage = dmg.damageAmount;
             _anim.SetTrigger("Damaged");
         }
 
@@ -314,9 +314,9 @@ public class Player : Character
             StartCoroutine(ResetCanBeHit());
         }
 
-        if(damage.stunningDuration > 0)
+        if(dmg.stunningDuration > 0)
         {
-            StartCoroutine(Stunned(damage.stunningDuration));
+            StartCoroutine(Stunned(dmg.stunningDuration));
         }
     }
 
