@@ -88,7 +88,7 @@ public class Character : MonoBehaviour
     public float dashMultiplier = 3.5f;
     public float dashDuration = 0.4f;
     public float dashCooldown = 1.0f;
-    public bool _isDashing = false;
+    public bool isDashing = false;
     public bool canDash = true;
     public bool canAirDash = true;
 
@@ -409,13 +409,13 @@ public class Character : MonoBehaviour
     {
         _anim.SetBool("Dashing", true);
         movementSpeed = origMoveSpeed;
-        _isDashing = true;
+        isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 
         _anim.SetBool("Dashing", false);
-        _isDashing = false;
+        isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
 
@@ -426,13 +426,13 @@ public class Character : MonoBehaviour
     {
         _anim.SetBool("BackDashing", true);
         movementSpeed = origMoveSpeed;
-        _isDashing = true;
+        isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 
         _anim.SetBool("BackDashing", false);
-        _isDashing = false;
+        isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
 
@@ -442,13 +442,13 @@ public class Character : MonoBehaviour
     protected virtual IEnumerator JumpDashing()
     {
         _anim.SetBool("Dashing", true);
-        _isDashing = true;
+        isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 
         _anim.SetBool("Dashing", false);
-        _isDashing = false;
+        isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
 
@@ -458,13 +458,13 @@ public class Character : MonoBehaviour
     protected virtual IEnumerator BackJumpDashing()
     {
         _anim.SetBool("BackDashing", true);
-        _isDashing = true;
+        isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 
         _anim.SetBool("BackDashing", false);
-        _isDashing = false;
+        isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
 

@@ -420,30 +420,45 @@ public class Player : Character
 
         if(!isStopped && !isDead)
         {
-            switch (currentMobilityState)
+            if (!isDashing)
             {
-                case PlayerMobilityState.Walking:
-                    _rigid.velocity = new Vector3(move * movementSpeed * slowMultiplier * Time.deltaTime, _rigid.velocity.y);
-                    break;
-                case PlayerMobilityState.Dashing:
-                    _rigid.velocity = new Vector3(faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
-                    break;
-                case PlayerMobilityState.BackDashing:
-                    _rigid.velocity = new Vector3(-faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
-                    break;
-                case PlayerMobilityState.HealStarting:
-                    _rigid.velocity = new Vector3(0, _rigid.velocity.y);
-                    break;
-                case PlayerMobilityState.Healing:
-                    _rigid.velocity = new Vector3(0, _rigid.velocity.y);
-                    break;
-                case PlayerMobilityState.Stunned:
-                    _rigid.velocity = new Vector3(0, _rigid.velocity.y);
-                    break;
-                default:
-                    _rigid.velocity = new Vector3(move * movementSpeed * Time.deltaTime, _rigid.velocity.y);
-                    break;
+                _rigid.velocity = new Vector2(movementSpeed * Time.deltaTime, _rigid.velocity.y);
             }
+            else
+            {
+                _rigid.velocity = new Vector2(movementSpeed * Time.deltaTime, 0);
+            }
+            
+
+            // Mobility State Implementation
+
+            //switch (currentMobilityState)
+            //{
+            //    case PlayerMobilityState.Standing:
+            //        _rigid.velocity = new Vector3(0, _rigid.velocity.y);
+            //        break;
+            //    case PlayerMobilityState.Walking:
+            //        _rigid.velocity = new Vector3(move * movementSpeed * slowMultiplier * Time.deltaTime, _rigid.velocity.y);
+            //        break;
+            //    case PlayerMobilityState.Dashing:
+            //        _rigid.velocity = new Vector3(faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
+            //        break;
+            //    case PlayerMobilityState.BackDashing:
+            //        _rigid.velocity = new Vector3(-faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
+            //        break;
+            //    case PlayerMobilityState.HealStarting:
+            //        _rigid.velocity = new Vector3(0, _rigid.velocity.y);
+            //        break;
+            //    case PlayerMobilityState.Healing:
+            //        _rigid.velocity = new Vector3(0, _rigid.velocity.y);
+            //        break;
+            //    case PlayerMobilityState.Stunned:
+            //        _rigid.velocity = new Vector3(0, _rigid.velocity.y);
+            //        break;
+            //    default:
+            //        _rigid.velocity = new Vector3(move * movementSpeed * Time.deltaTime, _rigid.velocity.y);
+            //        break;
+            //}
         }
         else if(isStopped || isDead)
         {
@@ -471,7 +486,7 @@ public class Player : Character
             moveDirection = -1;
         }
 
-        if (!isStrafing && !_isDashing)
+        if (!isStrafing && !isDashing)
         {
             if (moveDirection == 1)
             {
@@ -525,7 +540,7 @@ public class Player : Character
         //_collider.offset = new Vector2(0, colliderOffsetY);
 
         _anim.SetBool("Dashing", true);
-        _isDashing = true;
+        isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
@@ -534,7 +549,7 @@ public class Player : Character
         //_collider.offset = Vector2.zero;
 
         _anim.SetBool("Dashing", false);
-        _isDashing = false;
+        isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
 
@@ -544,13 +559,13 @@ public class Player : Character
     protected override IEnumerator JumpDashing()
     {
         _anim.SetBool("Dashing", true);
-        _isDashing = true;
+        isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 
         _anim.SetBool("Dashing", false);
-        _isDashing = false;
+        isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
 
@@ -617,23 +632,36 @@ public class Player : Character
 
     public void ImplementState()
     {
+        // to be replaced
+
         switch (currentMobilityState)
         {
             case PlayerMobilityState.Standing:
-                if(currentLeftWeaponState != LeftWeaponState.Idling || currentRightWeaponState != RightWeaponState.Idling)
+                movementSpeed = 0;
+                if (currentLeftWeaponState != LeftWeaponState.Idling || currentRightWeaponState != RightWeaponState.Idling)
                 {
                     _anim.SetBool("Still", true);
                 }
                 break;
             case PlayerMobilityState.Walking:
+                movementSpeed = move * origMoveSpeed * slowMultiplier;
                 _anim.SetBool("Still", false);
                 break;
+            case PlayerMobilityState.Running:
+                movementSpeed = move * origMoveSpeed;
+                break;
             case PlayerMobilityState.Dashing:
+                movementSpeed = faceDirection * origMoveSpeed * dashMultiplier;
+                break;
+            case PlayerMobilityState.BackDashing:
+                movementSpeed = -faceDirection * origMoveSpeed * dashMultiplier;
                 break;
             case PlayerMobilityState.HealStarting:
+                movementSpeed = 0;
                 healTimer = 0;
                 break;
             case PlayerMobilityState.Healing:
+                movementSpeed = 0;
                 _anim.SetBool("HealStarting", false);
                 healTimer += Time.deltaTime;
 
@@ -650,9 +678,13 @@ public class Player : Character
                 }
                 break;
             case PlayerMobilityState.Stunned:
+                movementSpeed = 0;
                 currentLeftWeaponState = LeftWeaponState.Idling;
                 currentRightWeaponState = RightWeaponState.Idling;
                 currentPlayerDirectionState = PlayerDirectionState.Forward;
+                break;
+            default:
+                movementSpeed = move * origMoveSpeed;
                 break;
         }
 
@@ -753,11 +785,6 @@ public class Player : Character
         else
         {
             damageValue = rightDamageValue;
-        }
-
-        if(currentLeftWeaponState != LeftWeaponState.PowerAttacking && currentRightWeaponState != RightWeaponState.PowerAttacking)
-        {
-            movementSpeed = origMoveSpeed;
         }
     }
 
@@ -945,11 +972,6 @@ public class Player : Character
         {
             stunDuration = 0;
         }
-
-        if(currentMobilityState != PlayerMobilityState.Stunned && !_anim.GetBool("Slowed"))
-        {
-            movementSpeed = origMoveSpeed;
-        }
     }
 
     // ------------------------------------------------- Animation Event Functions ---------------------------------------------
@@ -957,14 +979,14 @@ public class Player : Character
     public void TurnDashOn()
     {
         _anim.SetBool("Dashing", true);
-        _isDashing = true;
+        isDashing = true;
         canDash = false;
     }
 
     public void TurnDashOff()
     {
         _anim.SetBool("Dashing", false);
-        _isDashing = false;
+        isDashing = false;
         //StartCoroutine(DashCooldown());
     }
 }

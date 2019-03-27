@@ -20,6 +20,7 @@ public class Enemy : Character
         JumpFalling,
         JumpLanding,
         Dashing,
+        BackDashing,
         Phasing,
         Stunned
     }
@@ -178,6 +179,21 @@ public class Enemy : Character
     [SerializeField] protected float exposedDuration = 2;
     [SerializeField] protected float exposureTimer = 0;
 
+    [Header("Dasher stats: ")]
+    [SerializeField] protected bool isDasher;
+    [SerializeField] protected float dashCooldownMin;
+    [SerializeField] protected float dashCooldownMax;
+    [SerializeField] protected float dashTimer;
+    [SerializeField] protected bool dashCooldownSet;
+    [SerializeField] protected int dashBackwardChance = 50;
+    [SerializeField] protected int dashBackwardChanceCurrent;
+
+    [Header("Jumper stats: ")]
+    [SerializeField] protected bool isJumper;
+    [SerializeField] protected float jumpCooldownMin;
+    [SerializeField] protected float jumpCooldownMax;
+    [SerializeField] protected float jumpTimer;
+    [SerializeField] protected bool jumpCooldownSet;
 
     // Checks if it trigger-enters a wall on either side or trigger-exits a cliff on either side
     // This is to automatically flip the enemy and prevent them from running off cliffs or hitting walls
@@ -310,26 +326,39 @@ public class Enemy : Character
 
     public override void Move()
     {
-        if(!isDead)
+        _anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
+        _anim.SetFloat("Moving", Mathf.Abs(movementSpeed/origMoveSpeed));
+
+        if (!isDead)
         {
             if(!isStopped)
             {
-
                 _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
 
-
-
-                //if(_isDashing)
+                //switch (currentEnemyMobilityState)
                 //{
-                //    _rigid.velocity = new Vector3(movementSpeed * dashMultiplier * Time.deltaTime * faceDirection, _rigid.velocity.y);
-                //}
-                //else if ((!isChasing || (isChasing && xDistance > chaseStillLength)))
-                //{
-                //    _rigid.velocity = new Vector2(faceDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
-                //}
-                //else
-                //{
-                //    _rigid.velocity = new Vector2(0, _rigid.velocity.y);
+                //    case EnemyMobilityState.Standing:
+                //        _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
+                //        break;
+                //    case EnemyMobilityState.Walking:
+                //        _rigid.velocity = new Vector2(moveDirection * movementSpeed * slowMultiplier * Time.deltaTime, _rigid.velocity.y);
+                //        break;
+                //    case EnemyMobilityState.Running:
+                //        _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
+                //        break;
+                //    case EnemyMobilityState.Dashing:
+                //        _rigid.velocity = new Vector2(faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, _rigid.velocity.y);
+                //        break;
+                //    case EnemyMobilityState.BackDashing:
+                //        _rigid.velocity = new Vector2(-faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, _rigid.velocity.y);
+                //        break;
+                //    case EnemyMobilityState.Stunned:
+                //        _rigid.velocity = new Vector2(0, _rigid.velocity.y);
+                //        movementSpeed = 0;
+                //        break;
+                //    default:
+                //        _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
+                //        break;
                 //}
             }
             else if(isStopped)
@@ -353,7 +382,7 @@ public class Enemy : Character
             transform.localScale = new Vector3(-origScale.x, origScale.y, origScale.z);
         }
 
-        if (!_isDashing && !isChasing)
+        if (!isDashing && !isChasing)
         {
             if (moveDirection == 1)
             {
@@ -535,8 +564,6 @@ public class Enemy : Character
         if (isGrounded && canJump)
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
-            _anim.SetTrigger("Jump");
-            StartCoroutine(Jumping());
         }
     }
 
@@ -546,7 +573,6 @@ public class Enemy : Character
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
             canDoubleJump = false;
-            _anim.SetTrigger("Jump");
         }
     }
 
@@ -558,6 +584,66 @@ public class Enemy : Character
         chaseTimer = 0;
         //_anim.SetBool("Attacking", true);
         //Debug.Log("Attacking!");
+    }
+
+    protected override IEnumerator Dashing()
+    {
+        _anim.SetBool("Dashing", true);
+        currentEnemyMobilityState = EnemyMobilityState.Dashing;
+        movementSpeed = faceDirection * origMoveSpeed * dashMultiplier;
+        isDashing = true;
+        canDash = false;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        _anim.SetBool("Dashing", false);
+        isDashing = false;
+        canDash = true;
+    }
+
+    protected override IEnumerator BackDashing()
+    {
+        _anim.SetBool("BackDashing", true);
+        currentEnemyMobilityState = EnemyMobilityState.BackDashing;
+        movementSpeed = -faceDirection * origMoveSpeed * dashMultiplier;
+        isDashing = true;
+        canDash = false;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        _anim.SetBool("BackDashing", false);
+        isDashing = false;
+        canDash = true;
+    }
+
+    protected override IEnumerator JumpDashing()
+    {
+        _anim.SetBool("Dashing", true);
+        currentEnemyMobilityState = EnemyMobilityState.Dashing;
+        movementSpeed = faceDirection * origMoveSpeed * dashMultiplier;
+        isDashing = true;
+        canDash = false;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        _anim.SetBool("Dashing", false);
+        isDashing = false;
+        canDash = true;
+    }
+
+    protected override IEnumerator BackJumpDashing()
+    {
+        _anim.SetBool("BackDashing", true);
+        currentEnemyMobilityState = EnemyMobilityState.BackDashing;
+        movementSpeed = -faceDirection * origMoveSpeed * dashMultiplier;
+        isDashing = true;
+        canDash = false;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        _anim.SetBool("BackDashing", false);
+        isDashing = false;
+        canDash = true;
     }
 
     //-------------------------------------------- Enum States ----------------------------------------------------------
@@ -610,7 +696,7 @@ public class Enemy : Character
             case EnemyControlState.Patrolling:
                 patrolTimer += Time.deltaTime;
 
-                movementSpeed = origMoveSpeed;
+                //movementSpeed = origMoveSpeed;
 
                 if (!patrolDurationSet)
                 {
@@ -628,7 +714,7 @@ public class Enemy : Character
                 chaseTimer += Time.deltaTime;
 
                 _anim.SetInteger("CurrentMove", 0);
-                movementSpeed = origMoveSpeed;
+                //movementSpeed = origMoveSpeed;
 
                 if (!notComboingSet)
                 {
@@ -655,6 +741,66 @@ public class Enemy : Character
                     notComboingSet = false;
                     NextRandomMove();
                 }
+
+                if (isDasher)
+                {
+                    dashTimer += Time.deltaTime;
+
+                    if (dashTimer >= dashCooldown)
+                    {
+                        if (dashBackwardChanceCurrent <= dashBackwardChance)
+                        {
+                            if (isGrounded)
+                            {
+                                StartCoroutine(Dashing());
+                            }
+                            else
+                            {
+                                StartCoroutine(JumpDashing());
+                            }
+                        }
+                        else
+                        {
+                            if (isGrounded)
+                            {
+                                StartCoroutine(BackDashing());
+                            }
+                            else
+                            {
+                                StartCoroutine(BackJumpDashing());
+                            }
+                        }
+
+                        dashCooldownSet = false;
+                        dashTimer = 0;
+                    }
+
+                    if (!dashCooldownSet)
+                    {
+                        dashBackwardChanceCurrent = Random.Range(1, 101);
+                        dashCooldown = Random.Range(dashCooldownMin, dashCooldownMax);
+
+                        dashCooldownSet = true;
+                    }
+                }
+
+                if (isJumper)
+                {
+                    jumpTimer += Time.deltaTime;
+
+                    if(jumpTimer >= jumpCooldown)
+                    {
+                        Jump();
+                        jumpCooldownSet = false;
+                        jumpTimer = 0;
+                    }
+
+                    if (!jumpCooldownSet)
+                    {
+                        jumpCooldown = Random.Range(jumpCooldownMin, jumpCooldownMax);
+                        jumpCooldownSet = true;
+                    }
+                }
                 break;
         }
     }
@@ -675,14 +821,19 @@ public class Enemy : Character
                 movementSpeed = origMoveSpeed;
                 break;
             case EnemyMobilityState.Dashing:
-                movementSpeed = origMoveSpeed * dashMultiplier * moveDirection;
-                _anim.SetBool("Dashing", true);
+                movementSpeed = origMoveSpeed * dashMultiplier * faceDirection;
+                break;
+            case EnemyMobilityState.BackDashing:
+                movementSpeed = origMoveSpeed * dashMultiplier * -faceDirection;
                 break;
             case EnemyMobilityState.Stunned:
                 currentEnemyLeftWeaponState = EnemyLeftWeaponState.Idling;
                 currentEnemyRightWeaponState = EnemyRightWeaponState.Idling;
                 currentEnemyDirectionState = EnemyDirectionState.Forward;
                 movementSpeed = 0;
+                break;
+            default:
+                movementSpeed = origMoveSpeed;
                 break;
         }
     }
@@ -708,8 +859,11 @@ public class Enemy : Character
                 break;
             case EnemyChaseState.ChasingToward:
 
-                movementSpeed = origMoveSpeed;
-                _anim.SetBool("Slowed", false);
+                if (!isDashing)
+                {
+                    movementSpeed = origMoveSpeed;
+                    _anim.SetBool("Slowed", false);
+                }
 
                 if (xDistance < chaseStillLength)
                 {
@@ -719,8 +873,11 @@ public class Enemy : Character
             case EnemyChaseState.ChasingStill:
                 chasingStillTimer += Time.deltaTime;
 
-                movementSpeed = 0;
-                _anim.SetBool("Slowed", false);
+                if (!isDashing)
+                {
+                    movementSpeed = 0;
+                    _anim.SetBool("Slowed", false);
+                }
 
                 if (xDistance > chaseBackwardLengthMax)
                 {
@@ -733,7 +890,7 @@ public class Enemy : Character
                 }
                 if (chasingStillTimer >= chasingStillDuration)
                 {
-                    int forwardOrBackward = Random.Range(1, 100);
+                    int forwardOrBackward = Random.Range(1, 101);
                     if (forwardOrBackward <= chaseForwardChance)
                     {
                         currentEnemyChaseState = EnemyChaseState.ChasingForward;
@@ -748,20 +905,22 @@ public class Enemy : Character
             case EnemyChaseState.ChasingForward:
                 chasingForwardTimer += Time.deltaTime;
 
-                _anim.SetBool("Slowed", true);
-
                 if (xDistance > chaseBackwardLengthMax)
                 {
                     currentEnemyChaseState = EnemyChaseState.ChasingToward;
                 }
 
-                if (xDistance < chaseForwardLengthMax)
+                if (!isDashing)
                 {
-                    movementSpeed = 0;
-                }
-                else
-                {
-                    movementSpeed = origMoveSpeed * slowMultiplier;
+                    if (xDistance < chaseForwardLengthMax)
+                    {
+                        movementSpeed = 0;
+                    }
+                    else
+                    {
+                        movementSpeed = origMoveSpeed * slowMultiplier;
+                        _anim.SetBool("Slowed", true);
+                    }
                 }
 
                 if (!chasingForwardDurationSet)
@@ -778,16 +937,18 @@ public class Enemy : Character
             case EnemyChaseState.ChasingBackward:
                 chasingBackwardTimer += Time.deltaTime;
 
-                _anim.SetBool("Slowed", true);
-                movementSpeed = origMoveSpeed * slowMultiplier;
-
                 if (xDistance > chaseBackwardLengthMax)
                 {
                     currentEnemyChaseState = EnemyChaseState.ChasingToward;
                 }
                 else
                 {
-                    movementSpeed = origMoveSpeed * slowMultiplier;
+                    if (!isDashing)
+                    {
+                        _anim.SetBool("Slowed", true);
+                        movementSpeed = -faceDirection * origMoveSpeed * slowMultiplier;
+                    }
+
                     movingTowardsPlayer = false;
                 }
 
@@ -809,9 +970,10 @@ public class Enemy : Character
 
     public virtual void ImplementNonStates()
     {
-        if (currentEnemyMobilityState != EnemyMobilityState.Dashing)
+        if (currentEnemyMobilityState != EnemyMobilityState.Dashing && currentEnemyMobilityState != EnemyMobilityState.BackDashing)
         {
             _anim.SetBool("Dashing", false);
+            _anim.SetBool("BackDashing", false);
         }
 
         if (currentEnemyControlState != EnemyControlState.Idling)
