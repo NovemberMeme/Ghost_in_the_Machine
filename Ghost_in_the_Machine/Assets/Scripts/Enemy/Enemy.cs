@@ -45,6 +45,7 @@ public class Enemy : Character
         ComboAttacking1,
         ComboAttacking2,
         ComboAttacking3,
+        ProjectileAttacking1,
         Casting
     }
 
@@ -127,6 +128,7 @@ public class Enemy : Character
     [SerializeField] protected float chasingStillMin = 1.0f;
     [SerializeField] protected float chasingStillMax = 2.0f;
     [SerializeField] protected bool movingTowardsPlayer = true;
+    [SerializeField] protected int chaseForwardChance = 30;
     protected float chasingStillDuration = 0;
     protected float chasingStillTimer = 0;
     protected bool chasingStillDurationSet = false;
@@ -558,33 +560,6 @@ public class Enemy : Character
         //Debug.Log("Attacking!");
     }
 
-    public virtual void Projectile_Straight()
-    {
-        Instantiate(projectilePrefab, projectilePos.position, Quaternion.identity);
-    }
-
-    public virtual void Projectile_Horizontal()
-    {
-        GameObject go = Instantiate(projectile_horizontal, projectilePos.position, Quaternion.identity);
-        go.GetComponent<Projectile_Horizontal>().shootDirection = -faceDirection;
-    }
-
-    public virtual void Projectile_Left()
-    {
-        Instantiate(projectile_Left, projectilePos.position, Quaternion.identity);
-    }
-
-    public virtual void Projectile_Right()
-    {
-        Instantiate(projectile_Right, projectilePos.position, Quaternion.identity);
-    }
-
-    public virtual void Projectile_Left_Right()
-    {
-        Instantiate(projectile_Left, projectilePos.position, Quaternion.identity);
-        Instantiate(projectile_Right, projectilePos.position, Quaternion.identity);
-    }
-
     //-------------------------------------------- Enum States ----------------------------------------------------------
 
     // Animation Event Replacement Implementation
@@ -758,8 +733,8 @@ public class Enemy : Character
                 }
                 if (chasingStillTimer >= chasingStillDuration)
                 {
-                    int forwardOrBackward = Random.Range(0, 2);
-                    if (forwardOrBackward <= 1)
+                    int forwardOrBackward = Random.Range(1, 100);
+                    if (forwardOrBackward <= chaseForwardChance)
                     {
                         currentEnemyChaseState = EnemyChaseState.ChasingForward;
                     }
@@ -928,6 +903,11 @@ public class Enemy : Character
                 leftBlockValue = 0;
                 leftDamageValue = 1;
                 break;
+            case EnemyLeftWeaponState.ProjectileAttacking1:
+                leftParryValue = 0;
+                leftBlockValue = 0;
+                leftDamageValue = 1;
+                break;
             case EnemyLeftWeaponState.PowerAttacking1:
                 leftParryValue = 0;
                 leftBlockValue = 0;
@@ -1072,9 +1052,9 @@ public class Enemy : Character
             chaseTimer = 0;
             currentEnemyControlState = EnemyControlState.Chasing;
             //notComboingSet = false;
-            _anim.SetTrigger("SetChasing");
+            //_anim.SetTrigger("SetChasing");
             //_anim.ResetTrigger("SetChasing");
-            _anim.SetTrigger("SetChasingDone");
+            //_anim.SetTrigger("SetChasingDone");
             //_anim.ResetTrigger("SetChasingDone");
             //_anim.SetBool("Attacking", false);
             //Debug.Log("SetChasing Done!");

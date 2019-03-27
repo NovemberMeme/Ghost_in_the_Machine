@@ -58,6 +58,10 @@ public class Character : MonoBehaviour
     public GameObject projectile_Right;
     public GameObject projectile_Left;
     public GameObject projectile_horizontal;
+    public float projectileDelay = 0.66f;
+    public float projectileResetDelay = 1.5f;
+    public float projectileSpeed = 8.0f;
+    public int projectileDamageValue = 1;
 
     [Header("Move stats: ")]
     [SerializeField] protected float move;
@@ -271,6 +275,8 @@ public class Character : MonoBehaviour
         faceDirection = -faceDirection;
     }
 
+    // Special Mobility Functions
+
     public virtual void Dash()
     {
         StartCoroutine(Dashing());
@@ -303,6 +309,8 @@ public class Character : MonoBehaviour
         canDoubleJump = false;
     }
 
+    // Ability Functions
+
     public virtual void ImplementPhase()
     {
         if (_isPhasing)
@@ -323,6 +331,42 @@ public class Character : MonoBehaviour
     {
         StartCoroutine(TimeLapsing());
     }
+
+    // Projectile Functions
+
+    public virtual void Projectile_Straight()
+    {
+        Instantiate(projectilePrefab, projectilePos.position, Quaternion.identity);
+    }
+
+    public virtual void Projectile_Horizontal()
+    {
+        //GameObject go = Instantiate(projectile_horizontal, projectilePos.position, Quaternion.identity);
+        //go.GetComponent<Projectile_Horizontal>().shootDirection = faceDirection;
+
+        projectile_horizontal.transform.position = projectilePos.position;
+        projectile_horizontal.GetComponent<Projectile_Horizontal>().shootDirection = faceDirection;
+        projectile_horizontal.GetComponent<Projectile_Horizontal>().projectileCurrentSpeed = projectileSpeed;
+        projectile_horizontal.SetActive(true);
+    }
+
+    public virtual void Projectile_Left()
+    {
+        Instantiate(projectile_Left, projectilePos.position, Quaternion.identity);
+    }
+
+    public virtual void Projectile_Right()
+    {
+        Instantiate(projectile_Right, projectilePos.position, Quaternion.identity);
+    }
+
+    public virtual void Projectile_Left_Right()
+    {
+        Instantiate(projectile_Left, projectilePos.position, Quaternion.identity);
+        Instantiate(projectile_Right, projectilePos.position, Quaternion.identity);
+    }
+
+    // IEnumerators
 
     protected virtual IEnumerator Attacking()
     {

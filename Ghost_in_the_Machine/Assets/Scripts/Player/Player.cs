@@ -43,7 +43,8 @@ public class Player : Character
         NeutralChargeStarting,
         NeutralCharging,
         NeutralAttacking,
-        Stunned
+        Stunned,
+        Damaged
     }
 
     public enum PlayerDirectionState

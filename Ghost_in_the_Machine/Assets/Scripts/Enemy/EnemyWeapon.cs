@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class EnemyWeapon : MonoBehaviour
 {
-    private Enemy enemyScript;
+    [SerializeField] protected Enemy enemyScript;
 
-    void Start()
+    protected virtual void Start()
     {
         enemyScript = transform.parent.GetComponent<Enemy>();
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    protected virtual void Update()
+    {
+
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.name == "Player")
         {
