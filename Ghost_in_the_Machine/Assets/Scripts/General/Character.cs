@@ -38,6 +38,7 @@ public class Character : MonoBehaviour
     public bool canAttack = true;
     public float attackCooldown = 0.5f;
     public float attackHitBoxCooldown = 0.5f;
+    public int actualDamage = 0;
 
     [Header("Stun stats: ")]
     public float stunDuration = 0;
@@ -161,9 +162,27 @@ public class Character : MonoBehaviour
 
     }
 
-    public virtual void TakeDamamge(Damage dmg)
+    public virtual void GetHit(Damage dmg)
     {
         FlashRed();
+    }
+
+    public virtual void TakeDamage(Damage dmg)
+    {
+
+    }
+
+    public virtual void Parry(int damageAmount)
+    {
+        actualDamage = damageAmount - parryValue;
+        SoundManager.PlaySound("Parry", gameObject.name);
+    }
+
+    public virtual void Block(int damageAmount)
+    {
+        actualDamage = damageAmount - blockValue;
+        SoundManager.PlaySound("BlockHit", gameObject.name);
+        _anim.SetTrigger("Hit");
     }
 
     public virtual void Move()

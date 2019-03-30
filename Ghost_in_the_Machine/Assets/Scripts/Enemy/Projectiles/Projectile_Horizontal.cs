@@ -59,7 +59,7 @@ public class Projectile_Horizontal : EnemyWeapon
 
             Debug.Log(dmg.damageAmount);
 
-            coll.gameObject.GetComponent<Player>().TakeDamamge(dmg);
+            coll.gameObject.GetComponent<Player>().GetHit(dmg);
 
             ResetProjectile();
         }

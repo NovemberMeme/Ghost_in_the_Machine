@@ -27,7 +27,7 @@ public class Attack : MonoBehaviour
                 damageElement = Element.Soul
             };
 
-            coll.gameObject.GetComponent<Character>().TakeDamamge(dmg);
+            coll.gameObject.GetComponent<Character>().GetHit(dmg);
 
             if(playerScript.currentMana < playerScript.maxMana)
             {

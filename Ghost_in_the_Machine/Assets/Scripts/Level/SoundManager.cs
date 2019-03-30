@@ -4,47 +4,90 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static AudioClip Hit, swordSlash, Jump, Dash, Phase, Death;
-    static AudioSource audioSrc;
+    public static AudioClip 
+        SwordSwing, 
+        BlockHit, 
+        Parry, 
+        Damaged1, 
+        Damaged2, 
+        Damaged3, 
+        DamagedBoneBreak, 
+        Landing, 
+        Footstep, 
+        PhaseShift, 
+        TimeLapse,
+        ChurchOfScience,
+        BossBattle;
 
+    static AudioSource swordSwingAudioSource;
 
     // Use this for initialization
     void Start()
     {
+        SwordSwing = Resources.Load<AudioClip>("SwordSwing");
+        BlockHit = Resources.Load<AudioClip>("BlockHit");
+        Parry = Resources.Load<AudioClip>("Parry");
+        Damaged1 = Resources.Load<AudioClip>("Damaged1");
+        Damaged2 = Resources.Load<AudioClip>("Damaged2");
+        Damaged3 = Resources.Load<AudioClip>("Damaged3");
+        DamagedBoneBreak = Resources.Load<AudioClip>("DamagedBoneBreak");
+        Landing = Resources.Load<AudioClip>("Landing");
+        Footstep = Resources.Load<AudioClip>("Footstep");
+        PhaseShift = Resources.Load<AudioClip>("PhaseShift");
+        TimeLapse = Resources.Load<AudioClip>("TimeLapse");
+        ChurchOfScience = Resources.Load<AudioClip>("ChurchOfScience");
+        BossBattle = Resources.Load<AudioClip>("BossBattle");
 
-        Hit = Resources.Load<AudioClip>("Hit");
-        swordSlash = Resources.Load<AudioClip>("swordSlash");
-        Jump = Resources.Load<AudioClip>("Jump");
-        Dash = Resources.Load<AudioClip>("Dash");
-        Phase = Resources.Load<AudioClip>("Phase");
-        Death = Resources.Load<AudioClip>("Death");
-
-
-        audioSrc = GetComponent<AudioSource>();
+        swordSwingAudioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySound(string clip)
+    public static void PlaySound(string clip, string name)
     {
+        swordSwingAudioSource.Stop();
+
         switch (clip)
         {
-            case "hit":
-                audioSrc.PlayOneShot(Hit);
+            case "SwordSwing":
+                swordSwingAudioSource.PlayOneShot(SwordSwing);
                 break;
-            case "attack":
-                audioSrc.PlayOneShot(swordSlash);
+            case "BlockHit":
+                swordSwingAudioSource.PlayOneShot(BlockHit);
                 break;
-            case "jump":
-                audioSrc.PlayOneShot(Jump);
+            case "Parry":
+                swordSwingAudioSource.PlayOneShot(Parry);
                 break;
-            case "dash":
-                audioSrc.PlayOneShot(Dash);
+            case "Damaged1":
+                swordSwingAudioSource.PlayOneShot(Damaged1);
                 break;
-            case "phase":
-                audioSrc.PlayOneShot(Phase);
+            case "Damaged2":
+                swordSwingAudioSource.PlayOneShot(Damaged2);
                 break;
-            case "death":
-                audioSrc.PlayOneShot(Death);
+            case "Damaged3":
+                swordSwingAudioSource.PlayOneShot(Damaged3);
+                break;
+            case "DamagedBoneBreak":
+                swordSwingAudioSource.PlayOneShot(DamagedBoneBreak);
+                break;
+            case "Landing":
+                swordSwingAudioSource.PlayOneShot(Landing);
+                break;
+            case "Footstep":
+                swordSwingAudioSource.PlayOneShot(Footstep);
+                break;
+            case "PhaseShift":
+                swordSwingAudioSource.PlayOneShot(PhaseShift);
+                break;
+            case "TimeLapse":
+                swordSwingAudioSource.PlayOneShot(TimeLapse);
+                break;
+            case "ChurchOfScience":
+                swordSwingAudioSource.PlayOneShot(ChurchOfScience);
+                break;
+            case "BossBattle":
+                swordSwingAudioSource.PlayOneShot(BossBattle);
                 break;
         }
+
+        Debug.Log(name + ": " + clip);
     }
 }

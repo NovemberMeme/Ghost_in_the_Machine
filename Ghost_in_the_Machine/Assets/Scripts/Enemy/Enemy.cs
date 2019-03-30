@@ -8,7 +8,8 @@ public class Enemy : Character
     {
         Idling,
         Patrolling,
-        Chasing
+        Chasing,
+        Attacking
     }
 
     public enum EnemyMobilityState
@@ -255,18 +256,23 @@ public class Enemy : Character
         Move();
     }
 
-    public override void TakeDamamge(Damage dmg)
+    public override void GetHit(Damage dmg)
     {
         if (isDead || !canBeDamaged || dmg.layer != "Sword")
             return;
 
         //Debug.Log(damage.damageAmount);
 
-        int actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount) - blockValue - parryValue;
+        actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount) - blockValue - parryValue;
 
         //Debug.Log(actualDamage);
 
-        if(actualDamage > 0)
+        if(actualDamage <= 0)
+        {
+            SoundManager.PlaySound("BlockHit", gameObject.name);
+            _anim.SetTrigger("Hit");
+        }
+        else if(actualDamage > 0)
         {
             _anim.SetTrigger("Damaged");
 
@@ -274,6 +280,21 @@ public class Enemy : Character
             //_anim.SetTrigger("Hit");
             canBeDamaged = false;
             StartCoroutine(ResetCanBeDamaged());
+
+            int randomDamageSound = Random.Range(0, 3);
+
+            switch (randomDamageSound)
+            {
+                case 0:
+                    SoundManager.PlaySound("Damage1", gameObject.name);
+                    break;
+                case 1:
+                    SoundManager.PlaySound("Damage2", gameObject.name);
+                    break;
+                case 2:
+                    SoundManager.PlaySound("DamageBoneBreak", gameObject.name);
+                    break;
+            }
 
             if (health <= 0)
             {
@@ -578,6 +599,8 @@ public class Enemy : Character
 
     public virtual void NextRandomMove()
     {
+        SoundManager.PlaySound("SwordSwing", gameObject.name);
+
         int moveIndex = Random.Range(0, knownMoves.Count);
         currentMove = knownMoves[moveIndex];
         _anim.SetInteger("CurrentMove", currentMove);

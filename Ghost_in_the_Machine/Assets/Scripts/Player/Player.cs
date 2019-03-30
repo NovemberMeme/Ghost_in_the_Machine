@@ -173,7 +173,6 @@ public class Player : Character
 
         if (!isTimeLapsing && ((Input.GetKey(KeyCode.Q) || Input.GetButton("L3")) && canPhase && unlockedPhase))
         {
-            soundManager.PlaySound("phase");
             StartCoroutine(Phasing());
         }
 
@@ -219,48 +218,44 @@ public class Player : Character
         Move();
     }
 
-    public override void TakeDamamge(Damage dmg)
+    public override void GetHit(Damage dmg)
     {
         if (isDead || !canBeDamaged || dmg.layer != "EnemyAttack")
             return;
 
-        int actualDamage = 0;
+        actualDamage = 0;
 
         if (currentLeftWeaponState == LeftWeaponState.Parrying || currentRightWeaponState == RightWeaponState.Parrying)
         {
             if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
             {
-                actualDamage = dmg.damageAmount - parryValue;
+                Parry(dmg.damageAmount);
             }
             else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
             {
-                actualDamage = dmg.damageAmount - parryValue;
+                Parry(dmg.damageAmount);
             }
             else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
             {
-                actualDamage = dmg.damageAmount - parryValue;
+                Parry(dmg.damageAmount);
             }
             else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
             {
                 if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
                 {
-                    actualDamage = dmg.damageAmount - blockValue;
-                    _anim.SetTrigger("Hit");
+                    Block(dmg.damageAmount);
                 }
                 else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
                 {
-                    actualDamage = dmg.damageAmount - blockValue;
-                    _anim.SetTrigger("Hit");
+                    Block(dmg.damageAmount);
                 }
                 else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
                 {
-                    actualDamage = dmg.damageAmount - blockValue;
-                    _anim.SetTrigger("Hit");
+                    Block(dmg.damageAmount);
                 }
                 else
                 {
-                    actualDamage = dmg.damageAmount;
-                    _anim.SetTrigger("Damaged");
+                    TakeDamage(dmg);
                 }
             }
         }
@@ -268,38 +263,55 @@ public class Player : Character
         {
             if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
             {
-                actualDamage = dmg.damageAmount - blockValue;
-                _anim.SetTrigger("Hit");
+                Block(dmg.damageAmount);
             }
             else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
             {
-                actualDamage = dmg.damageAmount - blockValue;
-                _anim.SetTrigger("Hit");
+                Block(dmg.damageAmount);
             }
             else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
             {
-                actualDamage = dmg.damageAmount - blockValue;
-                _anim.SetTrigger("Hit");
+                Block(dmg.damageAmount);
             }
             else
             {
-                actualDamage = dmg.damageAmount;
-                _anim.SetTrigger("Damaged");
+                TakeDamage(dmg);
             }
         }
         else
         {
-            actualDamage = dmg.damageAmount;
-            _anim.SetTrigger("Damaged");
+            TakeDamage(dmg);
         }
+    }
+
+    public override void TakeDamage(Damage dmg)
+    {
+        actualDamage = dmg.damageAmount;
 
         if (actualDamage > 0)
         {
+            _anim.SetTrigger("Damaged");
+
             health -= actualDamage;
             UIManager.Instance.UpdateLives((int)health);
 
+            int randomDamageSound = Random.Range(0, 3);
+
+            switch (randomDamageSound)
+            {
+                case 0:
+                    SoundManager.PlaySound("Damage1", gameObject.name);
+                    break;
+                case 1:
+                    SoundManager.PlaySound("Damage2", gameObject.name);
+                    break;
+                case 2:
+                    SoundManager.PlaySound("DamageBoneBreak", gameObject.name);
+                    break;
+            }
+
             if (health > 0)
-            {   
+            {
                 canBeDamaged = false;
                 StartCoroutine(ResetCanBeDamaged());
                 //StartCoroutine(ResetCanBeHit());
@@ -315,7 +327,7 @@ public class Player : Character
             StartCoroutine(ResetCanBeHit());
         }
 
-        if(dmg.stunningDuration > 0)
+        if (dmg.stunningDuration > 0)
         {
             StartCoroutine(Stunned(dmg.stunningDuration));
         }
@@ -365,7 +377,7 @@ public class Player : Character
                 {
                     if (isGrounded)
                     {
-                        soundManager.PlaySound("dash");
+                        //SoundManager.PlaySound("dash"); IMPLEMENT DASH SFX
                         BackDash();
                         canDash = false;
                     }
@@ -382,7 +394,7 @@ public class Player : Character
                 {
                     if (isGrounded)
                     {
-                        soundManager.PlaySound("dash");
+                        //SoundManager.PlaySound("dash"); IMPLEMENT DASH SFX
                         Dash();
                         canDash = false;
                     }
@@ -572,8 +584,22 @@ public class Player : Character
         canDash = true;
     }
 
+    protected override IEnumerator Phasing()
+    {
+        SoundManager.PlaySound("PhaseShift", gameObject.name);
+
+        _isPhasing = true;
+        StartCoroutine(PhaseCooldown());
+
+        yield return new WaitForSeconds(phaseDuration);
+
+        _isPhasing = false;
+    }
+
     public override IEnumerator TimeLapsing()
     {
+        SoundManager.PlaySound("TimeLapse", gameObject.name);
+
         transform.position = ghost.GetComponent<TimeLapse_Position>().timeLapsePosition;
         health = ghost.GetComponent<TimeLapse_Position>().timeLapsePlayerHealth;
         UIManager.Instance.UpdateLives((int)health);
@@ -810,6 +836,7 @@ public class Player : Character
                 if (!Input.GetMouseButton(0) && !Input.GetButton("RB"))
                 {
                     _anim.SetTrigger("Left_Attack_Rushed");
+                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 break;
             case LeftWeaponState.Blocking:
@@ -817,12 +844,15 @@ public class Player : Character
                 if (!Input.GetMouseButton(0) && !Input.GetButton("RB"))
                 {
                     _anim.SetTrigger("Left_Attack");
+                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 else if(Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
                 {
                     if(currentMana >= swordPowerAttackManaCost)
                     {
                         _anim.SetTrigger("Left_PowerAttack");
+                        SoundManager.PlaySound("SwordSwing", gameObject.name);
+
                         currentMana -= swordPowerAttackManaCost;
                         UIManager.Instance.UpdateMana(currentMana);
                     }
@@ -833,6 +863,7 @@ public class Player : Character
                 if (Input.GetMouseButtonUp(0) || Input.GetButtonUp("RB"))
                 {
                     _anim.SetTrigger("Left_Attack2");
+                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 break;
             case LeftWeaponState.Attacking3:
@@ -840,6 +871,7 @@ public class Player : Character
                 if(Input.GetMouseButtonUp(0) || Input.GetButtonUp("RB"))
                 {
                     _anim.SetTrigger("Left_Attack3");
+                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 break;
             case LeftWeaponState.Attacking4:
@@ -865,18 +897,22 @@ public class Player : Character
                 if (!Input.GetMouseButton(1) && !Input.GetButton("LB"))
                 {
                     _anim.SetTrigger("Right_Attack_Rushed");
+                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 break;
             case RightWeaponState.Blocking:
                 if (!Input.GetMouseButton(1) && !Input.GetButton("LB"))
                 {
                     _anim.SetTrigger("Right_Attack");
+                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 else if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
                 {
                     if(currentMana >= shieldPowerAttackManaCost)
                     {
                         _anim.SetTrigger("Right_PowerAttack");
+                        SoundManager.PlaySound("SwordSwing", gameObject.name);
+
                         currentMana -= shieldPowerAttackManaCost;
                         UIManager.Instance.UpdateMana(currentMana);
                     }
