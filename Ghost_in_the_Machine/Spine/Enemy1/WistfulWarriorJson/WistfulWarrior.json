@@ -1,0 +1,42 @@
+{"skeleton":{"images":"../WistfulWarriorImages/"},
+"bones":[{"name":"root"}],
+"slots":[
+	{"name":"Right_Thigh","bone":"root","attachment":"Right_Thigh"},
+	{"name":"Right_Foot","bone":"root","attachment":"Right_Foot"},
+	{"name":"Crotch","bone":"root","attachment":"Crotch"},
+	{"name":"Waist","bone":"root","attachment":"Waist"},
+	{"name":"Left_thigh","bone":"root","attachment":"Left_thigh"},
+	{"name":"Left_Foot","bone":"root","attachment":"Left_Foot"},
+	{"name":"Right_Lower_Arm","bone":"root","attachment":"Right_Lower_Arm"},
+	{"name":"Right_Hand","bone":"root","attachment":"Right_Hand"},
+	{"name":"Right_Shoulder","bone":"root","attachment":"Right_Shoulder"},
+	{"name":"Chest","bone":"root","attachment":"Chest"},
+	{"name":"Collarlike","bone":"root","attachment":"Collarlike"},
+	{"name":"Head","bone":"root","attachment":"Head"},
+	{"name":"Left_Shoulder","bone":"root","attachment":"Left_Shoulder"},
+	{"name":"Left_Lower_Arm","bone":"root","attachment":"Left_Lower_Arm"},
+	{"name":"Left_hand","bone":"root","attachment":"Left_hand"},
+	{"name":"Layer 10","bone":"root","attachment":"Layer 10"}
+],
+"skins":{
+	"default":{
+		"Layer 10":{"Layer 10":{"x":4187.5,"y":3322,"width":579,"height":1484}},
+		"Left_hand":{"Left_hand":{"x":2351.5,"y":2966.5,"width":217,"height":157}},
+		"Left_Lower_Arm":{"Left_Lower_Arm":{"x":2458.5,"y":3213,"width":279,"height":468}},
+		"Left_Shoulder":{"Left_Shoulder":{"x":2824.5,"y":3416,"width":585,"height":448}},
+		"Head":{"Head":{"x":3288,"y":3680.5,"width":358,"height":441}},
+		"Collarlike":{"Collarlike":{"x":3159,"y":3385.5,"width":542,"height":601}},
+		"Chest":{"Chest":{"x":3185.5,"y":3410.5,"width":489,"height":405}},
+		"Right_Shoulder":{"Right_Shoulder":{"x":3507.5,"y":3225.5,"width":411,"height":495}},
+		"Right_Hand":{"Right_Hand":{"x":4064.5,"y":3322.5,"width":199,"height":177}},
+		"Right_Lower_Arm":{"Right_Lower_Arm":{"x":3838,"y":3144,"width":446,"height":330}},
+		"Left_Foot":{"Left_Foot":{"x":2320,"y":2233.5,"width":744,"height":883}},
+		"Left_thigh":{"Left_thigh":{"x":2695,"y":2755,"width":440,"height":604}},
+		"Waist":{"Waist":{"x":3050.5,"y":3237,"width":625,"height":516}},
+		"Crotch":{"Crotch":{"x":2935,"y":2967,"width":490,"height":350}},
+		"Right_Foot":{"Right_Foot":{"x":3465,"y":2083,"width":574,"height":846}},
+		"Right_Thigh":{"Right_Thigh":{"x":3178.5,"y":2674,"width":463,"height":588}}
+	}
+},
+"animations":{"animation":{}}
+}

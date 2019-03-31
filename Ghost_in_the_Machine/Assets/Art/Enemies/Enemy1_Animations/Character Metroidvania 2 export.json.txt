@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "oife9uHSL0+CaPey+ap+V/d02OI", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
+"skeleton": { "hash": "fMGKE71DOwhzJx+zd0b95H8mSgY", "spine": "3.7.91", "width": 2774.18, "height": 2161.74 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "length": 2270.3, "rotation": 90, "x": -2.53, "y": -5.27 },
@@ -27,120 +27,362 @@
 	{ "name": "Collar_Front", "parent": "Chest", "length": 274.85, "rotation": 105, "x": 144.86, "y": -95.75 }
 ],
 "slots": [
-	{ "name": "Right_Lower_Arm", "bone": "Right_Lower_Arm", "attachment": "Right_Lower_Arm" },
-	{ "name": "Right_Shoulder", "bone": "Right_Upper_Arm", "attachment": "Right_Shoulder" },
-	{ "name": "Right_Handle", "bone": "Right_Handle", "attachment": "Right_Handle" },
-	{ "name": "Right_Hand", "bone": "Right_Hand", "attachment": "Right_Hand" },
-	{ "name": "Right_Shield_Extension", "bone": "Right_Shield_Extension", "attachment": "Right_Shield_Extension" },
-	{ "name": "Right_Shield", "bone": "Right_Shield", "attachment": "Right_Shield" },
-	{ "name": "Right_Thigh", "bone": "Right_Leg", "attachment": "Right_Thigh" },
-	{ "name": "Right_Lower_Leg", "bone": "Right_Foot", "attachment": "Right_Lower_Leg" },
-	{ "name": "Crotch", "bone": "Crotch", "attachment": "Crotch" },
-	{ "name": "Waist", "bone": "Waist", "attachment": "Waist" },
-	{ "name": "Chest", "bone": "Chest", "attachment": "Chest" },
-	{ "name": "Chest_Light", "bone": "Chest_Light", "attachment": "Chest_Light" },
-	{ "name": "Collar_Back", "bone": "Collar_Back", "attachment": "Collar_Back" },
-	{ "name": "Head", "bone": "Head", "attachment": "Head" },
-	{ "name": "Collar_Front", "bone": "Collar_Front", "attachment": "Collar_Front" },
-	{ "name": "Left_Thigh", "bone": "Left_Leg", "attachment": "Left_Thigh" },
-	{ "name": "Left_Lower_Leg", "bone": "Left_Foot", "attachment": "Left_Lower_Leg" },
-	{ "name": "Left_Shoulder", "bone": "Left_Upper_Arm", "attachment": "Left_Shoulder" },
-	{ "name": "Left_Lower_Arm", "bone": "Left_Lower_Arm", "attachment": "Left_Lower_Arm" },
-	{ "name": "Left_Sword", "bone": "Left_Sword", "attachment": "Left_Sword" },
-	{ "name": "Left_Handle", "bone": "Left_Handle", "attachment": "Left_Handle" },
-	{ "name": "Left_Hand", "bone": "Left_Hand", "attachment": "Left_Hand" },
-	{ "name": "Left_Weapon_Hitbox", "bone": "Left_Sword" },
-	{ "name": "Right_Shield_Hitbox", "bone": "Right_Shield" },
+	{ "name": "Right_Lower_Arm", "bone": "Right_Lower_Arm", "attachment": "Right_Lower_ArmHolder" },
+	{ "name": "Right_Shoulder", "bone": "Right_Upper_Arm", "attachment": "Right_ShoulderHolder" },
+	{ "name": "Right_Handle", "bone": "Right_Handle", "attachment": "Right_HandleHolder" },
+	{ "name": "Right_Hand", "bone": "Right_Hand", "attachment": "Right_HandHolder" },
+	{ "name": "Right_Shield_Extension", "bone": "Right_Shield_Extension" },
+	{ "name": "Right_Shield", "bone": "Right_Shield", "attachment": "Right_ShieldHolder" },
+	{ "name": "Right_Thigh", "bone": "Right_Leg", "attachment": "Right_ThighHolder" },
+	{ "name": "Right_Lower_Leg", "bone": "Right_Foot", "attachment": "Right_Lower_LegHolder" },
+	{ "name": "Crotch", "bone": "Crotch", "attachment": "CrotchHolder" },
+	{ "name": "Waist", "bone": "Waist", "attachment": "WaistHolder" },
+	{ "name": "Chest", "bone": "Chest", "attachment": "ChestHolder" },
+	{ "name": "Chest_Light", "bone": "Chest_Light", "attachment": "Chest_LightHolder" },
+	{ "name": "Collar_Back", "bone": "Collar_Back", "attachment": "Collar_BackHolder" },
+	{ "name": "Head", "bone": "Head", "attachment": "HeadHolder" },
+	{ "name": "Collar_Front", "bone": "Collar_Front", "attachment": "Collar_FrontHolder" },
+	{ "name": "Left_Thigh", "bone": "Left_Leg", "attachment": "Left_ThighHolder" },
+	{ "name": "Left_Lower_Leg", "bone": "Left_Foot", "attachment": "Left_Lower_LegHolder" },
+	{ "name": "Left_Shoulder", "bone": "Left_Upper_Arm", "attachment": "Left_ShoulderHolder" },
+	{ "name": "Left_Lower_Arm", "bone": "Left_Lower_Arm", "attachment": "Left_Lower_ArmHolder" },
+	{ "name": "Left_Sword", "bone": "Left_Sword", "attachment": "Left_SwordHolder" },
+	{ "name": "Left_Handle", "bone": "Left_Handle", "attachment": "Left_HandleHolder" },
+	{ "name": "Left_Hand", "bone": "Left_Hand", "attachment": "Left_HandHolder" },
 	{ "name": "Head_Bite_Hitbox", "bone": "Head" }
 ],
 "skins": {
 	"default": {
-		"Chest": {
-			"Chest": { "x": 81.37, "y": -1.35, "rotation": -47.76, "width": 480, "height": 254 }
-		},
-		"Chest_Light": {
-			"Chest_Light": { "x": -0.6, "y": 0.72, "width": 114, "height": 107 }
-		},
-		"Collar_Back": {
-			"Collar_Back": { "x": -12.05, "y": 99.28, "rotation": 15.7, "width": 458, "height": 480 }
-		},
-		"Collar_Front": {
-			"Collar_Front": { "x": 101.9, "y": -104.94, "rotation": -152.76, "width": 355, "height": 344 }
-		},
-		"Crotch": {
-			"Crotch": { "x": 0.68, "y": -10.29, "rotation": -50.24, "width": 408, "height": 280 }
-		},
-		"Head": {
-			"Head": { "x": 174.08, "y": 104.81, "rotation": -43.01, "width": 542, "height": 635 }
-		},
 		"Head_Bite_Hitbox": {
 			"Hitbox": {
 				"type": "boundingbox",
 				"vertexCount": 6,
 				"vertices": [ -82.82, -265.71, 442.83, -571.91, 805.49, -220.91, 668.93, 266.19, 231.63, 457.17, -30.4, 206.3 ]
 			}
+		}
+	},
+	"BitterBrute": {
+		"Chest": {
+			"ChestHolder": { "name": "BitterBruteImages/Chest", "x": 115.89, "y": 25.49, "rotation": -47.76, "width": 489, "height": 405 }
+		},
+		"Collar_Back": {
+			"Collar_BackHolder": { "name": "BitterBruteImages/Collar_Back", "x": -57.27, "y": 73.42, "rotation": 15.7, "width": 215, "height": 308 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "BitterBruteImages/Crotch", "x": -12.72, "y": -25.39, "rotation": -50.24, "width": 490, "height": 350 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "BitterBruteImages/Head", "x": 289.22, "y": 39.97, "rotation": -43.01, "width": 443, "height": 525 }
 		},
 		"Left_Hand": {
-			"Left_Hand": { "x": 85.09, "y": 10.28, "rotation": 94.01, "width": 199, "height": 217 }
+			"Left_HandHolder": { "name": "BitterBruteImages/Left_Hand", "x": 77.39, "y": 17.03, "rotation": 105.57, "width": 194, "height": 187 }
 		},
 		"Left_Handle": {
-			"Left_Handle": { "x": 11.11, "y": -15.73, "rotation": 49.53, "width": 663, "height": 684 }
+			"Left_HandleHolder": { "name": "Enemy1Images/Left_Handle", "x": 13.55, "y": 15.88, "rotation": 49.53, "width": 663, "height": 684 }
 		},
 		"Left_Lower_Arm": {
-			"Left_Lower_Arm": { "x": 84.77, "y": -0.45, "rotation": 111.33, "width": 296, "height": 655 }
+			"Left_Lower_ArmHolder": { "name": "BitterBruteImages/Left_Lower_Arm", "x": 153.45, "y": 8.82, "rotation": 111.33, "width": 279, "height": 468 }
 		},
 		"Left_Lower_Leg": {
-			"Left_Lower_Leg": { "x": 349.26, "y": 25.75, "rotation": 137.36, "width": 838, "height": 715 }
+			"Left_Lower_LegHolder": { "name": "BitterBruteImages/Left_Lower_Leg", "x": 329.23, "y": 57.34, "rotation": 140.79, "width": 922, "height": 738 }
 		},
 		"Left_Shoulder": {
-			"Left_Shoulder": { "x": 194.94, "y": -6.77, "rotation": 163.07, "width": 597, "height": 309 }
+			"Left_ShoulderHolder": { "name": "BitterBruteImages/Left_Shoulder", "x": 223.47, "y": -2.78, "rotation": 163.07, "width": 520, "height": 263 }
 		},
 		"Left_Sword": {
-			"Left_Sword": { "x": 476.75, "y": -132.98, "rotation": 0.43, "width": 1856, "height": 369 }
+			"Left_SwordHolder": { "name": "Enemy1Images/Left_Sword", "x": 449.12, "y": -145.49, "rotation": 0.43, "width": 1856, "height": 369 }
 		},
 		"Left_Thigh": {
-			"Left_Thigh": { "x": 222.17, "y": 6.9, "rotation": 94.89, "width": 405, "height": 840 }
-		},
-		"Left_Weapon_Hitbox": {
-			"Hitbox": {
-				"type": "boundingbox",
-				"vertexCount": 5,
-				"vertices": [ 1643.04, 206.56, 1832.77, -114.41, 1626.36, -440.69, 334.51, -239.19, 327.34, 198.69 ]
-			}
+			"Left_ThighHolder": { "name": "BitterBruteImages/Left_Thigh", "x": 239.48, "y": 0.96, "rotation": 95.08, "width": 351, "height": 824 }
 		},
 		"Right_Hand": {
-			"Right_Hand": { "x": 57.27, "y": 13.1, "rotation": -42.51, "width": 168, "height": 158 }
-		},
-		"Right_Handle": {
-			"Right_Handle": { "x": -9.7, "y": 27.41, "rotation": 126.87, "width": 663, "height": 684 }
+			"Right_HandHolder": { "name": "BitterBruteImages/Right_Hand", "x": 68.76, "y": 18.93, "rotation": -42.51, "width": 170, "height": 192 }
 		},
 		"Right_Lower_Arm": {
-			"Right_Lower_Arm": { "x": 103.46, "y": -52.71, "rotation": -30.88, "width": 430, "height": 412 }
+			"Right_Lower_ArmHolder": { "name": "BitterBruteImages/Right_Lower_Arm", "x": 145.28, "y": -27.66, "rotation": -28.2, "width": 373, "height": 306 }
 		},
 		"Right_Lower_Leg": {
-			"Right_Lower_Leg": { "x": 351.29, "y": 4.53, "rotation": 56.44, "width": 626, "height": 870 }
-		},
-		"Right_Shield": {
-			"Right_Shield": { "x": 244.63, "y": 106.9, "rotation": 90.88, "width": 470, "height": 1402 }
-		},
-		"Right_Shield_Extension": {
-			"Right_Shield_Extension": { "x": 3.49, "y": -0.63, "rotation": 0.81, "width": 531, "height": 525 }
-		},
-		"Right_Shield_Hitbox": {
-			"Hitbox": {
-				"type": "boundingbox",
-				"vertexCount": 5,
-				"vertices": [ 343.62, -275.51, -680.7, -479.97, -818.29, 14.14, -499.25, 492.5, 1226.64, 463.76 ]
-			}
+			"Right_Lower_LegHolder": { "name": "BitterBruteImages/Right_Lower_Leg", "x": 337.04, "y": -12.57, "rotation": 59.8, "width": 645, "height": 984 }
 		},
 		"Right_Shoulder": {
-			"Right_Shoulder": { "x": 236.25, "y": 41.72, "rotation": 43.13, "width": 363, "height": 447 }
+			"Right_ShoulderHolder": { "name": "BitterBruteImages/Right_Shoulder", "x": 225.35, "y": -31.07, "rotation": 43.13, "width": 411, "height": 382 }
 		},
 		"Right_Thigh": {
-			"Right_Thigh": { "x": 273.44, "y": -3.2, "rotation": 38.43, "width": 753, "height": 563 }
+			"Right_ThighHolder": { "name": "BitterBruteImages/Right_Thigh", "x": 295.74, "y": -30.18, "rotation": 33.88, "width": 741, "height": 527 }
 		},
 		"Waist": {
-			"Waist": { "x": 173.82, "y": 11.48, "rotation": -43.89, "width": 555, "height": 358 }
+			"WaistHolder": { "name": "BitterBruteImages/Waist", "x": 170.42, "y": 66.19, "rotation": -43.89, "width": 625, "height": 516 }
+		}
+	},
+	"MadMage": {
+		"Chest": {
+			"ChestHolder": { "name": "MadMageImages/Chest", "x": 134.54, "y": 28.51, "rotation": -58.55, "width": 489, "height": 405 }
+		},
+		"Collar_Back": {
+			"Collar_BackHolder": { "name": "MadMageImages/Collar-Back", "x": -34.86, "y": 60.42, "rotation": 12.69, "width": 215, "height": 308 }
+		},
+		"Collar_Front": {
+			"Collar_FrontHolder": { "name": "MadMageImages/Chet_Design", "x": 183.65, "y": 63.06, "rotation": -168.94, "width": 218, "height": 370 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "MadMageImages/Crotch", "x": -5.31, "y": -6.56, "rotation": -68.71, "width": 526, "height": 269 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "MadMageImages/Mage_hat", "x": 351.82, "y": 137.12, "rotation": -50.32, "width": 662, "height": 793 }
+		},
+		"Left_Hand": {
+			"Left_HandHolder": { "name": "MadMageImages/Left_Hand", "x": 46.33, "y": 12.33, "rotation": 94.01, "width": 187, "height": 206 }
+		},
+		"Left_Lower_Arm": {
+			"Left_Lower_ArmHolder": { "name": "MadMageImages/Left_Lower_Arm", "x": 171.27, "y": -12.04, "rotation": 78.85, "width": 304, "height": 438 }
+		},
+		"Left_Lower_Leg": {
+			"Left_Lower_LegHolder": { "name": "MadMageImages/Left_Lower_Leg", "x": 165.44, "y": 54.42, "rotation": 135.82, "width": 687, "height": 526 }
+		},
+		"Left_Shoulder": {
+			"Left_ShoulderHolder": { "name": "MadMageImages/Left_Shoulder", "x": 218.71, "y": -22.07, "rotation": 165.42, "width": 711, "height": 264 }
+		},
+		"Left_Thigh": {
+			"Left_ThighHolder": { "name": "MadMageImages/Left_thigh", "x": 265.94, "y": 34.28, "rotation": 95.08, "width": 399, "height": 596 }
+		},
+		"Right_Hand": {
+			"Right_HandHolder": { "name": "MadMageImages/Right_hand", "x": 114.04, "y": 8.96, "rotation": -42.51, "width": 197, "height": 205 }
+		},
+		"Right_Handle": {
+			"Right_HandleHolder": { "name": "MadMageImages/Book", "x": -114.52, "y": 263.52, "width": 406, "height": 412 }
+		},
+		"Right_Lower_Arm": {
+			"Right_Lower_ArmHolder": { "name": "MadMageImages/Right_Lower_Arm", "x": 201.05, "y": -26.13, "rotation": -24.18, "width": 519, "height": 359 }
+		},
+		"Right_Lower_Leg": {
+			"Right_Lower_LegHolder": { "name": "MadMageImages/Right_Lower_Leg", "x": 258.07, "y": 5.38, "rotation": 46.53, "width": 636, "height": 710 }
+		},
+		"Right_Shoulder": {
+			"Right_ShoulderHolder": { "name": "MadMageImages/Right_Shoulder", "x": 199.8, "y": -70.76, "rotation": 43.13, "width": 411, "height": 488 }
+		},
+		"Right_Thigh": {
+			"Right_ThighHolder": { "name": "MadMageImages/Right_thigh", "x": 303.32, "y": 0.44, "rotation": 38.43, "width": 678, "height": 508 }
+		},
+		"Waist": {
+			"WaistHolder": { "name": "MadMageImages/Waist", "x": 219.41, "y": 62.69, "rotation": -59.03, "width": 598, "height": 475 }
+		}
+	},
+	"NullifiedKnight": {
+		"Chest": {
+			"ChestHolder": { "name": "NullifiedKnightImages/Chest", "x": 195.18, "y": 40.96, "rotation": -47.76, "width": 489, "height": 405 }
+		},
+		"Collar_Front": {
+			"Collar_FrontHolder": { "name": "NullifiedKnightImages/Armorshoulder", "x": 279.26, "y": -8.56, "rotation": -152.76, "width": 643, "height": 754 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "NullifiedKnightImages/Crotch", "x": 39.14, "y": -44.56, "rotation": -65.76, "width": 535, "height": 484 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "NullifiedKnightImages/Eye", "x": 162.96, "y": 0.07, "rotation": -43.01, "width": 313, "height": 363 }
+		},
+		"Left_Hand": {
+			"Left_HandHolder": { "name": "NullifiedKnightImages/Left_Hand", "x": 92.4, "y": -2.43, "rotation": 81.53, "width": 185, "height": 200 }
+		},
+		"Left_Handle": {
+			"Left_HandleHolder": { "name": "NullifiedKnightImages/Left_handle", "x": -65.12, "y": -74.75, "rotation": 49.53, "width": 860, "height": 250 }
+		},
+		"Left_Lower_Arm": {
+			"Left_Lower_ArmHolder": { "name": "NullifiedKnightImages/Left_Lower_Arm", "x": 70.8, "y": -46.82, "rotation": 81.83, "width": 405, "height": 885 }
+		},
+		"Left_Lower_Leg": {
+			"Left_Lower_LegHolder": { "name": "NullifiedKnightImages/Left_Leg", "x": 241.31, "y": -65.5, "rotation": 137.54, "width": 856, "height": 930 }
+		},
+		"Left_Shoulder": {
+			"Left_ShoulderHolder": { "name": "NullifiedKnightImages/Left_Shoulder", "x": 273.08, "y": 41.29, "rotation": 157.78, "width": 575, "height": 419 }
+		},
+		"Left_Sword": {
+			"Left_SwordHolder": { "name": "NullifiedKnightImages/Left_Sword", "x": 1286.12, "y": 26.27, "rotation": 0.43, "width": 1920, "height": 584 }
+		},
+		"Left_Thigh": {
+			"Left_ThighHolder": { "name": "NullifiedKnightImages/Left_Thigh", "x": 250.3, "y": -28.32, "rotation": 95.08, "width": 339, "height": 657 }
+		},
+		"Right_Hand": {
+			"Right_HandHolder": { "name": "NullifiedKnightImages/Right_Hand", "x": 68.06, "y": 25.23, "rotation": -51.95, "width": 172, "height": 157 }
+		},
+		"Right_Lower_Arm": {
+			"Right_Lower_ArmHolder": { "name": "NullifiedKnightImages/Right_Lower_Arm", "x": 86.43, "y": -135.9, "rotation": -28.92, "width": 650, "height": 596 }
+		},
+		"Right_Lower_Leg": {
+			"Right_Lower_LegHolder": { "name": "NullifiedKnightImages/Right_Leg", "x": 325.4, "y": -135.38, "rotation": 72.32, "width": 681, "height": 1012 }
+		},
+		"Right_Shield": {
+			"Right_ShieldHolder": { "name": "NullifiedKnightImages/Right_Shield", "x": 443.76, "y": -35.37, "rotation": 86.47, "width": 566, "height": 1846 }
+		},
+		"Right_Shoulder": {
+			"Right_ShoulderHolder": { "name": "NullifiedKnightImages/Right_Shoulder", "x": 305.88, "y": 13.76, "rotation": 43.13, "width": 670, "height": 655 }
+		},
+		"Right_Thigh": {
+			"Right_ThighHolder": { "name": "NullifiedKnightImages/Right_Thigh", "x": 332.85, "y": -21.66, "rotation": 38.43, "width": 563, "height": 514 }
+		},
+		"Waist": {
+			"WaistHolder": { "name": "NullifiedKnightImages/Ellipse-1", "x": 277.64, "y": 0.34, "rotation": -54.29, "width": 573, "height": 521 }
+		}
+	},
+	"SoddenSoldier": {
+		"Chest": {
+			"ChestHolder": { "name": "SoddenSoldierImages/Chest", "x": 96.57, "y": -39.72, "rotation": -47.76, "width": 480, "height": 254 }
+		},
+		"Chest_Light": {
+			"Chest_LightHolder": { "name": "Enemy1Images/Chest_Light", "y": 0.5, "width": 114, "height": 107 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "SoddenSoldierImages/Crotch", "x": -35.66, "y": -26.09, "rotation": -50.24, "width": 408, "height": 280 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "SoddenSoldierImages/Head", "x": 112.15, "y": 23.44, "rotation": -43.01, "width": 356, "height": 441 }
+		},
+		"Left_Hand": {
+			"Left_HandHolder": { "name": "SoddenSoldierImages/Left_Hand", "x": 60.12, "y": -5.75, "rotation": 95.41, "width": 199, "height": 217 }
+		},
+		"Left_Handle": {
+			"Left_HandleHolder": { "name": "Enemy1Images/Left_Handle", "x": -6.75, "y": 11.57, "rotation": 49.81, "width": 663, "height": 684 }
+		},
+		"Left_Lower_Arm": {
+			"Left_Lower_ArmHolder": { "name": "SoddenSoldierImages/Left_Lower_Arm", "x": 85.83, "y": -5.74, "rotation": 111.33, "width": 296, "height": 655 }
+		},
+		"Left_Lower_Leg": {
+			"Left_Lower_LegHolder": { "name": "SoddenSoldierImages/Left_Lower_Leg", "x": 301.39, "y": 25.2, "rotation": 136.21, "width": 838, "height": 715 }
+		},
+		"Left_Shoulder": {
+			"Left_ShoulderHolder": { "name": "SoddenSoldierImages/Left_Shoulder", "x": 181.04, "y": 24.81, "rotation": 163.07, "width": 597, "height": 309 }
+		},
+		"Left_Sword": {
+			"Left_SwordHolder": { "name": "Enemy1Images/Left_Sword", "x": 428.93, "y": -134.19, "rotation": 1.02, "width": 1856, "height": 369 }
+		},
+		"Left_Thigh": {
+			"Left_ThighHolder": { "name": "SoddenSoldierImages/Left_Thigh", "x": 227.23, "y": -15.37, "rotation": 91.68, "width": 405, "height": 840 }
+		},
+		"Right_Hand": {
+			"Right_HandHolder": { "name": "SoddenSoldierImages/Right_Hand", "x": -39.01, "y": 53.34, "rotation": -72.67, "width": 168, "height": 158 }
+		},
+		"Right_Lower_Arm": {
+			"Right_Lower_ArmHolder": { "name": "SoddenSoldierImages/Right_Lower_Arm", "rotation": -30.88, "width": 430, "height": 412 }
+		},
+		"Right_Lower_Leg": {
+			"Right_Lower_LegHolder": { "name": "SoddenSoldierImages/Right_Lower_Leg", "x": 326.08, "y": 0.74, "rotation": 53.36, "width": 626, "height": 870 }
+		},
+		"Right_Shoulder": {
+			"Right_ShoulderHolder": { "name": "SoddenSoldierImages/Right_Shoulder", "x": 205.08, "y": -5.41, "rotation": 43.13, "width": 363, "height": 447 }
+		},
+		"Right_Thigh": {
+			"Right_ThighHolder": { "name": "SoddenSoldierImages/Right_Thigh", "x": 328.62, "y": 6.87, "rotation": 28.35, "width": 753, "height": 563 }
+		},
+		"Waist": {
+			"WaistHolder": { "name": "SoddenSoldierImages/Waist", "x": 119.05, "y": -14.73, "rotation": -43.89, "width": 555, "height": 358 }
+		}
+	},
+	"SorrowfulStrider": {
+		"Chest": {
+			"ChestHolder": { "name": "SorrowfulStriderImages/Chest", "x": 160.2, "y": 90.33, "rotation": -55.89, "width": 544, "height": 511 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "SorrowfulStriderImages/Crotch", "x": -15.48, "y": -13.53, "rotation": -50.24, "width": 449, "height": 298 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "SorrowfulStriderImages/Head", "x": 218.28, "y": 105.55, "rotation": -34.99, "width": 419, "height": 491 }
+		},
+		"Left_Hand": {
+			"Left_HandHolder": { "name": "SorrowfulStriderImages/Left_Hand", "x": 86.03, "y": 7.57, "rotation": 100.75, "width": 173, "height": 177 }
+		},
+		"Left_Handle": {
+			"Left_HandleHolder": { "name": "Enemy1Images/Left_Handle", "x": 15.06, "y": -1.03, "rotation": 49.53, "width": 663, "height": 684 }
+		},
+		"Left_Lower_Arm": {
+			"Left_Lower_ArmHolder": { "name": "SorrowfulStriderImages/Left_Lower_Arm", "x": 103.98, "y": -15.41, "rotation": 111.78, "width": 260, "height": 611 }
+		},
+		"Left_Lower_Leg": {
+			"Left_Lower_LegHolder": { "name": "SorrowfulStriderImages/Left_Lower_Leg", "x": 299.66, "y": -8.64, "rotation": 137.54, "width": 879, "height": 734 }
+		},
+		"Left_Shoulder": {
+			"Left_ShoulderHolder": { "name": "SorrowfulStriderImages/Left_Shoulder", "x": 211.24, "y": 27.87, "rotation": 163.07, "width": 550, "height": 272 }
+		},
+		"Left_Sword": {
+			"Left_SwordHolder": { "name": "Enemy1Images/Left_Sword", "x": 433.04, "y": -161.21, "rotation": 0.43, "width": 1856, "height": 369 }
+		},
+		"Left_Thigh": {
+			"Left_ThighHolder": { "name": "SorrowfulStriderImages/Left_Thigh", "x": 246.06, "y": 14.25, "rotation": 95.08, "width": 327, "height": 787 }
+		},
+		"Right_Hand": {
+			"Right_HandHolder": { "name": "SorrowfulStriderImages/Right_Hand", "x": 81.79, "y": 18.7, "rotation": -42.51, "width": 171, "height": 172 }
+		},
+		"Right_Lower_Arm": {
+			"Right_Lower_ArmHolder": { "name": "SorrowfulStriderImages/Right_Lower_Arm", "x": 120.62, "y": -18.93, "rotation": -30.88, "width": 465, "height": 394 }
+		},
+		"Right_Lower_Leg": {
+			"Right_Lower_LegHolder": { "name": "SorrowfulStriderImages/Right_Lower_Leg", "x": 305.96, "y": 0.18, "rotation": 62.46, "width": 525, "height": 1029 }
+		},
+		"Right_Shoulder": {
+			"Right_ShoulderHolder": { "name": "SorrowfulStriderImages/Right_Shoulder", "x": 210.83, "y": -26.47, "rotation": 48.44, "width": 428, "height": 396 }
+		},
+		"Right_Thigh": {
+			"Right_ThighHolder": { "name": "SorrowfulStriderImages/Right_Thigh", "x": 325.73, "y": -22.51, "rotation": 25.06, "width": 754, "height": 444 }
+		},
+		"Waist": {
+			"WaistHolder": { "name": "SorrowfulStriderImages/Waist", "x": 127.98, "y": 32.91, "rotation": -45.73, "width": 559, "height": 366 }
+		}
+	},
+	"WistfulWarrior": {
+		"Chest": {
+			"ChestHolder": { "name": "WistfulWarriorImages/Chest", "x": 97.11, "y": 14.06, "rotation": -47.76, "width": 489, "height": 405 }
+		},
+		"Chest_Light": {
+			"Chest_LightHolder": { "name": "Enemy1Images/Chest_Light", "y": 0.5, "width": 114, "height": 107 }
+		},
+		"Collar_Front": {
+			"Collar_FrontHolder": { "name": "WistfulWarriorImages/Collarlike", "x": 138.68, "y": 61.43, "rotation": -161.81, "width": 542, "height": 601 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "WistfulWarriorImages/Crotch", "x": -37.48, "y": -74.22, "rotation": -50.24, "width": 490, "height": 350 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "WistfulWarriorImages/Head", "x": 192.31, "y": 40.78, "rotation": -58.87, "width": 358, "height": 441 }
+		},
+		"Left_Hand": {
+			"Left_HandHolder": { "name": "WistfulWarriorImages/Left_hand", "x": 54.55, "y": 24.54, "rotation": 94.01, "width": 217, "height": 157 }
+		},
+		"Left_Handle": {
+			"Left_HandleHolder": { "name": "Enemy1Images/Left_Handle", "x": -0.06, "y": 31.1, "rotation": 49.53, "width": 663, "height": 684 }
+		},
+		"Left_Lower_Arm": {
+			"Left_Lower_ArmHolder": { "name": "WistfulWarriorImages/Left_Lower_Arm", "x": 132.44, "y": 20.43, "rotation": 111.33, "width": 279, "height": 468 }
+		},
+		"Left_Lower_Leg": {
+			"Left_Lower_LegHolder": { "name": "WistfulWarriorImages/Left_Foot", "x": 399.95, "y": 52.61, "rotation": 137.54, "width": 744, "height": 883 }
+		},
+		"Left_Shoulder": {
+			"Left_ShoulderHolder": { "name": "WistfulWarriorImages/Left_Shoulder", "x": 202.13, "y": 32.33, "rotation": 152.09, "width": 585, "height": 448 }
+		},
+		"Left_Sword": {
+			"Left_SwordHolder": { "name": "Enemy1Images/Left_Sword", "x": 455.87, "y": -137.76, "rotation": 0.43, "width": 1856, "height": 369 }
+		},
+		"Left_Thigh": {
+			"Left_ThighHolder": { "name": "WistfulWarriorImages/Left_thigh", "x": 266.21, "y": 19.97, "rotation": 118, "width": 440, "height": 604 }
+		},
+		"Right_Hand": {
+			"Right_HandHolder": { "name": "WistfulWarriorImages/Right_Hand", "x": 128.55, "y": -64.03, "rotation": -78.41, "width": 199, "height": 177 }
+		},
+		"Right_Lower_Arm": {
+			"Right_Lower_ArmHolder": { "name": "WistfulWarriorImages/Right_Lower_Arm", "x": 193.01, "y": -47.89, "rotation": -30.88, "width": 446, "height": 330 }
+		},
+		"Right_Lower_Leg": {
+			"Right_Lower_LegHolder": { "name": "WistfulWarriorImages/Right_Foot", "x": 344.72, "y": 90.22, "rotation": 90.95, "width": 574, "height": 846 }
+		},
+		"Right_Shield": {
+			"Right_ShieldHolder": { "name": "WistfulWarriorImages/Layer-10", "x": 340.2, "y": 53.37, "rotation": 85.81, "width": 579, "height": 1484 }
+		},
+		"Right_Shoulder": {
+			"Right_ShoulderHolder": { "name": "WistfulWarriorImages/Right_Shoulder", "x": 210.42, "y": -40.05, "rotation": 47.31, "width": 411, "height": 495 }
+		},
+		"Right_Thigh": {
+			"Right_ThighHolder": { "name": "WistfulWarriorImages/Right_Thigh", "x": 334.17, "y": -25.28, "rotation": 61.2, "width": 463, "height": 588 }
+		},
+		"Waist": {
+			"WaistHolder": { "name": "WistfulWarriorImages/Waist", "x": 135.53, "y": 15.41, "rotation": -43.89, "width": 625, "height": 516 }
 		}
 	}
 },
@@ -294,15 +536,6 @@
 		}
 	},
 	"Enemy1_ComboAttack2_DownUp": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.6333, "name": "Hitbox" },
-					{ "time": 0.7333, "name": null },
-					{ "time": 0.8333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Upper_Arm": {
 				"rotate": [
@@ -604,15 +837,6 @@
 		}
 	},
 	"Enemy1_Shield_Attack1": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.5333, "name": "Hitbox" },
-					{ "time": 0.6667, "name": null },
-					{ "time": 0.8333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Right_Upper_Arm": {
 				"rotate": [
@@ -823,14 +1047,6 @@
 		}
 	},
 	"Enemy1_Shield_PowerAttack1": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.5333, "name": "Hitbox" },
-					{ "time": 0.6667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -1194,14 +1410,6 @@
 		}
 	},
 	"Enemy1_Sword_PowerAttack1": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.6333, "name": "Hitbox" },
-					{ "time": 0.7333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -7317,14 +7525,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack1": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.2, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -7544,14 +7744,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack1_Override": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Upper_Arm": {
 				"rotate": [
@@ -7609,14 +7801,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack2": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -7803,14 +7987,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack2_Override": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Upper_Arm": {
 				"rotate": [
@@ -7898,14 +8074,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack3": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Right_Upper_Arm": {
 				"rotate": [
@@ -8059,14 +8227,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack3_Override": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Upper_Arm": {
 				"rotate": [
@@ -8176,14 +8336,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack4": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.5333, "name": "Hitbox" },
-					{ "time": 0.6333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -8381,14 +8533,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack4_Override": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.5333, "name": "Hitbox" },
-					{ "time": 0.6333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Upper_Arm": {
 				"rotate": [
@@ -8460,14 +8604,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack_Down": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0667, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -8582,14 +8718,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack_Down_Override": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0667, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Upper_Arm": {
 				"rotate": [
@@ -8633,14 +8761,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack_Up": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -8807,14 +8927,6 @@
 		}
 	},
 	"Nov_Left_Sword_Attack_Up_Override": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Upper_Arm": {
 				"rotate": [
@@ -9820,14 +9932,6 @@
 		}
 	},
 	"Nov_Left_Sword_PowerAttack": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.6333, "name": "Hitbox" },
-					{ "time": 0.7333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -10141,14 +10245,6 @@
 		}
 	},
 	"Nov_Left_Sword_PowerAttack_Override": {
-		"slots": {
-			"Left_Weapon_Hitbox": {
-				"attachment": [
-					{ "time": 0.6333, "name": "Hitbox" },
-					{ "time": 0.7333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Upper_Arm": {
 				"rotate": [
@@ -10792,14 +10888,6 @@
 		}
 	},
 	"Nov_Right_Shield_Attack1": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -10955,14 +11043,6 @@
 		}
 	},
 	"Nov_Right_Shield_Attack1_Override": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Right_Upper_Arm": {
 				"rotate": [
@@ -11013,14 +11093,6 @@
 		}
 	},
 	"Nov_Right_Shield_Attack_Down": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -11167,14 +11239,6 @@
 		}
 	},
 	"Nov_Right_Shield_Attack_Down_Override": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Right_Upper_Arm": {
 				"rotate": [
@@ -11226,14 +11290,6 @@
 		}
 	},
 	"Nov_Right_Shield_Attack_Up": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -11379,14 +11435,6 @@
 		}
 	},
 	"Nov_Right_Shield_Attack_Up_Override": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.0333, "name": "Hitbox" },
-					{ "time": 0.1667, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Right_Upper_Arm": {
 				"rotate": [
@@ -12602,14 +12650,6 @@
 		}
 	},
 	"Nov_Right_Shield_PowerAttack": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.2, "name": "Hitbox" },
-					{ "time": 0.3333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Left_Leg": {
 				"rotate": [
@@ -12786,14 +12826,6 @@
 		}
 	},
 	"Nov_Right_Shield_PowerAttack_Override": {
-		"slots": {
-			"Right_Shield_Hitbox": {
-				"attachment": [
-					{ "time": 0.2, "name": "Hitbox" },
-					{ "time": 0.3333, "name": null }
-				]
-			}
-		},
 		"bones": {
 			"Right_Upper_Arm": {
 				"rotate": [

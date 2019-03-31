@@ -295,18 +295,18 @@ public class Player : Character
             health -= actualDamage;
             UIManager.Instance.UpdateLives((int)health);
 
-            int randomDamageSound = Random.Range(0, 3);
+            randomDamageSound = Random.Range(0, 3);
 
             switch (randomDamageSound)
             {
                 case 0:
-                    SoundManager.PlaySound("Damage1", gameObject.name);
+                    SoundManager.PlaySound("Damaged1", gameObject.name);
                     break;
                 case 1:
-                    SoundManager.PlaySound("Damage2", gameObject.name);
+                    SoundManager.PlaySound("Damaged2", gameObject.name);
                     break;
                 case 2:
-                    SoundManager.PlaySound("DamageBoneBreak", gameObject.name);
+                    SoundManager.PlaySound("DamagedBoneBreak", gameObject.name);
                     break;
             }
 
@@ -836,7 +836,6 @@ public class Player : Character
                 if (!Input.GetMouseButton(0) && !Input.GetButton("RB"))
                 {
                     _anim.SetTrigger("Left_Attack_Rushed");
-                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 break;
             case LeftWeaponState.Blocking:
@@ -844,14 +843,12 @@ public class Player : Character
                 if (!Input.GetMouseButton(0) && !Input.GetButton("RB"))
                 {
                     _anim.SetTrigger("Left_Attack");
-                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 else if(Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
                 {
                     if(currentMana >= swordPowerAttackManaCost)
                     {
                         _anim.SetTrigger("Left_PowerAttack");
-                        SoundManager.PlaySound("SwordSwing", gameObject.name);
 
                         currentMana -= swordPowerAttackManaCost;
                         UIManager.Instance.UpdateMana(currentMana);
@@ -863,7 +860,6 @@ public class Player : Character
                 if (Input.GetMouseButtonUp(0) || Input.GetButtonUp("RB"))
                 {
                     _anim.SetTrigger("Left_Attack2");
-                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 break;
             case LeftWeaponState.Attacking3:
@@ -871,7 +867,6 @@ public class Player : Character
                 if(Input.GetMouseButtonUp(0) || Input.GetButtonUp("RB"))
                 {
                     _anim.SetTrigger("Left_Attack3");
-                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 break;
             case LeftWeaponState.Attacking4:
@@ -897,21 +892,18 @@ public class Player : Character
                 if (!Input.GetMouseButton(1) && !Input.GetButton("LB"))
                 {
                     _anim.SetTrigger("Right_Attack_Rushed");
-                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 break;
             case RightWeaponState.Blocking:
                 if (!Input.GetMouseButton(1) && !Input.GetButton("LB"))
                 {
                     _anim.SetTrigger("Right_Attack");
-                    SoundManager.PlaySound("SwordSwing", gameObject.name);
                 }
                 else if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
                 {
                     if(currentMana >= shieldPowerAttackManaCost)
                     {
                         _anim.SetTrigger("Right_PowerAttack");
-                        SoundManager.PlaySound("SwordSwing", gameObject.name);
 
                         currentMana -= shieldPowerAttackManaCost;
                         UIManager.Instance.UpdateMana(currentMana);

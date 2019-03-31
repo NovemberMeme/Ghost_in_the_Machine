@@ -1,0 +1,38 @@
+{"skeleton":{"images":"../SorrowfulStriderImages/"},
+"bones":[{"name":"root"}],
+"slots":[
+	{"name":"Right_Thigh","bone":"root","attachment":"Right_Thigh"},
+	{"name":"Right_Lower_Leg","bone":"root","attachment":"Right_Lower_Leg"},
+	{"name":"Right_Shoulder","bone":"root","attachment":"Right_Shoulder"},
+	{"name":"Right_Hand","bone":"root","attachment":"Right_Hand"},
+	{"name":"Right_Lower_Arm","bone":"root","attachment":"Right_Lower_Arm"},
+	{"name":"Crotch","bone":"root","attachment":"Crotch"},
+	{"name":"Waist","bone":"root","attachment":"Waist"},
+	{"name":"Chest","bone":"root","attachment":"Chest"},
+	{"name":"Head","bone":"root","attachment":"Head"},
+	{"name":"Left_Thigh","bone":"root","attachment":"Left_Thigh"},
+	{"name":"Left_Lower_Leg","bone":"root","attachment":"Left_Lower_Leg"},
+	{"name":"Left_Shoulder","bone":"root","attachment":"Left_Shoulder"},
+	{"name":"Left_Hand","bone":"root","attachment":"Left_Hand"},
+	{"name":"Left_Lower_Arm","bone":"root","attachment":"Left_Lower_Arm"}
+],
+"skins":{
+	"default":{
+		"Left_Lower_Arm":{"Left_Lower_Arm":{"x":2327,"y":3032.5,"width":260,"height":611}},
+		"Left_Hand":{"Left_Hand":{"x":2229.5,"y":2685.5,"width":173,"height":177}},
+		"Left_Shoulder":{"Left_Shoulder":{"x":2666,"y":3216,"width":550,"height":272}},
+		"Left_Lower_Leg":{"Left_Lower_Leg":{"x":2143.5,"y":1904,"width":879,"height":734}},
+		"Left_Thigh":{"Left_Thigh":{"x":2500.5,"y":2556.5,"width":327,"height":787}},
+		"Head":{"Head":{"x":3213.5,"y":3438.5,"width":419,"height":491}},
+		"Chest":{"Chest":{"x":3029,"y":3212.5,"width":544,"height":511}},
+		"Waist":{"Waist":{"x":2904.5,"y":2983,"width":559,"height":366}},
+		"Crotch":{"Crotch":{"x":2745.5,"y":2788,"width":449,"height":298}},
+		"Right_Lower_Arm":{"Right_Lower_Arm":{"x":3662.5,"y":2861,"width":465,"height":394}},
+		"Right_Hand":{"Right_Hand":{"x":3917.5,"y":3089,"width":171,"height":172}},
+		"Right_Shoulder":{"Right_Shoulder":{"x":3427,"y":2991,"width":428,"height":396}},
+		"Right_Lower_Leg":{"Right_Lower_Leg":{"x":3705.5,"y":2149.5,"width":525,"height":1029}},
+		"Right_Thigh":{"Right_Thigh":{"x":3204,"y":2642,"width":754,"height":444}}
+	}
+},
+"animations":{"animation":{}}
+}

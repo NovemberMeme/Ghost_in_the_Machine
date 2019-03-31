@@ -5372,12 +5372,13 @@ MonoBehaviour:
   canAttack: 1
   attackCooldown: 0.5
   attackHitBoxCooldown: 0.5
+  actualDamage: 0
   stunDuration: 0
   swordStunDuration: 1
   shieldStunDuration: 0.6
   canBeDamaged: 1
   canBeHitCooldown: 0.17
-  canBeDamagedCooldown: 0.5
+  canBeDamagedCooldown: 0.2
   isDead: 0
   projectilePos: {fileID: 7862529133381127097}
   projectilePrefab: {fileID: 0}
@@ -5422,15 +5423,18 @@ MonoBehaviour:
   timeLapseManaCost: 12
   currentElement: 0
   weaponElement: 0
+  randomDamageSound: 0
   _rigid: {fileID: 0}
   _collider: {fileID: 0}
   _mesh: {fileID: 0}
   _material: {fileID: 0}
   _anim: {fileID: 0}
+  skeletonMecanim: {fileID: 0}
   colliderSize: {x: 0, y: 0}
   flashTime: 0.5
   colliderSizeMultiplier: 0
   colliderOffsetY: 0
+  currentEnemySkin: 3
   currentEnemyControlState: 0
   currentEnemyMobilityState: 0
   currentEnemyChaseState: 0
@@ -5486,8 +5490,8 @@ MonoBehaviour:
   dashCooldownMax: 2
   dashTimer: 0
   dashCooldownSet: 0
-  dashForwardChance: 50
-  dashForwardChanceCurrent: 0
+  dashBackwardChance: 50
+  dashBackwardChanceCurrent: 0
   isJumper: 1
   jumpCooldownMin: 1
   jumpCooldownMax: 2
@@ -5518,8 +5522,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c6f529ad2519a5b4685b1ce431323b8d, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

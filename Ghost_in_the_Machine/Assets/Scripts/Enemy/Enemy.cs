@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class Enemy : Character
 {
+    public enum EnemySkin
+    {
+        SoddenSoldier,
+        WistfulWarrior,
+        MadMage,
+        SorrowfulStrider,
+        NullifiedKnight,
+        BitterBrute
+    }
+
     public enum EnemyControlState
     {
         Idling,
@@ -74,6 +84,7 @@ public class Enemy : Character
     }
 
     [Header("Enum States: ")]
+    public EnemySkin currentEnemySkin;
     public EnemyControlState currentEnemyControlState;
     public EnemyMobilityState currentEnemyMobilityState = EnemyMobilityState.Standing;
     public EnemyChaseState currentEnemyChaseState;
@@ -231,6 +242,8 @@ public class Enemy : Character
     {
         base.Update();
 
+        ChangeSkin();
+
         CheckSides();
 
         CheckPlayer();
@@ -279,22 +292,23 @@ public class Enemy : Character
             health -= actualDamage;
             //_anim.SetTrigger("Hit");
             canBeDamaged = false;
-            StartCoroutine(ResetCanBeDamaged());
 
-            int randomDamageSound = Random.Range(0, 3);
+            randomDamageSound = Random.Range(0, 3);
 
             switch (randomDamageSound)
             {
                 case 0:
-                    SoundManager.PlaySound("Damage1", gameObject.name);
+                    SoundManager.PlaySound("Damaged1", gameObject.name);
                     break;
                 case 1:
-                    SoundManager.PlaySound("Damage2", gameObject.name);
+                    SoundManager.PlaySound("Damaged2", gameObject.name);
                     break;
                 case 2:
-                    SoundManager.PlaySound("DamageBoneBreak", gameObject.name);
+                    SoundManager.PlaySound("DamagedBoneBreak", gameObject.name);
                     break;
             }
+
+            StartCoroutine(ResetCanBeDamaged());
 
             if (health <= 0)
             {
@@ -333,12 +347,17 @@ public class Enemy : Character
         {
             isChasing = false;
             _anim.SetBool("EnemyChasing", false);
+            currentEnemyControlState = EnemyControlState.Idling;
         }
 
         if (distance < chaseTriggerLength)
         {
             isChasing = true;
             _anim.SetBool("EnemyChasing", true);
+            if(currentEnemyControlState != EnemyControlState.Attacking)
+            {
+                currentEnemyControlState = EnemyControlState.Chasing;
+            }
 
             if (!isAttacking)
                 FacePlayer();
@@ -599,8 +618,6 @@ public class Enemy : Character
 
     public virtual void NextRandomMove()
     {
-        SoundManager.PlaySound("SwordSwing", gameObject.name);
-
         int moveIndex = Random.Range(0, knownMoves.Count);
         currentMove = knownMoves[moveIndex];
         _anim.SetInteger("CurrentMove", currentMove);
@@ -824,6 +841,9 @@ public class Enemy : Character
                         jumpCooldownSet = true;
                     }
                 }
+                break;
+            case EnemyControlState.Attacking:
+                chaseTimer = 0;
                 break;
         }
     }
@@ -1197,38 +1217,38 @@ public class Enemy : Character
 
     public virtual void ChangeState()
     {
-        if (_anim.GetBool("EnemyChasing") && !_anim.GetBool("Attacking"))
+        if (_anim.GetBool("EnemyChasing") && currentEnemyControlState != EnemyControlState.Attacking)
         {
-            currentEnemyControlState = EnemyControlState.Chasing;
+            //currentEnemyControlState = EnemyControlState.Chasing;
             enemyIdleSet = false;
         }
 
         if (!_anim.GetBool("EnemyChasing") && !enemyIdleSet)
         {
-            currentEnemyControlState = EnemyControlState.Idling;
+            //currentEnemyControlState = EnemyControlState.Idling;
             enemyIdleSet = true;
         }
     }
 
     // ------------------------------------------------- Animation Event Functions ---------------------------------------------
 
-    public void SetEnemyIdlingState()
-    {
-        currentEnemyControlState = EnemyControlState.Idling;
-    }
+    //public void SetEnemyIdlingState()
+    //{
+    //    currentEnemyControlState = EnemyControlState.Idling;
+    //}
 
-    public void SetEnemyPatrollingState()
-    {
-        currentEnemyControlState = EnemyControlState.Patrolling;
-    }
+    //public void SetEnemyPatrollingState()
+    //{
+    //    currentEnemyControlState = EnemyControlState.Patrolling;
+    //}
 
-    public void SetEnemyChasingState()
-    {
-        currentEnemyControlState = EnemyControlState.Chasing;
-        notComboingSet = false;
-        _anim.SetTrigger("SetChasing");
-        _anim.ResetTrigger("SetChasing");
-    }
+    //public void SetEnemyChasingState()
+    //{
+    //    currentEnemyControlState = EnemyControlState.Chasing;
+    //    notComboingSet = false;
+    //    _anim.SetTrigger("SetChasing");
+    //    _anim.ResetTrigger("SetChasing");
+    //}
 
     public void SetEnemyChasingStateIfChasing()
     {
@@ -1244,5 +1264,12 @@ public class Enemy : Character
             //_anim.SetBool("Attacking", false);
             //Debug.Log("SetChasing Done!");
         }
+    }
+
+    // ---------------------------------------------- Skins ---------------------------------------------------
+
+    public void ChangeSkin()
+    {
+        skeletonMecanim.skeleton.SetSkin(currentEnemySkin.ToString());
     }
 }

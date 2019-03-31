@@ -1,0 +1,44 @@
+{"skeleton":{"images":"../MadMageImages/"},
+"bones":[{"name":"root"}],
+"slots":[
+	{"name":"Right_thigh","bone":"root","attachment":"Right_thigh"},
+	{"name":"Right_Lower_Leg","bone":"root","attachment":"Right_Lower_Leg"},
+	{"name":"Crotch","bone":"root","attachment":"Crotch"},
+	{"name":"Waist","bone":"root","attachment":"Waist"},
+	{"name":"Left_thigh","bone":"root","attachment":"Left_thigh"},
+	{"name":"Left_Lower_Leg","bone":"root","attachment":"Left_Lower_Leg"},
+	{"name":"Right_Lower_Arm","bone":"root","attachment":"Right_Lower_Arm"},
+	{"name":"Right_hand","bone":"root","attachment":"Right_hand"},
+	{"name":"Right_Shoulder","bone":"root","attachment":"Right_Shoulder"},
+	{"name":"Chest","bone":"root","attachment":"Chest"},
+	{"name":"Collar Back","bone":"root","attachment":"Collar Back"},
+	{"name":"Mage_hat","bone":"root","attachment":"Mage_hat"},
+	{"name":"Left_Shoulder","bone":"root","attachment":"Left_Shoulder"},
+	{"name":"Left_Lower_Arm","bone":"root","attachment":"Left_Lower_Arm"},
+	{"name":"Left_Hand","bone":"root","attachment":"Left_Hand"},
+	{"name":"Book","bone":"root","attachment":"Book"},
+	{"name":"Chet_Design","bone":"root","attachment":"Chet_Design"}
+],
+"skins":{
+	"default":{
+		"Chet_Design":{"Chet_Design":{"x":2920,"y":3141,"width":218,"height":370}},
+		"Book":{"Book":{"x":3845,"y":3340,"width":406,"height":412}},
+		"Left_Hand":{"Left_Hand":{"x":2387.5,"y":2788,"width":187,"height":206}},
+		"Left_Lower_Arm":{"Left_Lower_Arm":{"x":2307,"y":3052,"width":304,"height":438}},
+		"Left_Shoulder":{"Left_Shoulder":{"x":2533.5,"y":3285,"width":711,"height":264}},
+		"Mage_hat":{"Mage_hat":{"x":3189,"y":3588.5,"width":662,"height":793}},
+		"Collar Back":{"Collar Back":{"x":3097.5,"y":3208,"width":215,"height":308}},
+		"Chest":{"Chest":{"x":2968.5,"y":3223.5,"width":489,"height":405}},
+		"Right_Shoulder":{"Right_Shoulder":{"x":3232.5,"y":3027,"width":411,"height":488}},
+		"Right_hand":{"Right_hand":{"x":3886.5,"y":3135.5,"width":197,"height":205}},
+		"Right_Lower_Arm":{"Right_Lower_Arm":{"x":3627.5,"y":2957.5,"width":519,"height":359}},
+		"Left_Lower_Leg":{"Left_Lower_Leg":{"x":2544.5,"y":2131,"width":687,"height":526}},
+		"Left_thigh":{"Left_thigh":{"x":2656.5,"y":2575,"width":399,"height":596}},
+		"Waist":{"Waist":{"x":2880,"y":3088.5,"width":598,"height":475}},
+		"Crotch":{"Crotch":{"x":2806,"y":2803.5,"width":526,"height":269}},
+		"Right_Lower_Leg":{"Right_Lower_Leg":{"x":3635,"y":2294,"width":636,"height":710}},
+		"Right_thigh":{"Right_thigh":{"x":3214,"y":2666,"width":678,"height":508}}
+	}
+},
+"animations":{"animation":{}}
+}

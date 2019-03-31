@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine.Unity;
 
 public enum AttackDirectionState
 {
@@ -109,12 +110,16 @@ public class Character : MonoBehaviour
     public Element currentElement;
     public Element weaponElement;
 
+    [Header("Audio: ")]
+    [SerializeField] protected int randomDamageSound;
+
     [Header("Components: ")]
     public Rigidbody2D _rigid;
     public CapsuleCollider2D _collider;
     public MeshRenderer _mesh;
     public Material _material;
     public Animator _anim;
+    public SkeletonMecanim skeletonMecanim;
 
     public Vector2 colliderSize;
 
@@ -130,6 +135,7 @@ public class Character : MonoBehaviour
         _mesh = GetComponent<MeshRenderer>();
         _material = GetComponent<Material>();
         _anim = GetComponent<Animator>();
+        skeletonMecanim = GetComponent<SkeletonMecanim>();
 
         colliderSize = _collider.size * transform.localScale.x;
 
