@@ -154,12 +154,6 @@ public class Enemy : Character
     protected float chasingStillTimer = 0;
     protected bool chasingStillDurationSet = false;
 
-    // Animation Event Replacements
-
-    //[Header("Animation event replacements: ")]
-    //[SerializeField] private bool callChasingFunctionSet = false;
-    //[SerializeField] private bool callAttackingFunctionSet = false;
-
     // ChasingForward
 
     [Header("Chasing forward stats: ")]
@@ -241,9 +235,6 @@ public class Enemy : Character
         {
             _anim.SetBool("Blocker", true);
         }
-
-        //_collider.size = colliderSizeMultiplier * _mesh.size;
-        //_collider.offset = new Vector2(0, 0 + colliderOffsetY);
     }
 
     public override void Update()
@@ -257,8 +248,6 @@ public class Enemy : Character
         CheckSides();
 
         CheckPlayer();
-
-        ImplementAnimationEventReplacements();
 
         ImplementControlState();
         ImplementMobilityState();
@@ -284,54 +273,13 @@ public class Enemy : Character
         if (isDead || !canBeDamaged || dmg.layer != "Sword")
             return;
 
-        //Debug.Log(damage.damageAmount);
-
-        actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount) - blockValue - parryValue;
-
-        //Debug.Log(actualDamage);
-
-        if(actualDamage <= 0)
+        if(currentEnemyRightWeaponState == EnemyRightWeaponState.Blocking)
         {
-            SoundManager.PlaySound("BlockHit", gameObject.name);
-            _anim.SetTrigger("Hit");
-        }
-        else if(actualDamage > 0)
-        {
-            _anim.SetTrigger("Damaged");
-
-            health -= actualDamage;
-            //_anim.SetTrigger("Hit");
-            canBeDamaged = false;
-
-            PlayRandomDamagedSound();
-
-            StartCoroutine(ResetCanBeDamaged());
-
-            if (health <= 0)
-            {
-                isDead = true;
-
-                Death();
-
-                //GameObject droppedCoin = Instantiate(coin, transform.position, Quaternion.identity);
-                //droppedCoin.GetComponent<Coin>().coinAmount = enemyCoins;
-
-                Destroy(gameObject);
-            }
-            else
-            {
-                FlashRed();
-            }
+            Block(dmg);
         }
         else
         {
-            _anim.SetTrigger("Hit");
-            StartCoroutine(ResetCanBeHit());
-        }
-
-        if (dmg.stunningDuration > 0)
-        {
-            StartCoroutine(Stunned(dmg.stunningDuration));
+            TakeDamage(dmg);
         }
     }
 
@@ -351,13 +299,11 @@ public class Enemy : Character
         {
             isChasing = true;
             _anim.SetBool("EnemyChasing", true);
-            if(currentEnemyControlState != EnemyControlState.Attacking)
+
+            if (currentEnemyControlState != EnemyControlState.Attacking)
             {
                 currentEnemyControlState = EnemyControlState.Chasing;
             }
-
-            if (!isAttacking)
-                FacePlayer();
         }
     }
 
@@ -366,46 +312,17 @@ public class Enemy : Character
         _anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
         _anim.SetFloat("Moving", Mathf.Abs(movementSpeed/origMoveSpeed));
 
-        if (!isDead)
+        if(!isStopped && !isDead)
         {
-            if(!isStopped)
-            {
-                _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
-
-                //switch (currentEnemyMobilityState)
-                //{
-                //    case EnemyMobilityState.Standing:
-                //        _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
-                //        break;
-                //    case EnemyMobilityState.Walking:
-                //        _rigid.velocity = new Vector2(moveDirection * movementSpeed * slowMultiplier * Time.deltaTime, _rigid.velocity.y);
-                //        break;
-                //    case EnemyMobilityState.Running:
-                //        _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
-                //        break;
-                //    case EnemyMobilityState.Dashing:
-                //        _rigid.velocity = new Vector2(faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, _rigid.velocity.y);
-                //        break;
-                //    case EnemyMobilityState.BackDashing:
-                //        _rigid.velocity = new Vector2(-faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, _rigid.velocity.y);
-                //        break;
-                //    case EnemyMobilityState.Stunned:
-                //        _rigid.velocity = new Vector2(0, _rigid.velocity.y);
-                //        movementSpeed = 0;
-                //        break;
-                //    default:
-                //        _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
-                //        break;
-                //}
-            }
-            else if(isStopped)
-            {
-                _rigid.velocity = new Vector2(0, _rigid.velocity.y);
-            }
+            _rigid.velocity = new Vector2(moveDirection * movementSpeed * Time.deltaTime, _rigid.velocity.y);
+        }
+        else if(isStopped || isDead)
+        {
+            _rigid.velocity = new Vector2(0, _rigid.velocity.y);
         }
 
-        _anim.SetFloat("Moving", Mathf.Abs(_rigid.velocity.x));
-        _anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
+        //_anim.SetFloat("Moving", Mathf.Abs(_rigid.velocity.x));
+        //_anim.SetFloat("VerticalSpeed", _rigid.velocity.y);
     }
 
     protected override void UpdateDirection()
@@ -592,7 +509,6 @@ public class Enemy : Character
             isGrounded = true;
             _anim.SetBool("Grounded", true);
             canDoubleJump = true;
-            //canDash = true;
         }
     }
 
@@ -622,6 +538,13 @@ public class Enemy : Character
         //_anim.SetBool("Attacking", true);
         //Debug.Log("Attacking!");
     }
+
+    public override void Death()
+    {
+        Destroy(gameObject);
+    }
+
+    // Coroutines
 
     protected override IEnumerator Dashing()
     {
@@ -685,23 +608,6 @@ public class Enemy : Character
 
     //-------------------------------------------- Enum States ----------------------------------------------------------
 
-    // Animation Event Replacement Implementation
-
-    public void ImplementAnimationEventReplacements()
-    {
-        //if (callChasingFunctionSet)
-        //{
-        //    SetEnemyChasingStateIfChasing();
-        //    callChasingFunctionSet = false;
-        //}
-
-        //if (callAttackingFunctionSet)
-        //{
-        //    SetEnemyAttackingState();
-        //    callAttackingFunctionSet = false;
-        //}
-    }
-
     // Implement the behaviors and functions of each State
 
     // Enemy Control State
@@ -749,6 +655,11 @@ public class Enemy : Character
                 break;
             case EnemyControlState.Chasing:
                 chaseTimer += Time.deltaTime;
+
+                if (!isDashing)
+                {
+                    FacePlayer();
+                }
 
                 _anim.SetInteger("CurrentMove", 0);
                 //movementSpeed = origMoveSpeed;

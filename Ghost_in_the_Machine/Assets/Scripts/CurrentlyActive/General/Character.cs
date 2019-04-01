@@ -201,20 +201,49 @@ public class Character : MonoBehaviour
 
     public virtual void TakeDamage(Damage dmg)
     {
+        _anim.SetTrigger("Damaged");
+        PlayRandomDamagedSound();
 
+        actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount);
+        health -= actualDamage;
+
+        if (health > 0)
+        {
+            canBeDamaged = false;
+            StartCoroutine(ResetCanBeDamaged());
+
+            if (dmg.stunningDuration > 0)
+            {
+                StartCoroutine(Stunned(dmg.stunningDuration));
+            }
+        }
+        else
+        {
+            Death();
+        }
     }
 
-    public virtual void Parry(int damageAmount)
+    public virtual void Parry(Damage dmg)
     {
-        actualDamage = damageAmount - parryValue;
+        actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount) - parryValue;
+
         SoundManager.PlaySound("Parry", gameObject.name);
+        StartCoroutine(ResetCanBeHit());
     }
 
-    public virtual void Block(int damageAmount)
+    public virtual void Block(Damage dmg)
     {
-        actualDamage = damageAmount - blockValue;
+        actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount) - blockValue;
+
         SoundManager.PlaySound("BlockHit", gameObject.name);
         _anim.SetTrigger("Hit");
+
+        StartCoroutine(ResetCanBeHit());
+
+        if (dmg.stunningDuration > 0)
+        {
+            StartCoroutine(Stunned(dmg.stunningDuration));
+        }
     }
 
     public virtual void Move()
@@ -279,11 +308,6 @@ public class Character : MonoBehaviour
             default:
                 return damage;
         }
-    }
-
-    public virtual void Death()
-    {
-        FlashBlack();
     }
 
     public virtual void CheckGround()
@@ -412,7 +436,27 @@ public class Character : MonoBehaviour
         Instantiate(projectile_Right, projectilePos.position, Quaternion.identity);
     }
 
-    // IEnumerators
+    public virtual void Heal()
+    {
+
+    }
+
+    public virtual void Death()
+    {
+        isDead = true;
+    }
+
+    public virtual void SwordPowerAttack()
+    {
+
+    }
+
+    public virtual void ShieldPowerAttack()
+    {
+
+    }
+
+    // Coroutines
 
     //protected virtual IEnumerator Attacking()
     //{
@@ -553,36 +597,19 @@ public class Character : MonoBehaviour
 
     public virtual void ShootProjectile(int value)
     {
-        if(!isGrounded && value == 1 || isGrounded && value == 0)
-        {
-            if(faceDirection == 1)
-            {
-                GameObject tmp = (GameObject)Instantiate(projectilePrefab, projectilePos.position, Quaternion.identity);
+        //if(!isGrounded && value == 1 || isGrounded && value == 0)
+        //{
+        //    if(faceDirection == 1)
+        //    {
+        //        GameObject tmp = (GameObject)Instantiate(projectilePrefab, projectilePos.position, Quaternion.identity);
 
-            }
-            else
-            {
-                GameObject tmp = (GameObject)Instantiate(projectilePrefab, projectilePos.position, Quaternion.identity);
+        //    }
+        //    else
+        //    {
+        //        GameObject tmp = (GameObject)Instantiate(projectilePrefab, projectilePos.position, Quaternion.identity);
 
-            }
-        }
-    }
-
-    public void FlashRed()
-    {
-        //_mesh.color = Color.red;
-        Invoke("ResetColor", flashTime);
-    }
-
-    public void FlashBlack()
-    {
-        //_mesh.color = Color.black;
-        //Invoke("ResetColor", flashTime*2);
-    }
-
-    private void ResetColor()
-    {
-        //_mesh.color = origColor;
+        //    }
+        //}
     }
 
     // -------------------------------------------------------- Audio ------------------------------------------------------

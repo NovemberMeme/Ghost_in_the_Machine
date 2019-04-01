@@ -163,6 +163,21 @@ public class Player : Character
 
         ImplementPhase();
 
+        PlayerInput();
+
+        if(health <= 0)
+        {
+            isDead = true;
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        Move();
+    }
+
+    public virtual void PlayerInput()
+    {
         // Controller mode
 
         if (Input.GetKeyDown(KeyCode.J) || Input.GetButtonDown("View Button"))
@@ -177,19 +192,19 @@ public class Player : Character
             isStrafing = true;
             _anim.SetBool("Slowed", true);
         }
-        else if(currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling && !Input.GetKey(KeyCode.LeftControl) && Input.GetAxisRaw("LT") <= 0)
+        else if (currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling && !Input.GetKey(KeyCode.LeftControl) && Input.GetAxisRaw("LT") <= 0)
         {
             isStrafing = false;
             _anim.SetBool("Slowed", false);
         }
-        else if(!Input.GetKey(KeyCode.LeftControl) && Input.GetAxisRaw("LT") <= 0)
+        else if (!Input.GetKey(KeyCode.LeftControl) && Input.GetAxisRaw("LT") <= 0)
         {
             isStrafing = false;
         }
 
         // Healing
 
-        if(health < 4 && isGrounded && currentMana >= healManaCost)
+        if (health < 4 && isGrounded && currentMana >= healManaCost)
         {
             if (Input.GetKey(KeyCode.E) || Input.GetButton("X"))
             {
@@ -235,25 +250,15 @@ public class Player : Character
             unlockedDoubleJump = !unlockedDoubleJump;
         }
 
-        if(Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             unlockedTimeLapse = !unlockedTimeLapse;
         }
 
-        if(Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             unlockedPhase = !unlockedPhase;
         }
-
-        if(health <= 0)
-        {
-            isDead = true;
-        }
-    }
-
-    public override void FixedUpdate()
-    {
-        Move();
     }
 
     public override void GetHit(Damage dmg)
@@ -269,7 +274,7 @@ public class Player : Character
                 (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
                 (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
             {
-                Parry(dmg.damageAmount);
+                Parry(dmg);
             }
             else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
             {
@@ -277,7 +282,7 @@ public class Player : Character
                     (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
                     (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
                 {
-                    Block(dmg.damageAmount);
+                    Block(dmg);
                 }
                 else
                 {
@@ -291,7 +296,7 @@ public class Player : Character
                     (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
                     (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
             {
-                Block(dmg.damageAmount);
+                Block(dmg);
             }
             else
             {
@@ -306,37 +311,26 @@ public class Player : Character
 
     public override void TakeDamage(Damage dmg)
     {
-        actualDamage = dmg.damageAmount;
+        _anim.SetTrigger("Damaged");
+        PlayRandomDamagedSound();
 
-        if (actualDamage > 0)
+        actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount);
+        health -= actualDamage;
+        UIManager.Instance.UpdateLives((int)health);
+
+        if (health > 0)
         {
-            _anim.SetTrigger("Damaged");
+            canBeDamaged = false;
+            StartCoroutine(ResetCanBeDamaged());
 
-            health -= actualDamage;
-            UIManager.Instance.UpdateLives((int)health);
-
-            PlayRandomDamagedSound();
-
-            if (health > 0)
+            if (dmg.stunningDuration > 0)
             {
-                canBeDamaged = false;
-                StartCoroutine(ResetCanBeDamaged());
-                //StartCoroutine(ResetCanBeHit());
-            }
-            else
-            {
-                Death();
+                StartCoroutine(Stunned(dmg.stunningDuration));
             }
         }
         else
         {
-            canBeDamaged = false;
-            StartCoroutine(ResetCanBeHit());
-        }
-
-        if (dmg.stunningDuration > 0)
-        {
-            StartCoroutine(Stunned(dmg.stunningDuration));
+            Death();
         }
     }
 
@@ -376,43 +370,34 @@ public class Player : Character
 
         // For Dashing
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetAxisRaw("RT") > 0)
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetAxisRaw("RT") > 0) && canDash && unlockedDash)
         {
-            if (canDash && unlockedDash)
+            if(move == 0 || moveDirection - faceDirection != 0)
             {
-                if(move == 0 || moveDirection - faceDirection != 0)
+                if (isGrounded)
                 {
-                    if (isGrounded)
-                    {
-                        //SoundManager.PlaySound("dash"); IMPLEMENT DASH SFX
-                        BackDash();
-                        canDash = false;
-                    }
-                    else if (!isGrounded)
-                    {
-                        if (canAirDash)
-                        {
-                            BackJumpDash();
-                            canAirDash = false;
-                        }
-                    }
+                    //SoundManager.PlaySound("dash"); IMPLEMENT DASH SFX
+                    BackDash();
+                    canDash = false;
                 }
-                else
+                else if (!isGrounded && canAirDash)
                 {
-                    if (isGrounded)
-                    {
-                        //SoundManager.PlaySound("dash"); IMPLEMENT DASH SFX
-                        Dash();
-                        canDash = false;
-                    }
-                    else if (!isGrounded)
-                    {
-                        if (canAirDash)
-                        {
-                            JumpDash();
-                            canAirDash = false;
-                        }
-                    }
+                    BackJumpDash();
+                    canAirDash = false;
+                }
+            }
+            else
+            {
+                if (isGrounded)
+                {
+                    //SoundManager.PlaySound("dash"); IMPLEMENT DASH SFX
+                    Dash();
+                    canDash = false;
+                }
+                else if (!isGrounded && canAirDash)
+                {
+                    JumpDash();
+                    canAirDash = false;
                 }
             }
         }
@@ -423,8 +408,7 @@ public class Player : Character
 
     public override void Move()
     {
-        // The actual adjustments for gravity values which result in varying jump heights and durations based on button pressed duration
-        // is here
+        // The actual adjustments for gravity values which result in varying jump heights and durations based on button pressed duration is here
 
         if (_rigid.velocity.y < 0)
         {
@@ -447,37 +431,6 @@ public class Player : Character
             {
                 _rigid.velocity = new Vector2(movementSpeed * Time.deltaTime, 0);
             }
-            
-
-            // Mobility State Implementation
-
-            //switch (currentMobilityState)
-            //{
-            //    case PlayerMobilityState.Standing:
-            //        _rigid.velocity = new Vector3(0, _rigid.velocity.y);
-            //        break;
-            //    case PlayerMobilityState.Walking:
-            //        _rigid.velocity = new Vector3(move * movementSpeed * slowMultiplier * Time.deltaTime, _rigid.velocity.y);
-            //        break;
-            //    case PlayerMobilityState.Dashing:
-            //        _rigid.velocity = new Vector3(faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
-            //        break;
-            //    case PlayerMobilityState.BackDashing:
-            //        _rigid.velocity = new Vector3(-faceDirection * movementSpeed * dashMultiplier * Time.deltaTime, 0);
-            //        break;
-            //    case PlayerMobilityState.HealStarting:
-            //        _rigid.velocity = new Vector3(0, _rigid.velocity.y);
-            //        break;
-            //    case PlayerMobilityState.Healing:
-            //        _rigid.velocity = new Vector3(0, _rigid.velocity.y);
-            //        break;
-            //    case PlayerMobilityState.Stunned:
-            //        _rigid.velocity = new Vector3(0, _rigid.velocity.y);
-            //        break;
-            //    default:
-            //        _rigid.velocity = new Vector3(move * movementSpeed * Time.deltaTime, _rigid.velocity.y);
-            //        break;
-            //}
         }
         else if(isStopped || isDead)
         {
@@ -553,19 +506,77 @@ public class Player : Character
         canDoubleJump = false;
     }
 
+    public override void Heal()
+    {
+        health++;
+        currentMana -= healManaCost;
+        UIManager.Instance.UpdateMana(currentMana);
+        UIManager.Instance.UpdateLives(health);
+        healTimer = 0;
+    }
+
+    public override void Death()
+    {
+        // IMPLEMENT PLAYER DEATH
+
+        isDead = true;
+    }
+
+    public override void SwordPowerAttack()
+    {
+        _anim.SetTrigger("Left_PowerAttack");
+
+        currentMana -= swordPowerAttackManaCost;
+        UIManager.Instance.UpdateMana(currentMana);
+    }
+
+    public override void ShieldPowerAttack()
+    {
+        _anim.SetTrigger("Right_PowerAttack");
+
+        currentMana -= shieldPowerAttackManaCost;
+        UIManager.Instance.UpdateMana(currentMana);
+    }
+
+    public void AddCoins(int amount)
+    {
+        //coins += amount;
+        //UIManager.Instance.UpdateCoinCount(coins);
+    }
+
+    public override void ImplementPhase()
+    {
+        if (_isPhasing)
+        {
+            _mesh.enabled = false;
+            _collider.enabled = false;
+            _rigid.bodyType = RigidbodyType2D.Static;
+        }
+        else if (!_isPhasing && !isTimeLapsing)
+        {
+            _mesh.enabled = true;
+            _collider.enabled = true;
+            _rigid.bodyType = RigidbodyType2D.Dynamic;
+        }
+
+        if (_isPhasing && (Input.GetKeyUp(KeyCode.Q) || Input.GetButtonUp("L3")))
+        {
+            _isPhasing = false;
+            _mesh.enabled = true;
+            _collider.enabled = true;
+            _rigid.bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
+
+    // Coroutines
+
     protected override IEnumerator Dashing()
     {
-        //_collider.size = new Vector2(0.5f, 0.5f);
-        //_collider.offset = new Vector2(0, colliderOffsetY);
-
         _anim.SetBool("Dashing", true);
         isDashing = true;
         canDash = false;
 
         yield return new WaitForSeconds(dashDuration);
-
-        //_collider.size = origColliderSize;
-        //_collider.offset = Vector2.zero;
 
         _anim.SetBool("Dashing", false);
         isDashing = false;
@@ -626,41 +637,6 @@ public class Player : Character
         isTimeLapsing = false;
     }
 
-    public override void Death()
-    {
-        base.Death();
-    }
-
-    public void AddCoins(int amount)
-    {
-        coins += amount;
-        UIManager.Instance.UpdateCoinCount(coins);
-    }
-
-    public override void ImplementPhase()
-    {
-        if (_isPhasing)
-        {
-            _mesh.enabled = false;
-            _collider.enabled = false;
-            _rigid.bodyType = RigidbodyType2D.Static;
-        }
-        else if (!_isPhasing && !isTimeLapsing)
-        {
-            _mesh.enabled = true;
-            _collider.enabled = true;
-            _rigid.bodyType = RigidbodyType2D.Dynamic;
-        }
-
-        if (_isPhasing && (Input.GetKeyUp(KeyCode.Q) || Input.GetButtonUp("L3")))
-        {
-            _isPhasing = false;
-            _mesh.enabled = true;
-            _collider.enabled = true;
-            _rigid.bodyType = RigidbodyType2D.Dynamic;
-        }
-    }
-
     //------------------------------------------------ Enum States --------------------------------------------------
 
     public void ImplementState()
@@ -671,6 +647,7 @@ public class Player : Character
         {
             case PlayerMobilityState.Standing:
                 movementSpeed = 0;
+
                 if (currentLeftWeaponState != LeftWeaponState.Idling || currentRightWeaponState != RightWeaponState.Idling)
                 {
                     _anim.SetBool("Still", true);
@@ -695,23 +672,18 @@ public class Player : Character
                 break;
             case PlayerMobilityState.Healing:
                 movementSpeed = 0;
+
                 _anim.SetBool("HealStarting", false);
                 healTimer += Time.deltaTime;
 
                 if (healTimer >= healCooldown)
                 {
-                    if (healTimer < 4)
-                    {
-                        health++;
-                        currentMana -= healManaCost;
-                        UIManager.Instance.UpdateMana(currentMana);
-                        UIManager.Instance.UpdateLives(health);
-                        healTimer = 0;
-                    }
+                    Heal();
                 }
                 break;
             case PlayerMobilityState.Stunned:
                 movementSpeed = 0;
+
                 currentLeftWeaponState = LeftWeaponState.Idling;
                 currentRightWeaponState = RightWeaponState.Idling;
                 currentPlayerDirectionState = PlayerDirectionState.Forward;
@@ -855,10 +827,7 @@ public class Player : Character
                 {
                     if(currentMana >= swordPowerAttackManaCost)
                     {
-                        _anim.SetTrigger("Left_PowerAttack");
-
-                        currentMana -= swordPowerAttackManaCost;
-                        UIManager.Instance.UpdateMana(currentMana);
+                        SwordPowerAttack();
                     }
                 }
                 break;
@@ -910,10 +879,7 @@ public class Player : Character
                 {
                     if(currentMana >= shieldPowerAttackManaCost)
                     {
-                        _anim.SetTrigger("Right_PowerAttack");
-
-                        currentMana -= shieldPowerAttackManaCost;
-                        UIManager.Instance.UpdateMana(currentMana);
+                        ShieldPowerAttack();
                     }
                 }
                 break;
