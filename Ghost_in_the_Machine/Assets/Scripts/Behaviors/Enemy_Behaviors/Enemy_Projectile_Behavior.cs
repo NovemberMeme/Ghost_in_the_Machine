@@ -21,7 +21,7 @@ public class Enemy_Projectile_Behavior : StateMachineBehaviour
     {
         projectileDelayTimer += Time.deltaTime;
 
-        if(projectileDelayTimer >= enemy.projectileDelay)
+        if(projectileDelayTimer >= enemy.ProjectileDelay)
         {
             enemy.Projectile_Horizontal();
             projectileDelayTimer = 0;

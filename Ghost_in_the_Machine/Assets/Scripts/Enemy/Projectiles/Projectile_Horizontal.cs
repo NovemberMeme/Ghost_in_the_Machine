@@ -8,7 +8,12 @@ public class Projectile_Horizontal : EnemyWeapon
 
     protected float projectileResetTimer;
 
-    public float projectileCurrentSpeed = 0;
+    [SerializeField] private float projectileCurrentSpeed = 0;
+
+    public float ProjectileCurrentSpeed
+    {
+        set { projectileCurrentSpeed = value; }
+    }
 
     // Start is called before the first frame update
     protected override void Start()
@@ -38,7 +43,7 @@ public class Projectile_Horizontal : EnemyWeapon
             projectileResetTimer += Time.deltaTime;   
         }
         
-        if (projectileResetTimer >= enemyScript.projectileResetDelay)
+        if (projectileResetTimer >= enemyScript.ProjectileResetDelay)
         {
             ResetProjectile();
         }
@@ -50,10 +55,10 @@ public class Projectile_Horizontal : EnemyWeapon
         {
             Damage dmg = new Damage
             {
-                damageAmount = enemyScript.projectileDamageValue,
-                attackDirectionState = enemyScript.currentAttackDirectionState,
+                damageAmount = enemyScript.ProjectileDamageValue,
+                attackDirectionState = enemyScript.CurrentAttackDirectionState,
                 layer = LayerMask.LayerToName(gameObject.layer),
-                stunningDuration = enemyScript.stunDuration,
+                stunningDuration = enemyScript.StunDuration,
                 damageElement = Element.Soul
             };
 
@@ -70,6 +75,6 @@ public class Projectile_Horizontal : EnemyWeapon
         projectileResetTimer = 0;
         projectileCurrentSpeed = 0;
         gameObject.SetActive(false);
-        transform.position = enemyScript.projectilePos.position;
+        transform.position = enemyScript.ProjectilePos.position;
     }
 }

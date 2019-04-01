@@ -24,7 +24,7 @@ public class TimeLapse_Position : MonoBehaviour
     {
         player = transform.parent.gameObject;
         timeLapsePosition = player.transform.position;
-        timeLapsePlayerHealth = player.GetComponent<Player>().health;
+        timeLapsePlayerHealth = player.GetComponent<Player>().Health;
     }
 
     // Update is called once per frame
@@ -41,7 +41,7 @@ public class TimeLapse_Position : MonoBehaviour
     private IEnumerator ChangeTimeLapsePosition()
     {
         currentPlayerPosition[currentIndex] = player.transform.position;
-        currentPlayerHealth[currentIndex] = player.GetComponent<Player>().health;
+        currentPlayerHealth[currentIndex] = player.GetComponent<Player>().Health;
 
         yield return new WaitForSeconds(timeLapseDelay);
 

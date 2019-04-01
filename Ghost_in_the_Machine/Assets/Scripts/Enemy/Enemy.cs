@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : Character
 {
-    public enum EnemySkin
+    protected enum EnemySkin
     {
         SoddenSoldier,
         WistfulWarrior,
@@ -14,7 +14,7 @@ public class Enemy : Character
         BitterBrute
     }
 
-    public enum EnemyControlState
+    protected enum EnemyControlState
     {
         Idling,
         Patrolling,
@@ -22,7 +22,7 @@ public class Enemy : Character
         Attacking
     }
 
-    public enum EnemyMobilityState
+    protected enum EnemyMobilityState
     {
         Standing,
         Walking,
@@ -36,7 +36,7 @@ public class Enemy : Character
         Stunned
     }
 
-    public enum EnemyChaseState
+    protected enum EnemyChaseState
     {
         NotChasing,
         ChasingToward,
@@ -45,7 +45,7 @@ public class Enemy : Character
         ChasingStill
     }
 
-    public enum EnemyLeftWeaponState
+    protected enum EnemyLeftWeaponState
     {
         Idling,
         Parrying,
@@ -61,7 +61,7 @@ public class Enemy : Character
         Casting
     }
 
-    public enum EnemyRightWeaponState
+    protected enum EnemyRightWeaponState
     {
         Idling,
         Parrying,
@@ -76,7 +76,7 @@ public class Enemy : Character
         Casting
     }
 
-    public enum EnemyDirectionState
+    protected enum EnemyDirectionState
     {
         Forward,
         Upward,
@@ -84,30 +84,38 @@ public class Enemy : Character
     }
 
     [Header("Enum States: ")]
-    public EnemySkin currentEnemySkin;
-    public EnemyControlState currentEnemyControlState;
-    public EnemyMobilityState currentEnemyMobilityState = EnemyMobilityState.Standing;
-    public EnemyChaseState currentEnemyChaseState;
-    public EnemyLeftWeaponState currentEnemyLeftWeaponState;
-    public EnemyRightWeaponState currentEnemyRightWeaponState;
-    public EnemyDirectionState currentEnemyDirectionState;
-    public AttackDirectionState currentAttackDirectionState = AttackDirectionState.AttackingForward;
+    [SerializeField] protected EnemySkin currentEnemySkin;
+    [SerializeField] protected EnemyControlState currentEnemyControlState;
+    [SerializeField] protected EnemyMobilityState currentEnemyMobilityState = EnemyMobilityState.Standing;
+    [SerializeField] protected EnemyChaseState currentEnemyChaseState;
+    [SerializeField] protected EnemyLeftWeaponState currentEnemyLeftWeaponState;
+    [SerializeField] protected EnemyRightWeaponState currentEnemyRightWeaponState;
+    [SerializeField] protected EnemyDirectionState currentEnemyDirectionState;
+    [SerializeField] protected AttackDirectionState currentAttackDirectionState = AttackDirectionState.AttackingForward;
 
-    public GameObject coin;
-    public int enemyCoins;
+    public AttackDirectionState CurrentAttackDirectionState
+    {
+        get
+        {
+            return currentAttackDirectionState;
+        }
+    }
 
-    public bool isJumpingEnemy = false;
+    //public GameObject coin;
+    //public int enemyCoins;
+
+    [SerializeField] protected bool isJumpingEnemy = false;
 
     // The list of known moves dictates which moves in the animator this enemy is allowed to access
     // Minimum and maximum random cooldowns in between moves differs greatly per enemy
 
     [Header("Attack stats: ")]
-    public bool isAttacking = false;
-    public int currentMove;
-    public List<int> knownMoves = new List<int>();
+    [SerializeField] protected bool isAttacking = false;
+    [SerializeField] protected int currentMove;
+    [SerializeField] protected List<int> knownMoves = new List<int>();
     //[SerializeField] private List<int> allMoves = new List<int>();
-    public float moveCooldownMin;
-    public float moveCooldownMax;
+    [SerializeField] protected float moveCooldownMin;
+    [SerializeField] protected float moveCooldownMax;
     [SerializeField] protected float moveCooldown;
     [SerializeField] protected float chaseTimer = 0;
     [SerializeField] protected bool nextMoveSet = false;
@@ -119,9 +127,9 @@ public class Enemy : Character
     // Idling
 
     [Header("Idle stats: ")]
-    public bool enemyIdleSet = false;
-    public float minIdle;
-    public float maxIdle;
+    [SerializeField] protected bool enemyIdleSet = false;
+    [SerializeField] protected float minIdle;
+    [SerializeField] protected float maxIdle;
     [SerializeField] protected float idleDuration;
     [SerializeField] protected float idleTimer = 0;
     [SerializeField] protected bool idleDurationSet = false;
@@ -129,8 +137,8 @@ public class Enemy : Character
     // Patrolling
 
     [Header("Patrol stats: ")]
-    public float minPatrol;
-    public float maxPatrol;
+    [SerializeField] protected float minPatrol;
+    [SerializeField] protected float maxPatrol;
     [SerializeField] protected float patrolDuration;
     [SerializeField] protected float patrolTimer = 0;
     [SerializeField] protected bool patrolDurationSet = false;
@@ -174,11 +182,11 @@ public class Enemy : Character
     // Potentially update this to include the y axis so that enemies vertically on the same region as the player don't randomly chase them
 
     [Header("Distance stats: ")]
-    public bool isChasing = false;
+    [SerializeField] protected bool isChasing = false;
     [SerializeField] protected float distance;
     [SerializeField] protected float xDistance;
-    public float chaseTriggerLength = 10.0f;
-    public Vector3 playerDirection;
+    [SerializeField] protected float chaseTriggerLength = 10.0f;
+    [SerializeField] protected Vector3 playerDirection;
 
     [SerializeField] protected float chaseStillLength = 1.0f;
     [SerializeField] protected float chaseForwardLengthMax = 0.5f;
@@ -216,7 +224,7 @@ public class Enemy : Character
     protected RaycastHit2D rightLedge;
     protected RaycastHit2D leftLedge;
 
-    public Player player;
+    [SerializeField] protected Player player;
 
     public virtual void Attack()
     {
@@ -295,20 +303,7 @@ public class Enemy : Character
             //_anim.SetTrigger("Hit");
             canBeDamaged = false;
 
-            randomDamageSound = Random.Range(0, 3);
-
-            switch (randomDamageSound)
-            {
-                case 0:
-                    SoundManager.PlaySound("Damaged1", gameObject.name);
-                    break;
-                case 1:
-                    SoundManager.PlaySound("Damaged2", gameObject.name);
-                    break;
-                case 2:
-                    SoundManager.PlaySound("DamagedBoneBreak", gameObject.name);
-                    break;
-            }
+            PlayRandomDamagedSound();
 
             StartCoroutine(ResetCanBeDamaged());
 

@@ -16,23 +16,23 @@ public class Attack : MonoBehaviour
         if (coll.name == "Player")
             return;
 
-        if(coll.gameObject.GetComponent<Enemy>() != null && coll.gameObject.GetComponent<Enemy>().canBeDamaged)
+        if(coll.gameObject.GetComponent<Enemy>() != null)
         {
             Damage dmg = new Damage
             {
-                damageAmount = playerScript.damageValue,
-                attackDirectionState = playerScript.playerAttackDirectionState,
+                damageAmount = playerScript.DamageValue,
+                attackDirectionState = playerScript.PlayerAttackDirectionState,
                 layer = LayerMask.LayerToName(gameObject.layer),
-                stunningDuration = playerScript.stunDuration,
+                stunningDuration = playerScript.StunDuration,
                 damageElement = Element.Soul
             };
 
             coll.gameObject.GetComponent<Character>().GetHit(dmg);
 
-            if(playerScript.currentMana < playerScript.MaxMana)
+            if(playerScript.CurrentMana < playerScript.MaxMana)
             {
-                playerScript.currentMana++;
-                UIManager.Instance.UpdateMana(playerScript.currentMana);
+                playerScript.CurrentMana++;
+                UIManager.Instance.UpdateMana(playerScript.CurrentMana);
             }
         }
     }

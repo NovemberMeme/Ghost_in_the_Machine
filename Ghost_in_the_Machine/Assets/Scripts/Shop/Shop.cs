@@ -23,8 +23,8 @@ public class Shop : MonoBehaviour
 
             if(_player != null)
             {
-                UIManager.Instance.UpdateShop(_player.coins);
-                _player.canAttack = false;
+                UIManager.Instance.UpdateShop(_player.Coins);
+                //_player.canAttack = false;
                 SelectItem(0);
             }
 
@@ -37,7 +37,7 @@ public class Shop : MonoBehaviour
         if (coll.tag == "Player")
         {
             _player = coll.GetComponent<Player>();
-            _player.canAttack = true;
+            //_player.canAttack = true;
             shopPanel.SetActive(false);
         }
     }
@@ -51,7 +51,7 @@ public class Shop : MonoBehaviour
 
     private void Update()
     {
-        UIManager.Instance.UpdateShop(_player.coins);
+        UIManager.Instance.UpdateShop(_player.Coins);
     }
 
     public void SelectItem(int item)
@@ -63,9 +63,9 @@ public class Shop : MonoBehaviour
 
     public void BuyItem()
     {
-        if(_player.coins >= currentItemCost)
+        if(_player.Coins >= currentItemCost)
         {
-            _player.coins -= currentItemCost;
+            _player.Coins -= currentItemCost;
             if(currentItemSelected == 2)
             {
                 GameManager.Instance.HasKeyToCastle = true;

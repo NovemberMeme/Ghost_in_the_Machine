@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : Character
 {
-    public enum LeftWeaponState
+    private enum LeftWeaponState
     {
         Idling,
         Parrying,
@@ -17,7 +17,7 @@ public class Player : Character
         Casting
     }
 
-    public enum RightWeaponState
+    private enum RightWeaponState
     {
         Idling,
         Parrying,
@@ -27,7 +27,7 @@ public class Player : Character
         Casting
     }
 
-    public enum PlayerMobilityState
+    private enum PlayerMobilityState
     {
         Standing,
         Walking,
@@ -47,7 +47,7 @@ public class Player : Character
         Damaged
     }
 
-    public enum PlayerDirectionState
+    private enum PlayerDirectionState
     {
         Forward,
         Upward,
@@ -58,20 +58,37 @@ public class Player : Character
     [SerializeField] private bool controllerMode = false;
 
     [Header("Enum states: ")]
-    public LeftWeaponState currentLeftWeaponState;
-    public RightWeaponState currentRightWeaponState;
-    public PlayerMobilityState currentMobilityState;
-    public PlayerDirectionState currentPlayerDirectionState;
-    public AttackDirectionState playerAttackDirectionState = AttackDirectionState.AttackingForward;
+    [SerializeField] private LeftWeaponState currentLeftWeaponState;
+    [SerializeField] private RightWeaponState currentRightWeaponState;
+    [SerializeField] private PlayerMobilityState currentMobilityState;
+    [SerializeField] private PlayerDirectionState currentPlayerDirectionState;
+    [SerializeField] private AttackDirectionState playerAttackDirectionState = AttackDirectionState.AttackingForward;
+
+    public AttackDirectionState PlayerAttackDirectionState
+    {
+        get
+        {
+            return playerAttackDirectionState;
+        }
+    }
 
     [Header("Strafe stats: ")]
-    public bool isStrafing = false;
+    [SerializeField] private bool isStrafing = false;
 
     [Header("Currency stats: ")]
-    public int coins;
+    [SerializeField] private int coins;
 
-    [Header("Sound Manager: ")]
-    public SoundManager soundManager;
+    public int Coins
+    {
+        get
+        {
+            return coins;
+        }
+        set
+        {
+            coins = value;
+        }
+    }
 
     // For adjusting gravity value when falling down so that player falls down faster when they don't hold the jump button
     // but they still jump higher and longer when they hold down the jump button
@@ -83,10 +100,10 @@ public class Player : Character
     // For unlocking new player abilities
 
     [Header("Unlock stats: ")]
-    public bool unlockedDoubleJump = true;
-    public bool unlockedDash = true;
-    public bool unlockedPhase = true;
-    public bool unlockedTimeLapse = true;
+    [SerializeField] private bool unlockedDoubleJump = true;
+    [SerializeField] private bool unlockedDash = true;
+    [SerializeField] private bool unlockedPhase = true;
+    [SerializeField] private bool unlockedTimeLapse = true;
 
     [Header("Heal stats: ")]
     [SerializeField] private float healTimer = 0;
@@ -99,12 +116,24 @@ public class Player : Character
     [SerializeField] private float shieldPowerAttackManaCost = 6;
 
     [Header("Mana stats: ")]
-    private float maxMana = 12;
-    public float currentMana = 12;
+    [SerializeField] private float maxMana = 12;
+    [SerializeField] private float currentMana = 12;
     
     public float MaxMana
     {
         get { return maxMana; }
+    }
+
+    public float CurrentMana
+    {
+        get
+        {
+            return currentMana;
+        }
+        set
+        {
+            currentMana = value;
+        }
     }
 
 
@@ -286,20 +315,7 @@ public class Player : Character
             health -= actualDamage;
             UIManager.Instance.UpdateLives((int)health);
 
-            randomDamageSound = Random.Range(0, 3);
-
-            switch (randomDamageSound)
-            {
-                case 0:
-                    SoundManager.PlaySound("Damaged1", gameObject.name);
-                    break;
-                case 1:
-                    SoundManager.PlaySound("Damaged2", gameObject.name);
-                    break;
-                case 2:
-                    SoundManager.PlaySound("DamagedBoneBreak", gameObject.name);
-                    break;
-            }
+            PlayRandomDamagedSound();
 
             if (health > 0)
             {

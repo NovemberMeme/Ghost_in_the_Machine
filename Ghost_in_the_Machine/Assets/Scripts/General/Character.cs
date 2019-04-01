@@ -19,85 +19,126 @@ public enum Element
 
 public class Character : MonoBehaviour
 {
-    public int health = 4;
+    [SerializeField] protected int health = 4;
 
-    public int leftParryValue = 0;
-    public int leftBlockValue = 0;
-    public int leftDamageValue = 0;
+    public int Health
+    {
+        get { return health; }
+    }
 
-    public int rightParryValue = 0;
-    public int rightBlockValue = 0;
-    public int rightDamageValue = 0;
+    [SerializeField] protected int leftParryValue = 0;
+    [SerializeField] protected int leftBlockValue = 0;
+    [SerializeField] protected int leftDamageValue = 0;
 
-    public int parryValue = 0;
-    public int blockValue = 0;
-    public int damageValue = 0;
+    [SerializeField] protected int rightParryValue = 0;
+    [SerializeField] protected int rightBlockValue = 0;
+    [SerializeField] protected int rightDamageValue = 0;
 
-    public bool canDamage = true;
-    public bool canDamageSetter = true;
-    public bool canAttack = true;
-    public float attackCooldown = 0.5f;
-    public float attackHitBoxCooldown = 0.5f;
-    public int actualDamage = 0;
+    [SerializeField] protected int parryValue = 0;
+    [SerializeField] protected int blockValue = 0;
+    [SerializeField] protected int damageValue = 0;
+
+    public int DamageValue
+    {
+        get { return damageValue; }
+    }
+
+    [SerializeField] protected int actualDamage = 0;
+
+    //public bool canDamage = true;
+    //public bool canDamageSetter = true;
+    //public bool canAttack = true;
+    //public float attackCooldown = 0.5f;
+    //public float attackHitBoxCooldown = 0.5f;
 
     [Header("Stun stats: ")]
-    public float stunDuration = 0;
-    public float swordStunDuration = 2.0f;
-    public float shieldStunDuration = 0.6f;
+    [SerializeField] protected float stunDuration = 0;
+
+    public float StunDuration
+    {
+        get { return stunDuration; }
+    }
+
+    [SerializeField] protected float swordStunDuration = 2.0f;
+    [SerializeField] protected float shieldStunDuration = 0.6f;
 
     [Header("Invulnerability stats: ")]
-    public bool canBeDamaged = true;
-    public float canBeHitCooldown = 0.17f;
-    public float canBeDamagedCooldown = 1.0f;
+    [SerializeField] protected bool canBeDamaged = true;
+    [SerializeField] protected float canBeHitCooldown = 0.17f;
+    [SerializeField] protected float canBeDamagedCooldown = 1.0f;
 
     [Header("Death stats: ")]
-    public bool isDead = false;
+    [SerializeField] protected bool isDead = false;
 
     [Header("Projectile stats: ")]
-    public Transform projectilePos;
-    public GameObject projectilePrefab;
-    public GameObject projectile_Right;
-    public GameObject projectile_Left;
-    public GameObject projectile_horizontal;
-    public float projectileDelay = 0.66f;
-    public float projectileResetDelay = 1.5f;
-    public float projectileSpeed = 8.0f;
-    public int projectileDamageValue = 1;
+    [SerializeField] protected Transform projectilePos;
+
+    public Transform ProjectilePos
+    {
+        get { return projectilePos; }
+    }
+
+    [SerializeField] protected GameObject projectilePrefab;
+    [SerializeField] protected GameObject projectile_Right;
+    [SerializeField] protected GameObject projectile_Left;
+    [SerializeField] protected GameObject projectile_horizontal;
+    [SerializeField] protected float projectileDelay = 0.66f;
+
+    public float ProjectileDelay
+    {
+        get { return projectileDelay; }
+    }
+
+    [SerializeField] protected float projectileResetDelay = 1.5f;
+
+    public float ProjectileResetDelay
+    {
+        get { return projectileResetDelay; }
+    }
+
+    [SerializeField] protected float projectileSpeed = 8.0f;
+
+    [SerializeField] protected int projectileDamageValue = 1;
+
+    public int ProjectileDamageValue
+    {
+        get { return projectileDamageValue; }
+    }
 
     [Header("Move stats: ")]
     [SerializeField] protected float move;
-    public float origMoveSpeed;
-    public float movementSpeed;
-    public float slowMultiplier = 0.5f;
-    public bool isStopped = false;
-    public float faceDirection = 1;
-    public float origMoveDirection = 1;
-    public float moveDirection = 1;
-    public Vector3 origScale;
+    [SerializeField] protected float origMoveSpeed;
+    [SerializeField] protected float movementSpeed;
+    [SerializeField] protected float slowMultiplier = 0.5f;
+    [SerializeField] protected bool isStopped = false;
+    [SerializeField] protected float faceDirection = 1;
+    [SerializeField] protected float origMoveDirection = 1;
+    [SerializeField] protected float moveDirection = 1;
+    [SerializeField] protected Vector3 origScale;
 
     [Header("Jump stats: ")]
-    public float jumpVelocity;
-    public float jumpCooldown = 1.5f;
-    public bool isGrounded = true;
-    public bool isJumping = false;
-    public bool canJump = true;
-    public bool canDoubleJump = false;
+    [SerializeField] protected float jumpVelocity;
+    [SerializeField] protected float jumpCooldown = 1.5f;
+    [SerializeField] protected bool isGrounded = true;
+    [SerializeField] protected bool isJumping = false;
+    [SerializeField] protected bool canJump = true;
+    [SerializeField] protected bool canDoubleJump = false;
     [SerializeField] protected LayerMask layerMask;
     protected RaycastHit2D ground;
     
     [Header("Dash stats: ")]
-    public float dashMultiplier = 3.5f;
-    public float dashDuration = 0.4f;
-    public float dashCooldown = 1.0f;
-    public bool isDashing = false;
-    public bool canDash = true;
-    public bool canAirDash = true;
+    [SerializeField] protected float dashMultiplier = 3.5f;
+    [SerializeField] protected float dashDuration = 0.4f;
+    [SerializeField] protected float dashCooldown = 1.0f;
+    [SerializeField] protected bool isDashing = false;
+    [SerializeField] protected bool canDash = true;
+    [SerializeField] protected bool canAirDash = true;
 
     [Header("Phase stats: ")]
-    public float phaseDuration = 3.0f;
-    public float phaseCooldown = 5.0f;
-    public bool canPhase = true;
-    public bool _isPhasing = false;
+    [SerializeField] protected float phaseDuration = 3.0f;
+    [SerializeField] protected float phaseCooldown = 5.0f;
+    [SerializeField] protected bool canPhase = true;
+    [SerializeField] protected bool _isPhasing = false;
 
     [Header("Time Lapse stats: ")]
     [SerializeField] protected GameObject ghost;
@@ -106,23 +147,22 @@ public class Character : MonoBehaviour
     [SerializeField] protected float timeLapseManaCost = 12;
 
     [Header("Element stats: ")]
-    public Element currentElement;
-    public Element weaponElement;
+    [SerializeField] protected Element currentElement;
+    [SerializeField] protected Element weaponElement;
 
-    [Header("Audio: ")]
-    [SerializeField] protected int randomDamageSound;
+    //[Header("Audio: ")]
 
     [Header("Components: ")]
-    public Rigidbody2D _rigid;
-    public CapsuleCollider2D _collider;
-    public MeshRenderer _mesh;
-    public Material _material;
-    public Animator _anim;
-    public SkeletonMecanim skeletonMecanim;
+    [SerializeField] protected Rigidbody2D _rigid;
+    [SerializeField] protected CapsuleCollider2D _collider;
+    [SerializeField] protected MeshRenderer _mesh;
+    [SerializeField] protected Material _material;
+    [SerializeField] protected Animator _anim;
+    [SerializeField] protected SkeletonMecanim skeletonMecanim;
 
-    public Vector2 colliderSize;
+    [SerializeField] protected Vector2 colliderSize;
 
-    public float flashTime = 0.5f;
+    [SerializeField] protected float flashTime = 0.5f;
     protected Color origColor;
     [SerializeField] protected float colliderSizeMultiplier;
     [SerializeField] protected float colliderOffsetY;
@@ -352,7 +392,7 @@ public class Character : MonoBehaviour
 
         projectile_horizontal.transform.position = projectilePos.position;
         projectile_horizontal.GetComponent<Projectile_Horizontal>().shootDirection = faceDirection;
-        projectile_horizontal.GetComponent<Projectile_Horizontal>().projectileCurrentSpeed = projectileSpeed;
+        projectile_horizontal.GetComponent<Projectile_Horizontal>().ProjectileCurrentSpeed = projectileSpeed;
         projectile_horizontal.SetActive(true);
     }
 
@@ -374,14 +414,14 @@ public class Character : MonoBehaviour
 
     // IEnumerators
 
-    protected virtual IEnumerator Attacking()
-    {
-        canAttack = false;
+    //protected virtual IEnumerator Attacking()
+    //{
+    //    canAttack = false;
 
-        yield return new WaitForSeconds(attackCooldown);
+    //    yield return new WaitForSeconds(attackCooldown);
 
-        canAttack = true;
-    }
+    //    canAttack = true;
+    //}
 
     public virtual IEnumerator ResetCanBeHit()
     {
@@ -543,5 +583,25 @@ public class Character : MonoBehaviour
     private void ResetColor()
     {
         //_mesh.color = origColor;
+    }
+
+    // -------------------------------------------------------- Audio ------------------------------------------------------
+
+    public void PlayRandomDamagedSound()
+    {
+        int randomDamageSound = Random.Range(0, 3);
+
+        switch (randomDamageSound)
+        {
+            case 0:
+                SoundManager.PlaySound("Damaged1", gameObject.name);
+                break;
+            case 1:
+                SoundManager.PlaySound("Damaged2", gameObject.name);
+                break;
+            case 2:
+                SoundManager.PlaySound("DamagedBoneBreak", gameObject.name);
+                break;
+        }
     }
 }

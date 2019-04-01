@@ -22,10 +22,10 @@ public class EnemyWeapon : MonoBehaviour
         {
             Damage dmg = new Damage
             {
-                damageAmount = enemyScript.damageValue,
-                attackDirectionState = enemyScript.currentAttackDirectionState,
+                damageAmount = enemyScript.DamageValue,
+                attackDirectionState = enemyScript.CurrentAttackDirectionState,
                 layer = LayerMask.LayerToName(gameObject.layer),
-                stunningDuration = enemyScript.stunDuration,
+                stunningDuration = enemyScript.StunDuration,
                 damageElement = Element.Soul
             };
 

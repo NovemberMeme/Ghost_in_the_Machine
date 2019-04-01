@@ -18,13 +18,13 @@ public class EnemyAttack : MonoBehaviour
         {
             //coll.gameObject.GetComponent<Player>().Damage();
             _canDamage = false;
-            StartCoroutine(ResetDamage());
+            //StartCoroutine(ResetDamage());
         }
     }
 
-    private IEnumerator ResetDamage()
-    {
-        yield return new WaitForSeconds(charScript.attackHitBoxCooldown);
-        _canDamage = true;
-    }
+    //private IEnumerator ResetDamage()
+    //{
+    //    yield return new WaitForSeconds(charScript.attackHitBoxCooldown);
+    //    _canDamage = true;
+    //}
 }
