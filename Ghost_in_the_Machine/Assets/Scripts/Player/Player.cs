@@ -86,6 +86,7 @@ public class Player : Character
     public bool unlockedDoubleJump = true;
     public bool unlockedDash = true;
     public bool unlockedPhase = true;
+    public bool unlockedTimeLapse = true;
 
     [Header("Heal stats: ")]
     [SerializeField] private float healTimer = 0;
@@ -116,7 +117,9 @@ public class Player : Character
 
     public override void Update()
     {
-        base.Update();
+        UpdateDirection();
+
+        CheckGround();
 
         DetermineMovement();
 
@@ -178,7 +181,7 @@ public class Player : Character
 
         // Time Lapse
 
-        if (!isTimeLapsing && !_isPhasing && currentMana >= timeLapseManaCost)
+        if (!isTimeLapsing && !_isPhasing && currentMana >= timeLapseManaCost && unlockedTimeLapse)
         {
             if (Input.GetKeyDown(KeyCode.F) && currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)
             {
@@ -199,7 +202,7 @@ public class Player : Character
 
         if(Input.GetKeyDown(KeyCode.O))
         {
-            unlockedDash = !unlockedDash;
+            unlockedTimeLapse = !unlockedTimeLapse;
         }
 
         if(Input.GetKeyDown(KeyCode.I))
@@ -227,29 +230,17 @@ public class Player : Character
 
         if (currentLeftWeaponState == LeftWeaponState.Parrying || currentRightWeaponState == RightWeaponState.Parrying)
         {
-            if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
-            {
-                Parry(dmg.damageAmount);
-            }
-            else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
-            {
-                Parry(dmg.damageAmount);
-            }
-            else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+            if ((dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
+                (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
+                (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
             {
                 Parry(dmg.damageAmount);
             }
             else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
             {
-                if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
-                {
-                    Block(dmg.damageAmount);
-                }
-                else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
-                {
-                    Block(dmg.damageAmount);
-                }
-                else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+                if ((dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
+                    (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
+                    (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
                 {
                     Block(dmg.damageAmount);
                 }
@@ -261,15 +252,9 @@ public class Player : Character
         }
         else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
         {
-            if (dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward)
-            {
-                Block(dmg.damageAmount);
-            }
-            else if (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward)
-            {
-                Block(dmg.damageAmount);
-            }
-            else if (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward)
+            if ((dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
+                    (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
+                    (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
             {
                 Block(dmg.damageAmount);
             }

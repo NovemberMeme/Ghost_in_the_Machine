@@ -240,7 +240,9 @@ public class Enemy : Character
 
     public override void Update()
     {
-        base.Update();
+        UpdateDirection();
+
+        CheckGround();
 
         ChangeSkin();
 

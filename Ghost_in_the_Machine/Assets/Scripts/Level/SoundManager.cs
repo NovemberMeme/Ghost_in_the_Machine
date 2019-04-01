@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
         BossBattleSound;
 
     static AudioSource audioSource1;
+    static AudioSource audioSource2;
 
     public void Start()
     {
@@ -38,6 +39,30 @@ public class SoundManager : MonoBehaviour
         BossBattleSound = Resources.Load<AudioClip>("BossBattle");
 
         audioSource1 = transform.GetChild(0).GetComponent<AudioSource>();
+        audioSource2 = transform.GetChild(1).GetComponent<AudioSource>();
+
+        //PlayMusic("ChurchOfScienceSound");
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            PlayMusic("BossBattle");
+        }
+    }
+
+    public static void PlayMusic(string clip)
+    {
+        switch (clip)
+        {
+            case "ChurchOfScience":
+                audioSource2.PlayOneShot(ChurchOfScienceSound);
+                break;
+            case "BossBattle":
+                audioSource2.PlayOneShot(BossBattleSound);
+                break;
+        }
     }
 
     public static void PlaySound(string clip, string name)

@@ -20,7 +20,6 @@ public enum Element
 public class Character : MonoBehaviour
 {
     public int health = 4;
-    public string elementType;
 
     public int leftParryValue = 0;
     public int leftBlockValue = 0;
@@ -147,20 +146,7 @@ public class Character : MonoBehaviour
 
     public virtual void Update()
     {
-        // Resets canDamage via animations
-
-        //if (canDamageSetter)
-        //{
-        //    canDamage = true;
-        //    canDamageSetter = false;
-        //}
-            
-        UpdateDirection();
-
-        CheckGround();
-
-        //if (!isGrounded)
-        //    canDash = false;
+        
     }
 
     public virtual void FixedUpdate()
@@ -170,7 +156,7 @@ public class Character : MonoBehaviour
 
     public virtual void GetHit(Damage dmg)
     {
-        FlashRed();
+        
     }
 
     public virtual void TakeDamage(Damage dmg)
@@ -253,11 +239,6 @@ public class Character : MonoBehaviour
             default:
                 return damage;
         }
-    }
-
-    public virtual void Hit()
-    {
-
     }
 
     public virtual void Death()
