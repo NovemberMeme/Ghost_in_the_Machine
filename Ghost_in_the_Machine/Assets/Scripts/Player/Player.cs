@@ -99,8 +99,14 @@ public class Player : Character
     [SerializeField] private float shieldPowerAttackManaCost = 6;
 
     [Header("Mana stats: ")]
-    public float maxMana = 12;
+    private float maxMana = 12;
     public float currentMana = 12;
+    
+    public float MaxMana
+    {
+        get { return maxMana; }
+    }
+
 
     private SpriteRenderer _swordArcSprite;
 

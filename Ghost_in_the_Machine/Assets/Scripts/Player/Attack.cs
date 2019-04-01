@@ -29,7 +29,7 @@ public class Attack : MonoBehaviour
 
             coll.gameObject.GetComponent<Character>().GetHit(dmg);
 
-            if(playerScript.currentMana < playerScript.maxMana)
+            if(playerScript.currentMana < playerScript.MaxMana)
             {
                 playerScript.currentMana++;
                 UIManager.Instance.UpdateMana(playerScript.currentMana);

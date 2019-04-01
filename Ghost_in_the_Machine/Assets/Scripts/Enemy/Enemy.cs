@@ -1057,6 +1057,11 @@ public class Enemy : Character
         {
             stunDuration = 0;
         }
+
+        if(currentEnemyRightWeaponState != EnemyRightWeaponState.Idling)
+        {
+            exposureTimer = 0;
+        }
     }
 
     // Enemy Left Weapon State
