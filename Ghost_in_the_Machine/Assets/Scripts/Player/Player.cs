@@ -607,8 +607,8 @@ public class Player : Character
     {
         SoundManager.PlaySound("TimeLapse", gameObject.name);
 
-        transform.position = ghost.GetComponent<TimeLapse_Position>().timeLapsePosition;
-        health = ghost.GetComponent<TimeLapse_Position>().timeLapsePlayerHealth;
+        transform.position = ghost.GetComponent<TimeLapse_Position>().TimeLapsePosition;
+        health = ghost.GetComponent<TimeLapse_Position>().TimeLapsePlayerHealth;
         UIManager.Instance.UpdateLives((int)health);
         currentMana -= 12;
         UIManager.Instance.UpdateMana(currentMana);

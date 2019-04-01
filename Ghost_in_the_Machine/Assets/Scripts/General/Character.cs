@@ -391,7 +391,7 @@ public class Character : MonoBehaviour
         //go.GetComponent<Projectile_Horizontal>().shootDirection = faceDirection;
 
         projectile_horizontal.transform.position = projectilePos.position;
-        projectile_horizontal.GetComponent<Projectile_Horizontal>().shootDirection = faceDirection;
+        projectile_horizontal.GetComponent<Projectile_Horizontal>().ShootDirection = faceDirection;
         projectile_horizontal.GetComponent<Projectile_Horizontal>().ProjectileCurrentSpeed = projectileSpeed;
         projectile_horizontal.SetActive(true);
     }
@@ -534,8 +534,8 @@ public class Character : MonoBehaviour
 
     public virtual IEnumerator TimeLapsing()
     {
-        transform.position = ghost.GetComponent<TimeLapse_Position>().timeLapsePosition;
-        health = ghost.GetComponent<TimeLapse_Position>().timeLapsePlayerHealth;
+        transform.position = ghost.GetComponent<TimeLapse_Position>().TimeLapsePosition;
+        health = ghost.GetComponent<TimeLapse_Position>().TimeLapsePlayerHealth;
         UIManager.Instance.UpdateLives((int)health);
 
         _mesh.enabled = false;

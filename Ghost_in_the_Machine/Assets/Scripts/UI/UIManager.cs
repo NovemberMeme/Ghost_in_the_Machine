@@ -26,15 +26,15 @@ public class UIManager : MonoBehaviour
         manaBarOrigScale = manaBar.transform.localScale;
     }
 
-    public TMP_Text playerCoinCountText;
-    public Image selectionImg;
-    public TMP_Text coinCountText;
+    [SerializeField] private TMP_Text playerCoinCountText;
+    [SerializeField] private Image selectionImg;
+    [SerializeField] private TMP_Text coinCountText;
 
-    public List<Image> lifeUnits = new List<Image>();
+    [SerializeField] private List<Image> lifeUnits = new List<Image>();
 
-    public Image manaBar;
-    public Vector2 manaBarOrigScale;
-    public float maxMana = 12;
+    [SerializeField] private Image manaBar;
+    [SerializeField] private Vector2 manaBarOrigScale;
+    [SerializeField] private float maxMana = 12;
 
     public void UpdateShop(int coinCount)
     {

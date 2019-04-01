@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Event_Behavior : StateMachineBehaviour
 {
-    public float timer;
+    [SerializeField] private float timer;
 
-    public List<int> eventTimeFrames = new List<int>();
+    [SerializeField] private List<int> eventTimeFrames = new List<int>();
 
-    public int currentEventTimeIndex;
-    public int functionToBeCalled;
+    [SerializeField] private int currentEventTimeIndex;
+    [SerializeField] private int functionToBeCalled;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

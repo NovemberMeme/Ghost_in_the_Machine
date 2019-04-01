@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Projectile_Horizontal : EnemyWeapon
 {
-    public float shootDirection;
+    [SerializeField] private float shootDirection;
+
+    public float ShootDirection
+    {
+        set { shootDirection = value; }
+    }
 
     protected float projectileResetTimer;
-
     [SerializeField] private float projectileCurrentSpeed = 0;
 
     public float ProjectileCurrentSpeed

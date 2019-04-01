@@ -14,10 +14,20 @@ public class TimeLapse_Position : MonoBehaviour
     [SerializeField] private int currentTimeLapseIndex = 0;
 
     [SerializeField] private int[] currentPlayerHealth = new int[15];
-    [SerializeField] public int timeLapsePlayerHealth;
+    [SerializeField] private int timeLapsePlayerHealth;
+
+    public int TimeLapsePlayerHealth
+    {
+        get { return timeLapsePlayerHealth; }
+    }
 
     [SerializeField] private Vector2[] currentPlayerPosition = new Vector2[15];
-    [SerializeField] public Vector2 timeLapsePosition;
+    [SerializeField] private Vector2 timeLapsePosition;
+
+    public Vector2 TimeLapsePosition
+    {
+        get { return timeLapsePosition; }
+    }
 
     // Start is called before the first frame update
     void Start()
