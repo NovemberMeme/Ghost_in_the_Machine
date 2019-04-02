@@ -5,7 +5,8 @@ using UnityEngine;
 public struct Damage
 {
     public int damageAmount;
-    public AttackDirectionState attackDirectionState;
+    public VerticalAttackDirection verticalAttackDirection;
+    public HorizontalAttackDirection horizontalAttackDirection;
     public string layer;
     public float stunningDuration;
     public Element damageElement;

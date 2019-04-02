@@ -23,7 +23,8 @@ public class EnemyWeapon : MonoBehaviour
             Damage dmg = new Damage
             {
                 damageAmount = enemyScript.DamageValue,
-                attackDirectionState = enemyScript.CurrentAttackDirectionState,
+                verticalAttackDirection = enemyScript.CurrentVerticalAttackDirectionState,
+                horizontalAttackDirection = enemyScript.CurrentHorizontalAttackDirectionState,
                 layer = LayerMask.LayerToName(gameObject.layer),
                 stunningDuration = enemyScript.StunDuration,
                 damageElement = Element.Soul

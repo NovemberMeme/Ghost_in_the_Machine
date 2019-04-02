@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 
-public enum AttackDirectionState
+public enum VerticalAttackDirection
 {
     AttackingForward,
     AttackingUpward,
     AttackingDownward
+}
+
+public enum HorizontalAttackDirection
+{
+    AttackingLeftward,
+    AttackingRightward
 }
 
 public enum Element
@@ -19,6 +25,7 @@ public enum Element
 
 public class Character : MonoBehaviour
 {
+    [Header("Health stats: ")]
     [SerializeField] protected int health = 4;
 
     public int Health
@@ -26,6 +33,7 @@ public class Character : MonoBehaviour
         get { return health; }
     }
 
+    [Header("Combat stats: ")]
     [SerializeField] protected int leftParryValue = 0;
     [SerializeField] protected int leftBlockValue = 0;
     [SerializeField] protected int leftDamageValue = 0;
@@ -37,6 +45,10 @@ public class Character : MonoBehaviour
     [SerializeField] protected int parryValue = 0;
     [SerializeField] protected int blockValue = 0;
     [SerializeField] protected int damageValue = 0;
+
+    [SerializeField] protected int parryStat = 1;
+    [SerializeField] protected int blockStat = 1;
+    [SerializeField] protected int damageStat = 1;
 
     public int DamageValue
     {
@@ -238,7 +250,7 @@ public class Character : MonoBehaviour
         SoundManager.PlaySound("BlockHit", gameObject.name);
         _anim.SetTrigger("Hit");
 
-        StartCoroutine(ResetCanBeHit());
+        //StartCoroutine(ResetCanBeHit());
 
         if (dmg.stunningDuration > 0)
         {
@@ -369,14 +381,19 @@ public class Character : MonoBehaviour
 
     public virtual void Jump()
     {
-        if(isGrounded)
+        if (isGrounded && canJump)
+        {
             _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
+        }
     }
 
     public virtual void DoubleJump()
     {
-        _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
-        canDoubleJump = false;
+        if (canDoubleJump)
+        {
+            _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
+            canDoubleJump = false;
+        }
     }
 
     // Ability Functions
@@ -454,6 +471,32 @@ public class Character : MonoBehaviour
     public virtual void ShieldPowerAttack()
     {
 
+    }
+
+    // Set Combat Values
+
+    public virtual void SetRightCombatValues(int parry, int block, int damage, float stun)
+    {
+        rightParryValue = parry;
+        rightBlockValue = block;
+        rightDamageValue = damage;
+
+        if (stunDuration == 0)
+        {
+            stunDuration = stun;
+        }
+    }
+
+    public virtual void SetLeftCombatValues(int parry, int block, int damage, float stun)
+    {
+        leftParryValue = parry;
+        leftBlockValue = block;
+        leftDamageValue = damage;
+
+        if (stunDuration == 0)
+        {
+            stunDuration = stun;
+        }
     }
 
     // Coroutines
@@ -534,6 +577,7 @@ public class Character : MonoBehaviour
         _anim.SetBool("Dashing", true);
         isDashing = true;
         canDash = false;
+        canAirDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -550,6 +594,7 @@ public class Character : MonoBehaviour
         _anim.SetBool("BackDashing", true);
         isDashing = true;
         canDash = false;
+        canAirDash = false;
 
         yield return new WaitForSeconds(dashDuration);
 

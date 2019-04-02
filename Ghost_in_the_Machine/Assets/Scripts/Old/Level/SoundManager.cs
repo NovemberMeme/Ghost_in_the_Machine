@@ -112,7 +112,7 @@ public class SoundManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log(name + ": " + clip);
+        //Debug.Log(name + ": " + clip);
     }
 
     public static void PlaySound(string clip)

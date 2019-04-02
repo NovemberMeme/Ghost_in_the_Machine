@@ -21,7 +21,8 @@ public class Attack : MonoBehaviour
             Damage dmg = new Damage
             {
                 damageAmount = playerScript.DamageValue,
-                attackDirectionState = playerScript.PlayerAttackDirectionState,
+                verticalAttackDirection = playerScript.PlayerVerticalAttackDirectionState,
+                horizontalAttackDirection = playerScript.PlayerHorizontalAttackDirectionState,
                 layer = LayerMask.LayerToName(gameObject.layer),
                 stunningDuration = playerScript.StunDuration,
                 damageElement = Element.Soul

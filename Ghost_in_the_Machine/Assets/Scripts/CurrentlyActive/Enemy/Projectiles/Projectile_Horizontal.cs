@@ -60,7 +60,7 @@ public class Projectile_Horizontal : EnemyWeapon
             Damage dmg = new Damage
             {
                 damageAmount = enemyScript.ProjectileDamageValue,
-                attackDirectionState = enemyScript.CurrentAttackDirectionState,
+                verticalAttackDirection = enemyScript.CurrentVerticalAttackDirectionState,
                 layer = LayerMask.LayerToName(gameObject.layer),
                 stunningDuration = enemyScript.StunDuration,
                 damageElement = Element.Soul

@@ -350,7 +350,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 11
-  elementType: 
   leftParryValue: 0
   leftBlockValue: 0
   leftDamageValue: 0
@@ -360,11 +359,9 @@ MonoBehaviour:
   parryValue: 0
   blockValue: 0
   damageValue: 0
-  canDamage: 1
-  canDamageSetter: 1
-  canAttack: 1
-  attackCooldown: 0.5
-  attackHitBoxCooldown: 0.5
+  parryStat: 1
+  blockStat: 1
+  damageStat: 1
   actualDamage: 0
   stunDuration: 0
   swordStunDuration: 1
@@ -416,7 +413,6 @@ MonoBehaviour:
   timeLapseManaCost: 12
   currentElement: 0
   weaponElement: 0
-  randomDamageSound: 0
   _rigid: {fileID: 0}
   _collider: {fileID: 0}
   _mesh: {fileID: 0}
@@ -434,19 +430,18 @@ MonoBehaviour:
   currentEnemyLeftWeaponState: 0
   currentEnemyRightWeaponState: 0
   currentEnemyDirectionState: 0
-  currentAttackDirectionState: 0
-  coin: {fileID: 0}
-  enemyCoins: 0
+  currentVerticalAttackDirectionState: 0
+  currentHorizontalAttackDirectionState: 0
   isJumpingEnemy: 0
   isAttacking: 0
-  currentMove: 0
-  knownMoves: 040000000500000006000000070000000700000008000000080000000900000009000000
+  currentAction: 0
+  knownActions: 040000000500000006000000070000000700000008000000080000000900000009000000
   moveCooldownMin: 1
   moveCooldownMax: 1.2
-  moveCooldown: 0
+  actionCooldown: 0
   chaseTimer: 0
-  nextMoveSet: 0
-  notComboingSet: 0
+  nextActionSet: 0
+  comboSet: 0
   comboChance: 100
   enemyIdleSet: 0
   minIdle: 1

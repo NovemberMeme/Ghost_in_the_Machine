@@ -62,14 +62,17 @@ public class Player : Character
     [SerializeField] private RightWeaponState currentRightWeaponState;
     [SerializeField] private PlayerMobilityState currentMobilityState;
     [SerializeField] private PlayerDirectionState currentPlayerDirectionState;
-    [SerializeField] private AttackDirectionState playerAttackDirectionState = AttackDirectionState.AttackingForward;
+    [SerializeField] private VerticalAttackDirection playerVerticalAttackDirectionState = VerticalAttackDirection.AttackingForward;
+    [SerializeField] private HorizontalAttackDirection playerHorizontalAttackDirectionState;
 
-    public AttackDirectionState PlayerAttackDirectionState
+    public VerticalAttackDirection PlayerVerticalAttackDirectionState
     {
-        get
-        {
-            return playerAttackDirectionState;
-        }
+        get { return playerVerticalAttackDirectionState; }
+    }
+
+    public HorizontalAttackDirection PlayerHorizontalAttackDirectionState
+    {
+        get { return playerHorizontalAttackDirectionState; }
     }
 
     [Header("Strafe stats: ")]
@@ -231,13 +234,10 @@ public class Player : Character
 
         // Time Lapse
 
-        if (!isTimeLapsing && !_isPhasing && currentMana >= timeLapseManaCost && unlockedTimeLapse)
+        if (!isTimeLapsing && !_isPhasing && currentMana >= timeLapseManaCost && unlockedTimeLapse &&
+            currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)
         {
-            if (Input.GetKeyDown(KeyCode.F) && currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)
-            {
-                TimeLapse();
-            }
-            else if (Input.GetButtonDown("Y") && currentLeftWeaponState == LeftWeaponState.Idling && currentRightWeaponState == RightWeaponState.Idling)
+            if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y"))
             {
                 TimeLapse();
             }
@@ -266,47 +266,86 @@ public class Player : Character
         if (isDead || !canBeDamaged || dmg.layer != "EnemyAttack")
             return;
 
-        actualDamage = 0;
-
-        if (currentLeftWeaponState == LeftWeaponState.Parrying || currentRightWeaponState == RightWeaponState.Parrying)
+        if(playerHorizontalAttackDirectionState == dmg.horizontalAttackDirection)
         {
-            if ((dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
-                (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
-                (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
+            TakeDamage(dmg);
+            return;
+        }
+
+        if (dmg.verticalAttackDirection != VerticalAttackDirection.AttackingForward)
+        {
+            if (currentRightWeaponState == RightWeaponState.Parrying)
             {
                 Parry(dmg);
+                Debug.Log("Right Parry");
             }
-            else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
-            {
-                if ((dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
-                    (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
-                    (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
-                {
-                    Block(dmg);
-                }
-                else
-                {
-                    TakeDamage(dmg);
-                }
-            }
-        }
-        else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
-        {
-            if ((dmg.attackDirectionState == AttackDirectionState.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
-                    (dmg.attackDirectionState == AttackDirectionState.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
-                    (dmg.attackDirectionState == AttackDirectionState.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
+            else if(currentRightWeaponState == RightWeaponState.Blocking)
             {
                 Block(dmg);
+                Debug.Log("Right Block");
             }
             else
             {
                 TakeDamage(dmg);
             }
         }
-        else
+        else if(dmg.verticalAttackDirection == VerticalAttackDirection.AttackingForward)
         {
-            TakeDamage(dmg);
+            if(currentLeftWeaponState == LeftWeaponState.Parrying)
+            {
+                Parry(dmg);
+                Debug.Log("Left Parry");
+            }
+            else if(currentLeftWeaponState == LeftWeaponState.Blocking)
+            {
+                Block(dmg);
+                Debug.Log("Left Block");
+            }
+            else
+            {
+                TakeDamage(dmg);
+            }
         }
+
+        //if (currentLeftWeaponState == LeftWeaponState.Parrying || currentRightWeaponState == RightWeaponState.Parrying)
+        //{
+        //    if ((dmg.verticalAttackDirection == VerticalAttackDirection.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
+        //        (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
+        //        (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
+        //    {
+        //        Parry(dmg);
+        //    }
+        //    else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
+        //    {
+        //        if ((dmg.verticalAttackDirection == VerticalAttackDirection.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
+        //            (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
+        //            (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
+        //        {
+        //            Block(dmg);
+        //        }
+        //        else
+        //        {
+        //            TakeDamage(dmg);
+        //        }
+        //    }
+        //}
+        //else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
+        //{
+        //    if ((dmg.verticalAttackDirection == VerticalAttackDirection.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
+        //            (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
+        //            (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
+        //    {
+        //        Block(dmg);
+        //    }
+        //    else
+        //    {
+        //        TakeDamage(dmg);
+        //    }
+        //}
+        //else
+        //{
+        //    TakeDamage(dmg);
+        //}
     }
 
     public override void TakeDamage(Damage dmg)
@@ -378,12 +417,10 @@ public class Player : Character
                 {
                     //SoundManager.PlaySound("dash"); IMPLEMENT DASH SFX
                     BackDash();
-                    canDash = false;
                 }
                 else if (!isGrounded && canAirDash)
                 {
                     BackJumpDash();
-                    canAirDash = false;
                 }
             }
             else
@@ -443,10 +480,12 @@ public class Player : Character
         if (faceDirection == 1)
         {
             transform.localScale = new Vector3(origScale.x, origScale.y, origScale.z);
+            playerHorizontalAttackDirectionState = HorizontalAttackDirection.AttackingRightward;
         }
         else if (faceDirection == -1)
         {
             transform.localScale = new Vector3(-origScale.x, origScale.y, origScale.z);
+            playerHorizontalAttackDirectionState = HorizontalAttackDirection.AttackingLeftward;
         }
 
         if (move > 0)
@@ -641,8 +680,6 @@ public class Player : Character
 
     public void ImplementState()
     {
-        // to be replaced
-
         switch (currentMobilityState)
         {
             case PlayerMobilityState.Standing:
@@ -696,39 +733,25 @@ public class Player : Character
         switch (currentLeftWeaponState)
         {
             case LeftWeaponState.Idling:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 0;
+                SetLeftCombatValues(0, 0, 0, 0);
                 break;
             case LeftWeaponState.Parrying:
-                leftParryValue = 1;
-                leftBlockValue = 0;
-                leftDamageValue = 0;
+                SetLeftCombatValues(parryStat, 0, 0, 0);
                 break;
             case LeftWeaponState.Blocking:
-                leftParryValue = 0;
-                leftBlockValue = 1;
-                leftDamageValue = 0;
+                SetLeftCombatValues(0, blockStat, 0, 0);
                 break;
             case LeftWeaponState.Attacking1:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case LeftWeaponState.Attacking3:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case LeftWeaponState.Attacking4:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case LeftWeaponState.PowerAttacking:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, swordStunDuration);
                 movementSpeed = 0;
                 break;
         }
@@ -736,31 +759,31 @@ public class Player : Character
         switch (currentRightWeaponState)
         {
             case RightWeaponState.Idling:
-                rightParryValue = 0;
-                rightBlockValue = 0;
-                rightDamageValue = 0;
+                SetRightCombatValues(0, 0, 0, 0);
                 break;
             case RightWeaponState.Parrying:
-                rightParryValue = 1;
-                rightBlockValue = 0;
-                rightDamageValue = 0;
+                SetRightCombatValues(parryStat, 0, 0, 0);
                 break;
             case RightWeaponState.Blocking:
-                rightParryValue = 0;
-                rightBlockValue = 1;
-                rightDamageValue = 0;
+                SetRightCombatValues(0, blockStat, 0, 0);
                 break;
             case RightWeaponState.Attacking1:
-                rightParryValue = 0;
-                rightBlockValue = 0;
-                rightDamageValue = 1;
+                SetRightCombatValues(0, 0, damageStat, 0);
                 break;
             case RightWeaponState.PowerAttacking:
-                rightParryValue = 0;
-                rightBlockValue = 0;
-                rightDamageValue = 1;
+                SetRightCombatValues(0, 0, damageStat, shieldStunDuration);
                 movementSpeed = 0;
                 break;
+        }
+
+        if(currentLeftWeaponState == LeftWeaponState.Blocking && currentRightWeaponState == RightWeaponState.Blocking && !isDashing)
+        {
+            movementSpeed = 0;
+            _anim.SetBool("Idling", true);
+        }
+        else
+        {
+            _anim.SetBool("Idling", false);
         }
 
         // parry/ block/ attack values are equal to the greater value among both weapons
@@ -849,7 +872,6 @@ public class Player : Character
                 _anim.ResetTrigger("Left_Attack3");
                 break;
             case LeftWeaponState.PowerAttacking:
-                stunDuration = swordStunDuration;
                 break;
         }
 
@@ -886,7 +908,6 @@ public class Player : Character
             case RightWeaponState.Attacking1:
                 break;
             case RightWeaponState.PowerAttacking:
-                stunDuration = shieldStunDuration;
                 break;
         }
 
@@ -894,66 +915,36 @@ public class Player : Character
         {
             if (Input.GetAxis("Vertical") > 0.25f)
             {
-                currentPlayerDirectionState = PlayerDirectionState.Downward;
-                _anim.SetLayerWeight(1, 0);
-                _anim.SetLayerWeight(2, 0);
-                _anim.SetLayerWeight(3, 1);
-                _anim.SetLayerWeight(4, 1);
-                _anim.SetLayerWeight(5, 0);
-                _anim.SetLayerWeight(6, 0);
+                //currentPlayerDirectionState = PlayerDirectionState.Downward;
+                //SetAllLayerWeights(0, 1, 0);
             }
             else if (Input.GetAxis("Vertical") < -0.25f)
             {
-                currentPlayerDirectionState = PlayerDirectionState.Upward;
-                _anim.SetLayerWeight(1, 0);
-                _anim.SetLayerWeight(2, 0);
-                _anim.SetLayerWeight(3, 0);
-                _anim.SetLayerWeight(4, 0);
-                _anim.SetLayerWeight(5, 1);
-                _anim.SetLayerWeight(6, 1);
+                //currentPlayerDirectionState = PlayerDirectionState.Upward;
+                //SetAllLayerWeights(0, 0, 1);
             }
             else
             {
                 currentPlayerDirectionState = PlayerDirectionState.Forward;
-                _anim.SetLayerWeight(1, 1);
-                _anim.SetLayerWeight(2, 1);
-                _anim.SetLayerWeight(3, 0);
-                _anim.SetLayerWeight(4, 0);
-                _anim.SetLayerWeight(5, 0);
-                _anim.SetLayerWeight(6, 0);
+                SetAllLayerWeights(1, 0, 0);
             }
         }
         else
         {
             if (Input.GetKey(KeyCode.S))
             {
-                currentPlayerDirectionState = PlayerDirectionState.Downward;
-                _anim.SetLayerWeight(1, 0);
-                _anim.SetLayerWeight(2, 0);
-                _anim.SetLayerWeight(3, 1);
-                _anim.SetLayerWeight(4, 1);
-                _anim.SetLayerWeight(5, 0);
-                _anim.SetLayerWeight(6, 0);
+                //currentPlayerDirectionState = PlayerDirectionState.Downward;
+                //SetAllLayerWeights(0, 1, 0);
             }
             else if (Input.GetKey(KeyCode.W))
             {
-                currentPlayerDirectionState = PlayerDirectionState.Upward;
-                _anim.SetLayerWeight(1, 0);
-                _anim.SetLayerWeight(2, 0);
-                _anim.SetLayerWeight(3, 0);
-                _anim.SetLayerWeight(4, 0);
-                _anim.SetLayerWeight(5, 1);
-                _anim.SetLayerWeight(6, 1);
+                //currentPlayerDirectionState = PlayerDirectionState.Upward;
+                //SetAllLayerWeights(0, 0, 1);
             }
             else
             {
                 currentPlayerDirectionState = PlayerDirectionState.Forward;
-                _anim.SetLayerWeight(1, 1);
-                _anim.SetLayerWeight(2, 1);
-                _anim.SetLayerWeight(3, 0);
-                _anim.SetLayerWeight(4, 0);
-                _anim.SetLayerWeight(5, 0);
-                _anim.SetLayerWeight(6, 0);
+                SetAllLayerWeights(1, 0, 0);
             }
         }
         
@@ -969,10 +960,20 @@ public class Player : Character
             _anim.SetBool("Slowed", false);
         }
 
-        if(currentLeftWeaponState != LeftWeaponState.PowerAttacking && currentRightWeaponState != RightWeaponState.PowerAttacking)
-        {
-            stunDuration = 0;
-        }
+        //if(currentLeftWeaponState != LeftWeaponState.PowerAttacking && currentRightWeaponState != RightWeaponState.PowerAttacking)
+        //{
+        //    stunDuration = 0;
+        //}
+    }
+
+    public void SetAllLayerWeights(float layerWeightA, float layerWeightB, float layerWeightC)
+    {
+        _anim.SetLayerWeight(1, layerWeightA);
+        _anim.SetLayerWeight(2, layerWeightA);
+        _anim.SetLayerWeight(3, layerWeightB);
+        _anim.SetLayerWeight(4, layerWeightB);
+        _anim.SetLayerWeight(5, layerWeightC);
+        _anim.SetLayerWeight(6, layerWeightC);
     }
 
     // ------------------------------------------------- Animation Event Functions ---------------------------------------------

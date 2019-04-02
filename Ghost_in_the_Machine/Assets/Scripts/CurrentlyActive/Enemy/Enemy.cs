@@ -91,14 +91,17 @@ public class Enemy : Character
     [SerializeField] protected EnemyLeftWeaponState currentEnemyLeftWeaponState;
     [SerializeField] protected EnemyRightWeaponState currentEnemyRightWeaponState;
     [SerializeField] protected EnemyDirectionState currentEnemyDirectionState;
-    [SerializeField] protected AttackDirectionState currentAttackDirectionState = AttackDirectionState.AttackingForward;
+    [SerializeField] protected VerticalAttackDirection currentVerticalAttackDirectionState = VerticalAttackDirection.AttackingForward;
+    [SerializeField] protected HorizontalAttackDirection currentHorizontalAttackDirectionState;
 
-    public AttackDirectionState CurrentAttackDirectionState
+    public VerticalAttackDirection CurrentVerticalAttackDirectionState
     {
-        get
-        {
-            return currentAttackDirectionState;
-        }
+        get { return currentVerticalAttackDirectionState; }
+    }
+
+    public HorizontalAttackDirection CurrentHorizontalAttackDirectionState
+    {
+        get { return currentHorizontalAttackDirectionState; }
     }
 
     //public GameObject coin;
@@ -111,17 +114,17 @@ public class Enemy : Character
 
     [Header("Attack stats: ")]
     [SerializeField] protected bool isAttacking = false;
-    [SerializeField] protected int currentMove;
-    [SerializeField] protected List<int> knownMoves = new List<int>();
+    [SerializeField] protected int currentAction;
+    [SerializeField] protected List<int> knownActions = new List<int>();
     //[SerializeField] private List<int> allMoves = new List<int>();
     [SerializeField] protected float moveCooldownMin;
     [SerializeField] protected float moveCooldownMax;
-    [SerializeField] protected float moveCooldown;
+    [SerializeField] protected float actionCooldown;
     [SerializeField] protected float chaseTimer = 0;
-    [SerializeField] protected bool nextMoveSet = false;
+    [SerializeField] protected bool nextActionSet = false;
 
     [Header("Combo stats: ")]
-    [SerializeField] protected bool notComboingSet = false;
+    [SerializeField] protected bool comboSet = false;
     [SerializeField] protected int comboChance = 30;
 
     // Idling
@@ -235,6 +238,8 @@ public class Enemy : Character
         {
             _anim.SetBool("Blocker", true);
         }
+
+        knownActions.Add(1);
     }
 
     public override void Update()
@@ -330,10 +335,12 @@ public class Enemy : Character
         if (faceDirection > 0)
         {
             transform.localScale = new Vector3(origScale.x, origScale.y, origScale.z);
+            currentHorizontalAttackDirectionState = HorizontalAttackDirection.AttackingRightward;
         }
         else if (faceDirection < 0)
         {
             transform.localScale = new Vector3(-origScale.x, origScale.y, origScale.z);
+            currentHorizontalAttackDirectionState = HorizontalAttackDirection.AttackingLeftward;
         }
 
         if (!isDashing && !isChasing)
@@ -387,10 +394,10 @@ public class Enemy : Character
             }
             else
             {
-                if(isJumpingEnemy && isGrounded && canJump)
-                {
-                    Jump();
-                }
+                //if(isJumpingEnemy && isGrounded && canJump)
+                //{
+                //    Jump();
+                //}
             }
         }
 
@@ -405,10 +412,10 @@ public class Enemy : Character
             }
             else
             {
-                if (isJumpingEnemy && isGrounded && canJump)
-                {
-                    Jump();
-                }
+                //if (isJumpingEnemy && isGrounded && canJump)
+                //{
+                //    Jump();
+                //}
             }
         }
 
@@ -425,29 +432,38 @@ public class Enemy : Character
             }
             else if(isChasing)
             {
-                if (!isJumpingEnemy)
+                if (faceDirection == 1)
                 {
-                    if (faceDirection == 1)
-                    {
-                        isStopped = true;
-                    }
-                    else if (faceDirection == -1)
-                    {
-                        isStopped = false;
-                    }
+                    isStopped = true;
                 }
-                else if (isJumpingEnemy)
+                else if (faceDirection == -1)
                 {
-                    if(canJump)
-                    {
-                        isStopped = false;
-                        Jump();
-                    }
-                    else if(!canJump)
-                    {
-                        isStopped = true;
-                    }
+                    isStopped = false;
                 }
+
+                //if (!isJumpingEnemy)
+                //{
+                //    if (faceDirection == 1)
+                //    {
+                //        isStopped = true;
+                //    }
+                //    else if (faceDirection == -1)
+                //    {
+                //        isStopped = false;
+                //    }
+                //}
+                //else if (isJumpingEnemy)
+                //{
+                //    if(canJump)
+                //    {
+                //        isStopped = false;
+                //        Jump();
+                //    }
+                //    else if(!canJump)
+                //    {
+                //        isStopped = true;
+                //    }
+                //}
             }
         }
 
@@ -462,28 +478,38 @@ public class Enemy : Character
             }
             else if(isChasing)
             {
-                if(!isJumpingEnemy)
+                if (faceDirection == -1)
                 {
-                    if(faceDirection == -1)
-                    {
-                        isStopped = true;
-                    }else if(faceDirection == 1)
-                    {
-                        isStopped = false;
-                    }
+                    isStopped = true;
                 }
-                else if (isJumpingEnemy)
+                else if (faceDirection == 1)
                 {
-                    if (canJump)
-                    {
-                        isStopped = false;
-                        Jump();
-                    }
-                    else if (!canJump)
-                    {
-                        isStopped = true;
-                    }
+                    isStopped = false;
                 }
+
+                //if (!isJumpingEnemy)
+                //{
+                //    if(faceDirection == -1)
+                //    {
+                //        isStopped = true;
+                //    }
+                //    else if(faceDirection == 1)
+                //    {
+                //        isStopped = false;
+                //    }
+                //}
+                //else if (isJumpingEnemy)
+                //{
+                //    if (canJump)
+                //    {
+                //        isStopped = false;
+                //        Jump();
+                //    }
+                //    else if (!canJump)
+                //    {
+                //        isStopped = true;
+                //    }
+                //}
             }
         }
 
@@ -510,33 +536,6 @@ public class Enemy : Character
             _anim.SetBool("Grounded", true);
             canDoubleJump = true;
         }
-    }
-
-    public override void Jump()
-    {
-        if (isGrounded && canJump)
-        {
-            _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
-        }
-    }
-
-    public override void DoubleJump()
-    {
-        if(canDoubleJump)
-        {
-            _rigid.velocity = new Vector2(_rigid.velocity.x, jumpVelocity);
-            canDoubleJump = false;
-        }
-    }
-
-    public virtual void NextRandomMove()
-    {
-        int moveIndex = Random.Range(0, knownMoves.Count);
-        currentMove = knownMoves[moveIndex];
-        _anim.SetInteger("CurrentMove", currentMove);
-        chaseTimer = 0;
-        //_anim.SetBool("Attacking", true);
-        //Debug.Log("Attacking!");
     }
 
     public override void Death()
@@ -626,109 +625,65 @@ public class Enemy : Character
 
                 if (!idleDurationSet)
                 {
-                    idleDuration = Random.Range(minIdle, maxIdle);
-                    idleDurationSet = true;
+                    SetEnemyIdleDuration();
                 }
+
                 if (idleTimer >= idleDuration)
                 {
-                    _anim.SetBool("EnemyPatrolling", true);
-                    currentEnemyControlState = EnemyControlState.Patrolling;
-                    idleDurationSet = false;
+                    SetEnemyPatrol();
                 }
                 break;
             case EnemyControlState.Patrolling:
                 patrolTimer += Time.deltaTime;
 
-                //movementSpeed = origMoveSpeed;
-
                 if (!patrolDurationSet)
                 {
-                    patrolDuration = Random.Range(minPatrol, maxPatrol);
-                    patrolDurationSet = true;
+                    SetEnemyPatrolDuration();
                 }
+
                 if (patrolTimer >= patrolDuration)
                 {
-                    _anim.SetBool("EnemyPatrolling", false);
-                    currentEnemyControlState = EnemyControlState.Idling;
-                    patrolDurationSet = false;
+                    SetEnemyIdle();
                 }
                 break;
             case EnemyControlState.Chasing:
                 chaseTimer += Time.deltaTime;
+
+                _anim.SetInteger("CurrentMove", 0);
 
                 if (!isDashing)
                 {
                     FacePlayer();
                 }
 
-                _anim.SetInteger("CurrentMove", 0);
-                //movementSpeed = origMoveSpeed;
-
-                if (!notComboingSet)
+                if (!comboSet)
                 {
-                    int comboChanceCurrent = Random.Range(1, 101);
-
-                    if (comboChanceCurrent <= comboChance)
-                    {
-                        nextMoveSet = false;
-                        NextRandomMove();
-                    }
-
-                    notComboingSet = true;
+                    SetEnemyCombo();
                 }
 
-                if (!nextMoveSet)
+                if (!nextActionSet)
                 {
-                    moveCooldown = Random.Range(moveCooldownMin, moveCooldownMax);
-                    nextMoveSet = true;
+                    SetNextEnemyActionCooldown();
                 }
 
-                if (chaseTimer >= moveCooldown)
+                if (chaseTimer >= actionCooldown)
                 {
-                    nextMoveSet = false;
-                    notComboingSet = false;
-                    NextRandomMove();
+                    comboSet = false;
+                    NextRandomAction();
                 }
 
                 if (isDasher)
                 {
                     dashTimer += Time.deltaTime;
 
-                    if (dashTimer >= dashCooldown)
-                    {
-                        if (dashBackwardChanceCurrent <= dashBackwardChance)
-                        {
-                            if (isGrounded)
-                            {
-                                StartCoroutine(Dashing());
-                            }
-                            else
-                            {
-                                StartCoroutine(JumpDashing());
-                            }
-                        }
-                        else
-                        {
-                            if (isGrounded)
-                            {
-                                StartCoroutine(BackDashing());
-                            }
-                            else
-                            {
-                                StartCoroutine(BackJumpDashing());
-                            }
-                        }
-
-                        dashCooldownSet = false;
-                        dashTimer = 0;
-                    }
-
                     if (!dashCooldownSet)
                     {
-                        dashBackwardChanceCurrent = Random.Range(1, 101);
-                        dashCooldown = Random.Range(dashCooldownMin, dashCooldownMax);
+                        SetRandomDashDirection();
+                    }
 
-                        dashCooldownSet = true;
+                    if (dashTimer >= dashCooldown)
+                    {
+                        SetEnemyDash();
                     }
                 }
 
@@ -736,17 +691,14 @@ public class Enemy : Character
                 {
                     jumpTimer += Time.deltaTime;
 
-                    if(jumpTimer >= jumpCooldown)
-                    {
-                        Jump();
-                        jumpCooldownSet = false;
-                        jumpTimer = 0;
-                    }
-
                     if (!jumpCooldownSet)
                     {
-                        jumpCooldown = Random.Range(jumpCooldownMin, jumpCooldownMax);
-                        jumpCooldownSet = true;
+                        SetRandomEnemyJumpCooldown();
+                    }
+
+                    if (jumpTimer >= jumpCooldown)
+                    {
+                        SetEnemyJump();
                     }
                 }
                 break;
@@ -754,6 +706,122 @@ public class Enemy : Character
                 chaseTimer = 0;
                 break;
         }
+    }
+
+    // Enemy Control State Functions
+
+    // Idle Functions
+
+    public virtual void SetEnemyIdleDuration()
+    {
+        idleDuration = Random.Range(minIdle, maxIdle);
+        idleDurationSet = true;
+    }
+
+    public virtual void SetEnemyIdle()
+    {
+        _anim.SetBool("EnemyPatrolling", false);
+        currentEnemyControlState = EnemyControlState.Idling;
+        patrolDurationSet = false;
+    }
+
+    // Patrol Functions
+
+    public virtual void SetEnemyPatrolDuration()
+    {
+        patrolDuration = Random.Range(minPatrol, maxPatrol);
+        patrolDurationSet = true;
+    }
+
+    public virtual void SetEnemyPatrol()
+    {
+        _anim.SetBool("EnemyPatrolling", true);
+        currentEnemyControlState = EnemyControlState.Patrolling;
+        idleDurationSet = false;
+    }
+
+    // Combo/ Action Functions
+
+    public virtual void SetEnemyCombo()
+    {
+        int comboChanceCurrent = Random.Range(1, 101);
+
+        if (comboChanceCurrent <= comboChance)
+        {
+            NextRandomAction();
+        }
+
+        comboSet = true;
+    }
+
+    public virtual void SetNextEnemyActionCooldown()
+    {
+        nextActionSet = true;
+        actionCooldown = Random.Range(moveCooldownMin, moveCooldownMax);
+    }
+
+    public virtual void NextRandomAction()
+    {
+        nextActionSet = false;
+
+        int actionIndex = Random.Range(0, knownActions.Count);
+        currentAction = knownActions[actionIndex];
+        _anim.SetInteger("CurrentMove", currentAction);
+        chaseTimer = 0;
+    }
+
+    // Dash Functions
+
+    public virtual void SetRandomDashDirection()
+    {
+        dashBackwardChanceCurrent = Random.Range(1, 101);
+        dashCooldown = Random.Range(dashCooldownMin, dashCooldownMax);
+
+        dashCooldownSet = true;
+    }
+
+    public virtual void SetEnemyDash()
+    {
+        if (dashBackwardChanceCurrent <= dashBackwardChance)
+        {
+            if (isGrounded)
+            {
+                StartCoroutine(Dashing());
+            }
+            else
+            {
+                StartCoroutine(JumpDashing());
+            }
+        }
+        else
+        {
+            if (isGrounded)
+            {
+                StartCoroutine(BackDashing());
+            }
+            else
+            {
+                StartCoroutine(BackJumpDashing());
+            }
+        }
+
+        dashCooldownSet = false;
+        dashTimer = 0;
+    }
+
+    // Jump Functions
+
+    public virtual void SetRandomEnemyJumpCooldown()
+    {
+        jumpCooldown = Random.Range(jumpCooldownMin, jumpCooldownMax);
+        jumpCooldownSet = true;
+    }
+
+    public virtual void SetEnemyJump()
+    {
+        Jump();
+        jumpCooldownSet = false;
+        jumpTimer = 0;
     }
 
     // Enemy Mobiity State
@@ -834,23 +902,14 @@ public class Enemy : Character
                 {
                     currentEnemyChaseState = EnemyChaseState.ChasingToward;
                 }
+
                 if (!chasingStillDurationSet)
                 {
-                    chasingStillDuration = Random.Range(chasingStillMin, chasingStillMax);
-                    chasingStillDurationSet = true;
+                    SetChasingStillDuration();
                 }
                 if (chasingStillTimer >= chasingStillDuration)
                 {
-                    int forwardOrBackward = Random.Range(1, 101);
-                    if (forwardOrBackward <= chaseForwardChance)
-                    {
-                        currentEnemyChaseState = EnemyChaseState.ChasingForward;
-                    }
-                    else
-                    {
-                        currentEnemyChaseState = EnemyChaseState.ChasingBackward;
-                    }
-                    chasingStillDurationSet = false;
+                    SetRandomChaseDirection();
                 }
                 break;
             case EnemyChaseState.ChasingForward:
@@ -876,13 +935,11 @@ public class Enemy : Character
 
                 if (!chasingForwardDurationSet)
                 {
-                    chasingForwardDuration = Random.Range(chasingForwardMin, chasingForwardMax);
-                    chasingForwardDurationSet = true;
+                    SetChasingForwardDuration();
                 }
                 if (chasingForwardTimer >= chasingForwardDuration)
                 {
-                    currentEnemyChaseState = EnemyChaseState.ChasingStill;
-                    chasingForwardDurationSet = false;
+                    SetChasingStill();
                 }
                 break;
             case EnemyChaseState.ChasingBackward:
@@ -905,16 +962,54 @@ public class Enemy : Character
 
                 if (!chasingBackwardDurationSet)
                 {
-                    chasingBackwardDuration = Random.Range(chasingBackwardMin, chasingBackwardMax);
-                    chasingBackwardDurationSet = true;
+                    SetChasingBackwardDuration();
                 }
                 if (chasingBackwardTimer >= chasingBackwardDuration)
                 {
-                    currentEnemyChaseState = EnemyChaseState.ChasingStill;
-                    chasingBackwardDurationSet = false;
+                    SetChasingStill();
                 }
                 break;
         }
+    }
+
+    // Chasing State Functions
+
+    public virtual void SetChasingStillDuration()
+    {
+        chasingStillDuration = Random.Range(chasingStillMin, chasingStillMax);
+        chasingStillDurationSet = true;
+    }
+
+    public virtual void SetRandomChaseDirection()
+    {
+        int forwardOrBackward = Random.Range(1, 101);
+        if (forwardOrBackward <= chaseForwardChance)
+        {
+            currentEnemyChaseState = EnemyChaseState.ChasingForward;
+        }
+        else
+        {
+            currentEnemyChaseState = EnemyChaseState.ChasingBackward;
+        }
+        chasingStillDurationSet = false;
+    }
+
+    public virtual void SetChasingForwardDuration()
+    {
+        chasingForwardDuration = Random.Range(chasingForwardMin, chasingForwardMax);
+        chasingForwardDurationSet = true;
+    }
+
+    public virtual void SetChasingBackwardDuration()
+    {
+        chasingBackwardDuration = Random.Range(chasingBackwardMin, chasingBackwardMax);
+        chasingBackwardDurationSet = true;
+    }
+
+    public virtual void SetChasingStill()
+    {
+        currentEnemyChaseState = EnemyChaseState.ChasingStill;
+        chasingForwardDurationSet = false;
     }
 
     // If current state is not the following
@@ -940,7 +1035,7 @@ public class Enemy : Character
         if (currentEnemyControlState != EnemyControlState.Chasing)
         {
             chaseTimer = 0;
-            nextMoveSet = false;
+            nextActionSet = false;
         }
 
         if (currentEnemyChaseState != EnemyChaseState.ChasingStill)
@@ -959,10 +1054,10 @@ public class Enemy : Character
             movingTowardsPlayer = true;
         }
 
-        if(currentEnemyLeftWeaponState != EnemyLeftWeaponState.PowerAttacking1 && currentEnemyRightWeaponState != EnemyRightWeaponState.PowerAttacking1)
-        {
-            stunDuration = 0;
-        }
+        //if(currentEnemyLeftWeaponState != EnemyLeftWeaponState.PowerAttacking1 && currentEnemyRightWeaponState != EnemyRightWeaponState.PowerAttacking1)
+        //{
+        //    stunDuration = 0;
+        //}
 
         if(currentEnemyRightWeaponState != EnemyRightWeaponState.Idling)
         {
@@ -977,60 +1072,37 @@ public class Enemy : Character
         switch (currentEnemyLeftWeaponState)
         {
             case EnemyLeftWeaponState.Idling:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 0;
+                SetLeftCombatValues(0, 0, 0, 0);
                 break;
             case EnemyLeftWeaponState.Parrying:
-                leftParryValue = 1;
-                leftBlockValue = 0;
-                leftDamageValue = 0;
+                SetLeftCombatValues(parryStat, 0, 0, 0);
                 break;
             case EnemyLeftWeaponState.Blocking:
-                leftParryValue = 0;
-                leftBlockValue = 1;
-                leftDamageValue = 0;
+                SetLeftCombatValues(0, blockStat, 0, 0);
                 break;
             case EnemyLeftWeaponState.Attacking1:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case EnemyLeftWeaponState.Attacking2:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case EnemyLeftWeaponState.Attacking3:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case EnemyLeftWeaponState.ComboAttacking1:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case EnemyLeftWeaponState.ComboAttacking2:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case EnemyLeftWeaponState.ComboAttacking3:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case EnemyLeftWeaponState.ProjectileAttacking1:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
+                SetLeftCombatValues(0, 0, damageStat, 0);
                 break;
             case EnemyLeftWeaponState.PowerAttacking1:
-                leftParryValue = 0;
-                leftBlockValue = 0;
-                leftDamageValue = 1;
-                stunDuration = swordStunDuration;
+                SetLeftCombatValues(0, 0, damageStat, swordStunDuration);
                 break;
         }
     }
@@ -1042,9 +1114,7 @@ public class Enemy : Character
         switch (currentEnemyRightWeaponState)
         {
             case EnemyRightWeaponState.Idling:
-                rightParryValue = 0;
-                rightBlockValue = 0;
-                rightDamageValue = 0;
+                SetRightCombatValues(0, 0, 0, 0);
 
                 exposureTimer += Time.deltaTime;
 
@@ -1055,38 +1125,22 @@ public class Enemy : Character
 
                 break;
             case EnemyRightWeaponState.Parrying:
-                rightParryValue = 1;
-                rightBlockValue = 0;
-                rightDamageValue = 0;
+                SetRightCombatValues(parryStat, 0, 0, 0);
                 break;
             case EnemyRightWeaponState.Blocking:
-                rightParryValue = 0;
-                rightBlockValue = 1;
-                rightDamageValue = 0;
+                SetRightCombatValues(0, blockStat, 0, 0);
                 break;
             case EnemyRightWeaponState.Attacking1:
-                rightParryValue = 0;
-                rightBlockValue = 0;
-                rightDamageValue = 1;
-                stunDuration = shieldStunDuration;
+                SetRightCombatValues(0, 0, damageStat, shieldStunDuration);
                 break;
             case EnemyRightWeaponState.Attacking2:
-                rightParryValue = 0;
-                rightBlockValue = 0;
-                rightDamageValue = 1;
-                stunDuration = shieldStunDuration;
+                SetRightCombatValues(0, 0, damageStat, shieldStunDuration);
                 break;
             case EnemyRightWeaponState.Attacking3:
-                rightParryValue = 0;
-                rightBlockValue = 0;
-                rightDamageValue = 1;
-                stunDuration = shieldStunDuration;
+                SetRightCombatValues(0, 0, damageStat, shieldStunDuration);
                 break;
             case EnemyRightWeaponState.PowerAttacking1:
-                rightParryValue = 0;
-                rightBlockValue = 0;
-                rightDamageValue = 1;
-                stunDuration = shieldStunDuration;
+                SetRightCombatValues(0, 0, damageStat, shieldStunDuration);
                 break;
         }
 
@@ -1096,7 +1150,7 @@ public class Enemy : Character
         }
     }
 
-    // parry/ block/ attack values are equal to the greater value among both weapons
+    // Parry/ block/ attack values are equal to the greater value among both weapons
 
     public virtual void ImplementCombatValues()
     {
