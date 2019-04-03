@@ -278,6 +278,12 @@ public class Enemy : Character
         if (isDead || !canBeDamaged || dmg.layer != "Sword")
             return;
 
+        if(currentHorizontalAttackDirectionState == dmg.horizontalAttackDirection)
+        {
+            TakeDamage(dmg);
+            return;
+        }
+
         if(currentEnemyRightWeaponState == EnemyRightWeaponState.Blocking)
         {
             Block(dmg);

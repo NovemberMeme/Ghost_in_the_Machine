@@ -30,7 +30,14 @@ public class Character : MonoBehaviour
 
     public int Health
     {
-        get { return health; }
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+        }
     }
 
     [Header("Combat stats: ")]
@@ -81,6 +88,11 @@ public class Character : MonoBehaviour
 
     [Header("Death stats: ")]
     [SerializeField] protected bool isDead = false;
+
+    public bool IsDead
+    {
+        get { return isDead; }
+    }
 
     [Header("Projectile stats: ")]
     [SerializeField] protected Transform projectilePos;
