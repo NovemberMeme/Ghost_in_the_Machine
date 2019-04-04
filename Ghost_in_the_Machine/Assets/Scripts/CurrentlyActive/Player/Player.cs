@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : Character
 {
@@ -92,7 +93,7 @@ public class Player : Character
             coins = value;
         }
     }
-
+    
     // For adjusting gravity value when falling down so that player falls down faster when they don't hold the jump button
     // but they still jump higher and longer when they hold down the jump button
 
@@ -103,10 +104,43 @@ public class Player : Character
     // For unlocking new player abilities
 
     [Header("Unlock stats: ")]
-    [SerializeField] private bool unlockedDoubleJump = true;
-    [SerializeField] private bool unlockedDash = true;
-    [SerializeField] private bool unlockedPhase = true;
-    [SerializeField] private bool unlockedTimeLapse = true;
+    [SerializeField] private TextMeshProUGUI unlockText;
+    [SerializeField] private bool unlockedBlock = false;
+    [SerializeField] private bool unlockedDash = false;
+    [SerializeField] private bool unlockedDoubleJump = false;
+    [SerializeField] private bool unlockedPogoJump = false;
+    [SerializeField] private bool unlockedPhase = false;
+    [SerializeField] private bool unlockedTimeLapse = false;
+
+    public bool UnlockedBlock
+    {
+        set { unlockedBlock = value; }
+    }
+
+    public bool UnlockedDash
+    {
+        set { unlockedDash = value; }
+    }
+
+    public bool UnlockedDoubleJump
+    {
+        set { unlockedDoubleJump = value; }
+    }
+
+    public bool UnlockedPogoJump
+    {
+        set { unlockedPogoJump = value; }
+    }
+
+    public bool UnlockedPhase
+    {
+        set { unlockedPhase = value; }
+    }
+
+    public bool UnlockedTimeLapse
+    {
+        set { unlockedTimeLapse = value; }
+    }
 
     [Header("Heal stats: ")]
     [SerializeField] private float healTimer = 0;
@@ -151,6 +185,7 @@ public class Player : Character
         base.Start();
         transformSizeModifier = transform.localScale.x;
         origColliderSize = _collider.size;
+        unlockText.text = "";
     }
 
     public override void Update()
@@ -607,7 +642,20 @@ public class Player : Character
         }
     }
 
+    public virtual void DisplayUnlockText(string unlockedAbility)
+    {
+        unlockText.text = "Unlocked " + unlockedAbility + "!";
+        StartCoroutine(RemoveUnlockText());
+    }
+
     // Coroutines
+
+    public virtual IEnumerator RemoveUnlockText()
+    {
+        yield return new WaitForSeconds(5);
+
+        unlockText.text = "";
+    }
 
     protected override IEnumerator Dashing()
     {
@@ -736,7 +784,7 @@ public class Player : Character
                 SetLeftCombatValues(0, 0, 0, 0);
                 break;
             case LeftWeaponState.Parrying:
-                SetLeftCombatValues(parryStat, 0, 0, 0);
+                SetLeftCombatValues(parryStat, 0, 0, swordStunDuration);
                 break;
             case LeftWeaponState.Blocking:
                 SetLeftCombatValues(0, blockStat, 0, 0);
@@ -762,7 +810,7 @@ public class Player : Character
                 SetRightCombatValues(0, 0, 0, 0);
                 break;
             case RightWeaponState.Parrying:
-                SetRightCombatValues(parryStat, 0, 0, 0);
+                SetRightCombatValues(parryStat, 0, 0, swordStunDuration);
                 break;
             case RightWeaponState.Blocking:
                 SetRightCombatValues(0, blockStat, 0, 0);

@@ -57,6 +57,11 @@ public class Character : MonoBehaviour
     [SerializeField] protected int blockStat = 1;
     [SerializeField] protected int damageStat = 1;
 
+    public int ParryValue
+    {
+        get { return parryValue; }
+    }
+
     public int DamageValue
     {
         get { return damageValue; }
@@ -493,10 +498,12 @@ public class Character : MonoBehaviour
         rightBlockValue = block;
         rightDamageValue = damage;
 
-        if (stunDuration == 0)
-        {
-            stunDuration = stun;
-        }
+        stunDuration = stun;
+
+        //if (stunDuration == 0)
+        //{
+        //    stunDuration = stun;
+        //}
     }
 
     public virtual void SetLeftCombatValues(int parry, int block, int damage, float stun)
@@ -537,8 +544,12 @@ public class Character : MonoBehaviour
     public virtual IEnumerator Stunned(float dmgStunDuration)
     {
         _anim.SetBool("Stunned", true);
+        isStopped = true;
+
         yield return new WaitForSeconds(dmgStunDuration);
+
         _anim.SetBool("Stunned", false);
+        isStopped = false;
     }
 
     public virtual IEnumerator Jumping()

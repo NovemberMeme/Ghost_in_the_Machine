@@ -20,6 +20,8 @@ public class EnemyWeapon : MonoBehaviour
     {
         if (coll.name == "Player")
         {
+            Player player = coll.gameObject.GetComponent<Player>();
+
             Damage dmg = new Damage
             {
                 damageAmount = enemyScript.DamageValue,
@@ -30,7 +32,12 @@ public class EnemyWeapon : MonoBehaviour
                 damageElement = Element.Soul
             };
 
-            coll.gameObject.GetComponent<Player>().GetHit(dmg);
+            player.GetHit(dmg);
+
+            if(player.ParryValue > 0)
+            {
+                enemyScript.StartCoroutine(enemyScript.Stunned(player.StunDuration));
+            }
         }
     }
 }

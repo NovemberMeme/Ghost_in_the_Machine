@@ -10,4 +10,5 @@ public struct Damage
     public string layer;
     public float stunningDuration;
     public Element damageElement;
+    //public bool unblockable;
 }

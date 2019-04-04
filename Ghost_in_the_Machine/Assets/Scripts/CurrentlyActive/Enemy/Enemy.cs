@@ -238,8 +238,6 @@ public class Enemy : Character
         {
             _anim.SetBool("Blocker", true);
         }
-
-        knownActions.Add(1);
     }
 
     public override void Update()
@@ -329,7 +327,7 @@ public class Enemy : Character
         }
         else if(isStopped || isDead)
         {
-            _rigid.velocity = new Vector2(0, _rigid.velocity.y);
+            _rigid.velocity = Vector3.zero;
         }
 
         //_anim.SetFloat("Moving", Mathf.Abs(_rigid.velocity.x));
@@ -611,6 +609,19 @@ public class Enemy : Character
         canDash = true;
     }
 
+    public override IEnumerator Stunned(float dmgStunDuration)
+    {
+        _anim.SetBool("Stunned", true);
+        isStopped = true;
+        currentEnemyMobilityState = EnemyMobilityState.Stunned;
+
+        yield return new WaitForSeconds(dmgStunDuration);
+
+        _anim.SetBool("Stunned", false);
+        isStopped = false;
+        currentEnemyMobilityState = EnemyMobilityState.Standing;
+    }
+
     //-------------------------------------------- Enum States ----------------------------------------------------------
 
     // Implement the behaviors and functions of each State
@@ -857,9 +868,9 @@ public class Enemy : Character
                 currentEnemyDirectionState = EnemyDirectionState.Forward;
                 movementSpeed = 0;
                 break;
-            default:
-                movementSpeed = origMoveSpeed;
-                break;
+            //default:
+            //    movementSpeed = origMoveSpeed;
+            //    break;
         }
     }
 
@@ -884,7 +895,7 @@ public class Enemy : Character
                 break;
             case EnemyChaseState.ChasingToward:
 
-                if (!isDashing)
+                if (!isDashing && !isStopped)
                 {
                     movementSpeed = origMoveSpeed;
                     _anim.SetBool("Slowed", false);
@@ -928,7 +939,7 @@ public class Enemy : Character
 
                 if (!isDashing)
                 {
-                    if (xDistance < chaseForwardLengthMax)
+                    if (xDistance < chaseForwardLengthMax || isStopped)
                     {
                         movementSpeed = 0;
                     }
@@ -957,7 +968,7 @@ public class Enemy : Character
                 }
                 else
                 {
-                    if (!isDashing)
+                    if (!isDashing && !isStopped)
                     {
                         _anim.SetBool("Slowed", true);
                         movementSpeed = -faceDirection * origMoveSpeed * slowMultiplier;

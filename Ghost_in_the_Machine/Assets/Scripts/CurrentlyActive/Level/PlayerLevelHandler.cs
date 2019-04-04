@@ -49,6 +49,13 @@ public class PlayerLevelHandler : MonoBehaviour
         //DisplayScore();
         Death();
         //Movement();
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            //res = new Vector2(52, 36);
+            res = new Vector2(234, 42);
+            player.transform.position = res;
+        }
     }
 
     void DisplayScore()

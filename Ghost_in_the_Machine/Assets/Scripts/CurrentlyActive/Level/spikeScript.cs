@@ -5,14 +5,16 @@ using UnityEngine;
 public class spikeScript : MonoBehaviour
 {
     private GameObject player;
-    private PlayerLevelHandler playercs;
+    private PlayerLevelHandler playerLevelHandler;
+    private Player playerScript;
 
     private bool canDamage = true;
 
     void Start ()
     {
         player = GameObject.Find("Player");
-        playercs = player.GetComponent<PlayerLevelHandler>();
+        playerLevelHandler = player.GetComponent<PlayerLevelHandler>();
+        playerScript = player.GetComponent<Player>();
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -29,8 +31,20 @@ public class spikeScript : MonoBehaviour
     {
         if (coll.name == "Player" && canDamage)
         {
-            playercs.SetHp(-1);
-            player.transform.position = playercs.GetCheck();
+            //playercs.SetHp(-1);
+            Damage dmg = new Damage
+            {
+                damageAmount = 1,
+                verticalAttackDirection = VerticalAttackDirection.AttackingForward,
+                horizontalAttackDirection = HorizontalAttackDirection.AttackingRightward,
+                layer = LayerMask.LayerToName(gameObject.layer),
+                stunningDuration = 0,
+                damageElement = Element.Soul
+            };
+
+            playerScript.TakeDamage(dmg);
+
+            player.transform.position = playerLevelHandler.GetCheck();
             Debug.Log("Spiked");
             StartCoroutine(SpikeDamageCooldown());
         }
