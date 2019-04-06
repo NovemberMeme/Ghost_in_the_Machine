@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerLevelHandler : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class PlayerLevelHandler : MonoBehaviour
     TextMeshProUGUI scoreDisplay;
 
     [SerializeField] float movspeed = 10f;
-    [SerializeField] private Vector2 res;
+    [SerializeField] public Vector2 res;
     [SerializeField] protected int score;
 
     public void SetHp(int hp)
@@ -52,9 +53,14 @@ public class PlayerLevelHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            //res = new Vector2(52, 36);
-            res = new Vector2(234, 42);
+            //SceneManager.LoadScene(0);
+            player.Health = 4;
+            UIManager.Instance.UpdateLives(player.Health);
+            player.IsDead = false;
+            res = new Vector2(52, 36);
             player.transform.position = res;
+            //res = new Vector2(234, 42);
+            //player.transform.position = res;
         }
     }
 
@@ -68,7 +74,7 @@ public class PlayerLevelHandler : MonoBehaviour
         if (player.IsDead)
         {
             transform.position = res;
-            player.Health = 5;
+            player.Health = 4;
         }
     }
 

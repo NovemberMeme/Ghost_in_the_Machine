@@ -207,6 +207,16 @@ public class Player : Character
         {
             isDead = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            unlockText.text = "RB = Attack\n Left Analog to Move";
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            unlockText.text = "";
+        }
     }
 
     public override void FixedUpdate()
@@ -644,7 +654,21 @@ public class Player : Character
 
     public virtual void DisplayUnlockText(string unlockedAbility)
     {
-        unlockText.text = "Unlocked " + unlockedAbility + "!";
+        switch (unlockedAbility)
+        {
+            case "Block":
+                unlockText.text = "Unlocked " + unlockedAbility + "!\n Hold LB to Block";
+                break;
+            case "Dash":
+                unlockText.text = "Unlocked " + unlockedAbility + "!\n Press RT to Dash";
+                break;
+            case "DoubleJump":
+                unlockText.text = "Unlocked " + unlockedAbility + "!";
+                break;
+
+        }
+
+        
         StartCoroutine(RemoveUnlockText());
     }
 

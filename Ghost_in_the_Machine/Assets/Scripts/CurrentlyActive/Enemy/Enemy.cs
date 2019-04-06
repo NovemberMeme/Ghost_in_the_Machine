@@ -116,9 +116,14 @@ public class Enemy : Character
     [SerializeField] protected bool isAttacking = false;
     [SerializeField] protected int currentAction;
     [SerializeField] protected List<int> knownActions = new List<int>();
+    [SerializeField] protected List<int> moveSet = new List<int>();
+    [SerializeField] protected List<List<int>> moveSets = new List<List<int>>();
     //[SerializeField] private List<int> allMoves = new List<int>();
-    [SerializeField] protected float moveCooldownMin;
-    [SerializeField] protected float moveCooldownMax;
+
+
+
+    [SerializeField] protected float moveCooldownMin; //RENAME TO ACTION COOLDOWN?
+    [SerializeField] protected float moveCooldownMax; //RENAME TO ACTION COOLDOWN?
     [SerializeField] protected float actionCooldown;
     [SerializeField] protected float chaseTimer = 0;
     [SerializeField] protected bool nextActionSet = false;

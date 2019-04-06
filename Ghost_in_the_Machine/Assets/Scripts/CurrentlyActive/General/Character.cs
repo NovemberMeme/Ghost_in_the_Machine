@@ -96,7 +96,14 @@ public class Character : MonoBehaviour
 
     public bool IsDead
     {
-        get { return isDead; }
+        get
+        {
+            return isDead;
+        }
+        set
+        {
+            isDead = value;
+        }
     }
 
     [Header("Projectile stats: ")]
