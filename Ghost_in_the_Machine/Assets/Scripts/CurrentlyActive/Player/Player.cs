@@ -357,6 +357,7 @@ public class Player : Character
     {
         _anim.SetTrigger("Damaged");
         PlayRandomDamagedSound();
+        spawnEffects.Splatter();
 
         actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount);
         health -= actualDamage;

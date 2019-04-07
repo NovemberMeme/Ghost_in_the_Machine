@@ -195,6 +195,7 @@ public class Character : MonoBehaviour
     [SerializeField] protected Material _material;
     [SerializeField] protected Animator _anim;
     [SerializeField] protected SkeletonMecanim skeletonMecanim;
+    [SerializeField] protected SpawnEffects spawnEffects;
 
     [SerializeField] protected Vector2 colliderSize;
 
@@ -211,6 +212,7 @@ public class Character : MonoBehaviour
         _material = GetComponent<Material>();
         _anim = GetComponent<Animator>();
         skeletonMecanim = GetComponent<SkeletonMecanim>();
+        spawnEffects = transform.GetChild(0).GetComponent<SpawnEffects>();
 
         colliderSize = _collider.size * transform.localScale.x;
 
@@ -239,6 +241,7 @@ public class Character : MonoBehaviour
     {
         _anim.SetTrigger("Damaged");
         PlayRandomDamagedSound();
+        spawnEffects.Splatter();
 
         actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount);
         health -= actualDamage;
@@ -264,6 +267,7 @@ public class Character : MonoBehaviour
         actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount) - parryValue;
 
         SoundManager.PlaySound("Parry", gameObject.name);
+        spawnEffects.Spark();
         StartCoroutine(ResetCanBeHit());
     }
 
@@ -272,6 +276,7 @@ public class Character : MonoBehaviour
         actualDamage = ElementCompute(currentElement, dmg.damageElement, dmg.damageAmount) - blockValue;
 
         SoundManager.PlaySound("BlockHit", gameObject.name);
+        spawnEffects.Spark();
         _anim.SetTrigger("Hit");
 
         //StartCoroutine(ResetCanBeHit());

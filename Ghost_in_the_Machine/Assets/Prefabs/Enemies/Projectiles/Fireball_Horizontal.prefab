@@ -92,7 +92,7 @@ Animator:
   m_GameObject: {fileID: 5186862760245968157}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 647127f33f6d7f0429ff910520a5d2e2, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -113,7 +113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbbb220578a38644396ce251c7f8025d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyScript: {fileID: 0}
   shootDirection: 0
+  projectileCurrentSpeed: 0
 --- !u!58 &5478907501140986098
 CircleCollider2D:
   m_ObjectHideFlags: 0
