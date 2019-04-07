@@ -10,7 +10,7 @@ public class spikeScript : MonoBehaviour
 
     private bool canDamage = true;
 
-    void Start ()
+    void Start()
     {
         player = GameObject.Find("Player");
         playerLevelHandler = player.GetComponent<PlayerLevelHandler>();

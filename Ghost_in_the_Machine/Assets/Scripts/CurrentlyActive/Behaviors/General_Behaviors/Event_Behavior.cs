@@ -40,6 +40,9 @@ public class Event_Behavior : StateMachineBehaviour
                     case 1:
                         FootstepSFX();
                         break;
+                    case 2:
+                        SetCrushFalse(animator);
+                        break;
                 }
 
                 currentEventTimeIndex++;
@@ -73,5 +76,10 @@ public class Event_Behavior : StateMachineBehaviour
     public void FootstepSFX()
     {
         SoundManager.PlaySound("Landing");
+    }
+
+    public void SetCrushFalse(Animator animator)
+    {
+        animator.SetBool("Crush", false);
     }
 }

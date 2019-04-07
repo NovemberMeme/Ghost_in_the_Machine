@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class bounceScript : MonoBehaviour
 {
-    public float bounceForce = 2f;
-    public float bounceTime = 10f;
-    private bool isActive = true;
+    [SerializeField] private float bounceTime = 5f;
+    [SerializeField] private bool isActive = true;
     private Rigidbody2D player;
-    private BoxCollider2D[] collide;
+    private BoxCollider2D collide;
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
-        collide = GetComponentsInParent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
+        collide = GetComponent<BoxCollider2D>();
         player = GameObject.Find("player").GetComponent<Rigidbody2D>();
     }
 
@@ -24,23 +25,23 @@ public class bounceScript : MonoBehaviour
             bounceTime -= Time.deltaTime;
             if (bounceTime <= 0)
             {
+                anim.SetBool("isOpen", true);
                 isActive = true;
-                collide[0].enabled = true;
-                collide[1].enabled = true;
-                bounceTime = 10f;
+                collide.enabled = true;
+                bounceTime = 5f;
 
             }
         }
     }
 
-    void OnCollisionEnter2D (Collision2D col)
+    void OnTriggerEnter2D (Collider2D col)
     {
         if (isActive == true && col.gameObject.tag == "player")
         {
-            player.AddForce(Vector2.up * 20, ForceMode2D.Impulse);
+            anim.SetBool("isOpen", false);
+            player.velocity = (Vector3.up * 20);
             isActive = false;
-            collide[0].enabled = false;
-            collide[1].enabled = false;
+            collide.enabled = false;
         }
     }
 }

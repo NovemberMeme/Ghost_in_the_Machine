@@ -5,16 +5,18 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     PortalState ps;
+    Animator portalanim;
 
     void Start ()
     {
+        portalanim = GetComponent<Animator>();
         ps = GameObject.Find("WorldState").GetComponent<PortalState>();
     }
-
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "player")
         {
+            portalanim.SetInteger("portalstate", 1);
             ps.addToPortals(gameObject);
             ps.DisplayUI();
         }

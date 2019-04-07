@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 187257688130941381}
   - component: {fileID: 2438589453872121402}
   - component: {fileID: 8030254031747906060}
+  - component: {fileID: 6002163202104897116}
   m_Layer: 0
   m_Name: Portal
   m_TagString: is_portal
@@ -70,8 +71,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 4a7ac7ab4bed2e14ca59830e1d05c63c, type: 3}
-  m_Color: {r: 0.5404836, g: 0.9339623, b: 0.17181383, a: 0.40392157}
+  m_Sprite: {fileID: 21300000, guid: d9c3c582270dfb941aa13c219544f530, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,18 +95,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0056838095, y: 0.00000023841858}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.48, y: 2.82}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.4433346, y: 2.796073}
   m_EdgeRadius: 0
 --- !u!114 &8030254031747906060
 MonoBehaviour:
@@ -119,3 +120,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a34f0e3b0b999644bccc18f3a1f9269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &6002163202104897116
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3601112218576785494}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4cdde3312e93b144a86e7d0ae27cb5bb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

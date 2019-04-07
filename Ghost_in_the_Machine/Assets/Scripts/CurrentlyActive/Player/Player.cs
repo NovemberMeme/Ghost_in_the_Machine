@@ -351,46 +351,6 @@ public class Player : Character
                 TakeDamage(dmg);
             }
         }
-
-        //if (currentLeftWeaponState == LeftWeaponState.Parrying || currentRightWeaponState == RightWeaponState.Parrying)
-        //{
-        //    if ((dmg.verticalAttackDirection == VerticalAttackDirection.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
-        //        (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
-        //        (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
-        //    {
-        //        Parry(dmg);
-        //    }
-        //    else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
-        //    {
-        //        if ((dmg.verticalAttackDirection == VerticalAttackDirection.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
-        //            (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
-        //            (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
-        //        {
-        //            Block(dmg);
-        //        }
-        //        else
-        //        {
-        //            TakeDamage(dmg);
-        //        }
-        //    }
-        //}
-        //else if (currentLeftWeaponState == LeftWeaponState.Blocking || currentRightWeaponState == RightWeaponState.Blocking)
-        //{
-        //    if ((dmg.verticalAttackDirection == VerticalAttackDirection.AttackingDownward && currentPlayerDirectionState == PlayerDirectionState.Upward) ||
-        //            (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingForward && currentPlayerDirectionState == PlayerDirectionState.Forward) ||
-        //            (dmg.verticalAttackDirection == VerticalAttackDirection.AttackingUpward && currentPlayerDirectionState == PlayerDirectionState.Downward))
-        //    {
-        //        Block(dmg);
-        //    }
-        //    else
-        //    {
-        //        TakeDamage(dmg);
-        //    }
-        //}
-        //else
-        //{
-        //    TakeDamage(dmg);
-        //}
     }
 
     public override void TakeDamage(Damage dmg)
