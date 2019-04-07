@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "fMGKE71DOwhzJx+zd0b95H8mSgY", "spine": "3.7.91", "width": 2774.18, "height": 2161.74 },
+"skeleton": { "hash": "5+yHDLRgGuit16hCRZBA8dEUT74", "spine": "3.7.91", "width": 3253.38, "height": 3223.36 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "length": 2270.3, "rotation": 90, "x": -2.53, "y": -5.27 },
@@ -114,6 +114,56 @@
 			"WaistHolder": { "name": "BitterBruteImages/Waist", "x": 170.42, "y": 66.19, "rotation": -43.89, "width": 625, "height": 516 }
 		}
 	},
+	"Bulwark": {
+		"Chest": {
+			"ChestHolder": { "name": "BulwarkImages/Chest", "x": 235.9, "y": 179.02, "rotation": -52.02, "width": 1081, "height": 745 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "BulwarkImages/Crotch", "x": -49.8, "y": -52.88, "rotation": -50.24, "width": 676, "height": 499 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "BulwarkImages/Head", "x": 248.01, "y": 114.74, "rotation": -55.69, "width": 479, "height": 440 }
+		},
+		"Left_Hand": {
+			"Left_HandHolder": { "name": "BulwarkImages/Left_Hand", "x": 111.64, "y": -41.99, "rotation": 94.01, "width": 245, "height": 266 }
+		},
+		"Left_Lower_Arm": {
+			"Left_Lower_ArmHolder": { "name": "BulwarkImages/Left_Lower_Arm", "x": 354.49, "y": -259.43, "rotation": 56.87, "width": 466, "height": 504 }
+		},
+		"Left_Lower_Leg": {
+			"Left_Lower_LegHolder": { "name": "BulwarkImages/Left_Lower_Leg", "x": 555.19, "y": 52.85, "rotation": 142.25, "width": 732, "height": 901 }
+		},
+		"Left_Shoulder": {
+			"Left_ShoulderHolder": { "name": "BulwarkImages/Left_Shoulder", "x": 456.42, "y": -177.33, "rotation": 163.07, "width": 1253, "height": 1076 }
+		},
+		"Left_Sword": {
+			"Left_SwordHolder": { "name": "Enemy1Images/Left_Sword", "x": 466.65, "y": -126.78, "rotation": 0.43, "width": 1856, "height": 369 }
+		},
+		"Left_Thigh": {
+			"Left_ThighHolder": { "name": "BulwarkImages/Left_Thigh", "x": 479.45, "y": -75.57, "rotation": 114.33, "width": 776, "height": 964 }
+		},
+		"Right_Hand": {
+			"Right_HandHolder": { "name": "BulwarkImages/Right_Hand", "x": 177.85, "y": 17.28, "rotation": -42.51, "width": 274, "height": 264 }
+		},
+		"Right_Lower_Arm": {
+			"Right_Lower_ArmHolder": { "name": "BulwarkImages/Right_Lower_Arm", "x": 375.12, "y": -166.4, "rotation": -31.75, "width": 505, "height": 465 }
+		},
+		"Right_Lower_Leg": {
+			"Right_Lower_LegHolder": { "name": "BulwarkImages/Right_Lower_Leg", "x": 486.93, "y": -77.12, "rotation": 43.04, "width": 707, "height": 818 }
+		},
+		"Right_Shield": {
+			"Right_ShieldHolder": { "name": "BulwarkImages/shield", "x": 171.84, "y": 215.04, "rotation": 64, "width": 1073, "height": 1726 }
+		},
+		"Right_Shoulder": {
+			"Right_ShoulderHolder": { "name": "BulwarkImages/Right_Shoulder", "x": 461.48, "y": 222.74, "rotation": 41.29, "width": 1159, "height": 1061 }
+		},
+		"Right_Thigh": {
+			"Right_ThighHolder": { "name": "BulwarkImages/Right_Thigh", "x": 402.46, "y": -17.11, "rotation": 57.61, "width": 757, "height": 956 }
+		},
+		"Waist": {
+			"WaistHolder": { "name": "BulwarkImages/Waist", "x": 187.9, "y": 74.48, "rotation": -49.43, "width": 692, "height": 597 }
+		}
+	},
 	"MadMage": {
 		"Chest": {
 			"ChestHolder": { "name": "MadMageImages/Chest", "x": 134.54, "y": 28.51, "rotation": -58.55, "width": 489, "height": 405 }
@@ -221,6 +271,56 @@
 		},
 		"Waist": {
 			"WaistHolder": { "name": "NullifiedKnightImages/Ellipse-1", "x": 277.64, "y": 0.34, "rotation": -54.29, "width": 573, "height": 521 }
+		}
+	},
+	"Regulus": {
+		"Chest": {
+			"ChestHolder": { "name": "RegulusImages/Chest", "x": 153.93, "y": 56.37, "rotation": -47.76, "width": 543, "height": 510 }
+		},
+		"Collar_Back": {
+			"Collar_BackHolder": { "name": "RegulusImages/Cape", "x": -1314.41, "y": 451.88, "rotation": 25.46, "width": 2069, "height": 1589 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "RegulusImages/Crotch", "x": -47.69, "y": -24.23, "rotation": -50.24, "width": 449, "height": 298 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "RegulusImages/Head", "x": 396.85, "y": 155.8, "rotation": -43.01, "width": 526, "height": 753 }
+		},
+		"Left_Hand": {
+			"Left_HandHolder": { "name": "RegulusImages/Left_Hand", "x": 94.42, "y": -14.14, "rotation": 94.01, "width": 173, "height": 177 }
+		},
+		"Left_Lower_Arm": {
+			"Left_Lower_ArmHolder": { "name": "RegulusImages/Left_Lower_Arm", "x": 180.93, "y": -303.86, "rotation": 111.33, "width": 877, "height": 677 }
+		},
+		"Left_Lower_Leg": {
+			"Left_Lower_LegHolder": { "name": "RegulusImages/Left_Lower_Leg", "x": 272.8, "y": 15.54, "rotation": 140.95, "width": 922, "height": 738 }
+		},
+		"Left_Shoulder": {
+			"Left_ShoulderHolder": { "name": "RegulusImages/Left_Shoulder", "x": 215.48, "y": 14.01, "rotation": 163.07, "width": 550, "height": 272 }
+		},
+		"Left_Sword": {
+			"Left_SwordHolder": { "name": "Enemy1Images/Left_Sword", "x": 475.29, "y": -118.81, "rotation": 0.43, "width": 1856, "height": 369 }
+		},
+		"Left_Thigh": {
+			"Left_ThighHolder": { "name": "RegulusImages/Left_Thigh", "x": 183.28, "y": 20.1, "rotation": 95.08, "width": 433, "height": 962 }
+		},
+		"Right_Hand": {
+			"Right_HandHolder": { "name": "RegulusImages/Right_Hand", "x": 63.53, "y": 14.07, "rotation": -42.51, "width": 171, "height": 172 }
+		},
+		"Right_Lower_Arm": {
+			"Right_Lower_ArmHolder": { "name": "RegulusImages/Right_Lower_Arm", "x": 73.39, "y": -251.32, "rotation": -32.04, "width": 663, "height": 810 }
+		},
+		"Right_Lower_Leg": {
+			"Right_Lower_LegHolder": { "name": "RegulusImages/Right_Lower_Leg", "x": 276.63, "y": -35.23, "rotation": 56.44, "width": 707, "height": 960 }
+		},
+		"Right_Shoulder": {
+			"Right_ShoulderHolder": { "name": "RegulusImages/Right_Shoulder", "x": 182.83, "y": -23.56, "rotation": 43.13, "width": 428, "height": 396 }
+		},
+		"Right_Thigh": {
+			"Right_ThighHolder": { "name": "RegulusImages/Right_Thigh", "x": 322.41, "y": 6.42, "rotation": 27.42, "width": 754, "height": 444 }
+		},
+		"Waist": {
+			"WaistHolder": { "name": "RegulusImages/Waist", "x": 89.27, "y": 34.03, "rotation": -43.89, "width": 559, "height": 366 }
 		}
 	},
 	"SoddenSoldier": {

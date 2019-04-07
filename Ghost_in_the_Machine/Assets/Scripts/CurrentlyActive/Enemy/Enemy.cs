@@ -11,7 +11,9 @@ public class Enemy : Character
         MadMage,
         SorrowfulStrider,
         NullifiedKnight,
-        BitterBrute
+        BitterBrute,
+        Bulwark,
+        Regulus
     }
 
     protected enum EnemyControlState
