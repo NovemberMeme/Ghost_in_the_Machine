@@ -20,10 +20,30 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private TextMeshProUGUI unlockText;
+    [SerializeField] private GameObject buttonToPress;
+    [SerializeField] private List<GameObject> buttonsToPress = new List<GameObject>();
+
     private void Awake()
     {
         _instance = this;
         manaBarOrigScale = manaBar.transform.localScale;
+    }
+
+    private void Start()
+    {
+        buttonToPress = buttonsToPress[0];
+        unlockText.text = "T to Restart\n R to load last checkpoint\n Esc to Pause";
+        DisplayButtonToPress(0);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            unlockText.text = "";
+            HideAllButtonsToPress();
+        }
     }
 
     [SerializeField] private TMP_Text playerCoinCountText;
@@ -69,5 +89,68 @@ public class UIManager : MonoBehaviour
     public void UpdateMana(float mana)
     {
         manaBar.transform.localScale = new Vector2((mana / maxMana) * manaBarOrigScale.x, manaBarOrigScale.y);
+    }
+
+    public virtual void DisplayUnlockText(string unlockedAbility)
+    {
+        switch (unlockedAbility)
+        {
+            case "Heal":
+                unlockText.text = "Holding E Spends Mana to Heal";
+                DisplayButtonToPress(0);
+                break;
+            case "Mana":
+                unlockText.text = "Attack enemies to regain Mana";
+                DisplayButtonToPress(2);
+                break;
+            case "RightBlock":
+                unlockText.text = "Block or Parry Enemy Slashes with your Shield";
+                DisplayButtonToPress(1);
+                break;
+            case "LeftBlock":
+                unlockText.text = "Block or Parry Enemy Stabs with your Sword";
+                DisplayButtonToPress(2);
+                break;
+            case "Dash":
+                unlockText.text = "Unlocked " + unlockedAbility + "!\n Dash in your moving direction or\n Stand Still to Dash Backwards";
+                DisplayButtonToPress(3);
+                break;
+            case "DoubleJump":
+                unlockText.text = "Unlocked " + unlockedAbility + "!";
+                break;
+            case "PhaseShift":
+                unlockText.text = "Unlocked " + unlockedAbility + "!";
+                break;
+            case "TimeLapse":
+                unlockText.text = "Unlocked " + unlockedAbility + "!\n Press F without blocking with any weapons to Time Lapse";
+                break;
+
+        }
+
+
+        StartCoroutine(RemoveUnlockText());
+    }
+
+    public virtual IEnumerator RemoveUnlockText()
+    {
+        yield return new WaitForSeconds(5);
+
+        unlockText.text = "";
+    }
+
+    // --------------------------------------------------- Button to Press Functions -----------------------------------------------------
+
+    public void HideAllButtonsToPress()
+    {
+        foreach (var item in buttonsToPress)
+        {
+            item.SetActive(false);
+        }
+    }
+
+    public void DisplayButtonToPress(int index)
+    {
+        HideAllButtonsToPress();
+        buttonsToPress[index].SetActive(true);
     }
 }

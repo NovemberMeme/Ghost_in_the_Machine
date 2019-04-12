@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-public class mainMenu : MonoBehaviour {
+public class MainMenu : MonoBehaviour {
 
     private int width;
     private int height;
 
 	public void PlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("Ghost_in_the_Machine");
     }
 
     public void QuitGame()

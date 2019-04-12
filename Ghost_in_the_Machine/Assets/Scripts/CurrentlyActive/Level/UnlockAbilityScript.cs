@@ -6,12 +6,15 @@ public class UnlockAbilityScript : MonoBehaviour
 {
     public enum UnlockedAbility
     {
-        Block,
+        RightBlock,
+        LeftBlock,
         Dash,
         DoubleJump,
         PogoJump,
         PhaseShift,
-        TimeLapse
+        TimeLapse,
+        Heal,
+        Mana
     }
 
     [SerializeField] private UnlockedAbility unlockedAbility;
@@ -44,8 +47,10 @@ public class UnlockAbilityScript : MonoBehaviour
     {
         switch (unlockedAbility)
         {
-            case UnlockedAbility.Block:
+            case UnlockedAbility.RightBlock:
                 player.UnlockedBlock = true;
+                break;
+            case UnlockedAbility.LeftBlock:
                 break;
             case UnlockedAbility.Dash:
                 player.UnlockedDash = true;
@@ -62,9 +67,11 @@ public class UnlockAbilityScript : MonoBehaviour
             case UnlockedAbility.TimeLapse:
                 player.UnlockedTimeLapse = true;
                 break;
+            case UnlockedAbility.Heal:
+                break;
         }
 
-        player.DisplayUnlockText(unlockedAbility.ToString());
+        UIManager.Instance.DisplayUnlockText(unlockedAbility.ToString());
         Destroy(gameObject);
     }
 }

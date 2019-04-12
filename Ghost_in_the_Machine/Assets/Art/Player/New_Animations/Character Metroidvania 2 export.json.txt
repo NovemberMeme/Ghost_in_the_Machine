@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "LaxqfybSQ6mdStbfVkFSw6u/RuA", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
+"skeleton": { "hash": "uxKM+2y1nlyCLwSMG4ZpcQAygbM", "spine": "3.7.91", "width": 2619.5, "height": 2247.95 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "length": 2270.3, "rotation": 90, "x": -2.53, "y": -5.27 },
@@ -6089,7 +6089,7 @@
 						"angle": 5.66,
 						"curve": [ 0.06, 0.26, 0.485, 1 ]
 					},
-					{ "time": 0.3333, "angle": 130.58 }
+					{ "time": 0.2, "angle": 130.58 }
 				],
 				"translate": [
 					{ "time": 0, "x": -2.93, "y": 3.1 }
@@ -6102,7 +6102,7 @@
 						"angle": -7.26,
 						"curve": [ 0.06, 0.26, 0.485, 1 ]
 					},
-					{ "time": 0.3333, "angle": 5.2 }
+					{ "time": 0.2, "angle": 5.2 }
 				]
 			},
 			"Left_Hand": {
@@ -6117,7 +6117,7 @@
 						"angle": -1.19,
 						"curve": [ 0.06, 0.26, 0.485, 1 ]
 					},
-					{ "time": 0.3333, "angle": 165.22 }
+					{ "time": 0.2, "angle": 165.22 }
 				]
 			}
 		}
@@ -8742,7 +8742,7 @@
 						"angle": -26.94,
 						"curve": [ 0.06, 0.26, 0.485, 1 ]
 					},
-					{ "time": 0.3333, "angle": -25.34 }
+					{ "time": 0.2, "angle": -25.34 }
 				]
 			},
 			"Right_Lower_Arm": {
@@ -8752,7 +8752,7 @@
 						"angle": -54.24,
 						"curve": [ 0.06, 0.26, 0.485, 1 ]
 					},
-					{ "time": 0.3333, "angle": 58.7 }
+					{ "time": 0.2, "angle": 58.7 }
 				]
 			},
 			"Right_Hand": {
@@ -8762,7 +8762,7 @@
 						"angle": 3.05,
 						"curve": [ 0.06, 0.26, 0.485, 1 ]
 					},
-					{ "time": 0.3333, "angle": -3.73 }
+					{ "time": 0.2, "angle": -3.73 }
 				]
 			},
 			"Right_Handle": {
@@ -8773,7 +8773,7 @@
 			"Right_Shield": {
 				"rotate": [
 					{ "time": 0, "angle": 1.46 },
-					{ "time": 0.3333, "angle": -24.41 }
+					{ "time": 0.2, "angle": -24.41 }
 				]
 			}
 		}

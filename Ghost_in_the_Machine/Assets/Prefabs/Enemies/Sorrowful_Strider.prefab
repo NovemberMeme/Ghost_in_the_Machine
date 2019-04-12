@@ -5444,7 +5444,7 @@ MonoBehaviour:
   isJumpingEnemy: 0
   isAttacking: 0
   currentAction: 0
-  knownActions: 010000000200000003000000
+  knownActions: 03000000
   moveSet: 
   moveCooldownMin: 0.5
   moveCooldownMax: 1.8

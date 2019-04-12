@@ -53,15 +53,29 @@ public class PlayerLevelHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            //SceneManager.LoadScene(0);
-            player.Health = 4;
-            UIManager.Instance.UpdateLives(player.Health);
-            player.IsDead = false;
-            res = new Vector2(52, 36);
-            player.transform.position = res;
+            ResetResPos();
+            //player.Health = 4;
+            //UIManager.Instance.UpdateLives(player.Health);
+            //player.IsDead = false;
             //res = new Vector2(234, 42);
             //player.transform.position = res;
         }
+    }
+
+    void ResetResPos()
+    {
+        res = new Vector2(52, 36);
+        PlayerPrefs.SetFloat("posX", res.x);
+        PlayerPrefs.SetFloat("posY", res.y);
+        player.transform.position = res;
+        SceneManager.LoadScene(0);
+        //StartCoroutine(LoadMenuScene());
+    }
+
+    IEnumerator LoadMenuScene()
+    {
+        yield return new WaitForSeconds(0.2f);
+        SceneManager.LoadScene(0);
     }
 
     void DisplayScore()
@@ -73,8 +87,10 @@ public class PlayerLevelHandler : MonoBehaviour
     {
         if (player.IsDead)
         {
-            transform.position = res;
             player.Health = 4;
+            UIManager.Instance.UpdateLives(player.Health);
+            player.IsDead = false;
+            player.transform.position = res;
         }
     }
 
@@ -106,6 +122,7 @@ public class PlayerLevelHandler : MonoBehaviour
 
             PlayerPrefs.Save();
 
+            UIManager.Instance.HideAllButtonsToPress();
         }
         //TESTING collectibles
         else if (col.gameObject.tag == "collectible")

@@ -14,7 +14,7 @@ public class Portal : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "player")
+        if (col.name == "Player")
         {
             portalanim.SetInteger("portalstate", 1);
             ps.addToPortals(gameObject);
@@ -24,7 +24,7 @@ public class Portal : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject.tag == "player")
+        if (col.name == "Player")
         {
             ps.HideUI();
         }

@@ -122,7 +122,7 @@ public class Enemy : Character
     [SerializeField] protected List<List<int>> moveSets = new List<List<int>>();
     //[SerializeField] private List<int> allMoves = new List<int>();
 
-
+    //TODO 
 
     [SerializeField] protected float moveCooldownMin; //RENAME TO ACTION COOLDOWN?
     [SerializeField] protected float moveCooldownMax; //RENAME TO ACTION COOLDOWN?
@@ -452,29 +452,29 @@ public class Enemy : Character
                     isStopped = false;
                 }
 
-                //if (!isJumpingEnemy)
-                //{
-                //    if (faceDirection == 1)
-                //    {
-                //        isStopped = true;
-                //    }
-                //    else if (faceDirection == -1)
-                //    {
-                //        isStopped = false;
-                //    }
-                //}
-                //else if (isJumpingEnemy)
-                //{
-                //    if(canJump)
-                //    {
-                //        isStopped = false;
-                //        Jump();
-                //    }
-                //    else if(!canJump)
-                //    {
-                //        isStopped = true;
-                //    }
-                //}
+                if (!isJumpingEnemy)
+                {
+                    if (faceDirection == 1)
+                    {
+                        isStopped = true;
+                    }
+                    else if (faceDirection == -1)
+                    {
+                        isStopped = false;
+                    }
+                }
+                else
+                {
+                    if (canJump)
+                    {
+                        isStopped = false;
+                        Jump();
+                    }
+                    else if (!canJump)
+                    {
+                        isStopped = true;
+                    }
+                }
             }
         }
 

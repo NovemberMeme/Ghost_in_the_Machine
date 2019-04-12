@@ -291,7 +291,8 @@ public class Character : MonoBehaviour
     {
         
     }
-
+    
+    
     public virtual int ElementCompute(Element currentElemetType, Element damageElement, int damage)
     {
         //Elements: Soul => Psionic => Spirit => Soul

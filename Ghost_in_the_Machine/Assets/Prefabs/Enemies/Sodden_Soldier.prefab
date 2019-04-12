@@ -4881,6 +4881,7 @@ MonoBehaviour:
   _anim: {fileID: 0}
   skeletonMecanim: {fileID: 0}
   spawnEffects: {fileID: 0}
+  swordParticleFX: {fileID: 0}
   colliderSize: {x: 0, y: 0}
   flashTime: 0.5
   colliderSizeMultiplier: 0
@@ -4897,7 +4898,7 @@ MonoBehaviour:
   isJumpingEnemy: 0
   isAttacking: 0
   currentAction: 0
-  knownActions: 010000000200000003000000040000000500000006000000
+  knownActions: 01000000
   moveSet: 
   moveCooldownMin: 1
   moveCooldownMax: 2

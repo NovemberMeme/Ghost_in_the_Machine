@@ -104,7 +104,6 @@ public class Player : Character
     // For unlocking new player abilities
 
     [Header("Unlock stats: ")]
-    [SerializeField] private TextMeshProUGUI unlockText;
     [SerializeField] private bool unlockedBlock = false;
     [SerializeField] private bool unlockedDash = false;
     [SerializeField] private bool unlockedDoubleJump = false;
@@ -180,12 +179,13 @@ public class Player : Character
     private float transformSizeModifier;
     private float dashColliderSizeMultiplier = 0.4f;
 
+    [SerializeField] protected GameObject swordParticleFX;
+
     public override void Start()
     {
         base.Start();
         transformSizeModifier = transform.localScale.x;
         origColliderSize = _collider.size;
-        unlockText.text = "";
     }
 
     public override void Update()
@@ -203,19 +203,11 @@ public class Player : Character
 
         PlayerInput();
 
+        UIManager.Instance.UpdateLives(health);
+
         if(health <= 0)
         {
             isDead = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            unlockText.text = "RB = Attack\n Left Analog to Move";
-        }
-
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            unlockText.text = "";
         }
     }
 
@@ -293,17 +285,20 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.P))
         {
             unlockedDoubleJump = !unlockedDoubleJump;
-        }
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
             unlockedTimeLapse = !unlockedTimeLapse;
+            unlockedPhase = !unlockedPhase;
+            unlockedDash = !unlockedDash;
         }
 
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            unlockedPhase = !unlockedPhase;
-        }
+        //if (Input.GetKeyDown(KeyCode.O))
+        //{
+        //    unlockedTimeLapse = !unlockedTimeLapse;
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    unlockedPhase = !unlockedPhase;
+        //}
     }
 
     public override void GetHit(Damage dmg)
@@ -596,12 +591,14 @@ public class Player : Character
             _mesh.enabled = false;
             _collider.enabled = false;
             _rigid.bodyType = RigidbodyType2D.Static;
+            swordParticleFX.SetActive(false);
         }
         else if (!_isPhasing && !isTimeLapsing)
         {
             _mesh.enabled = true;
             _collider.enabled = true;
             _rigid.bodyType = RigidbodyType2D.Dynamic;
+            swordParticleFX.SetActive(true);
         }
 
         if (_isPhasing && (Input.GetKeyUp(KeyCode.Q) || Input.GetButtonUp("L3")))
@@ -610,37 +607,11 @@ public class Player : Character
             _mesh.enabled = true;
             _collider.enabled = true;
             _rigid.bodyType = RigidbodyType2D.Dynamic;
+            swordParticleFX.SetActive(true);
         }
-    }
-
-    public virtual void DisplayUnlockText(string unlockedAbility)
-    {
-        switch (unlockedAbility)
-        {
-            case "Block":
-                unlockText.text = "Unlocked " + unlockedAbility + "!\n Hold LB to Block";
-                break;
-            case "Dash":
-                unlockText.text = "Unlocked " + unlockedAbility + "!\n Press RT to Dash";
-                break;
-            case "DoubleJump":
-                unlockText.text = "Unlocked " + unlockedAbility + "!";
-                break;
-
-        }
-
-        
-        StartCoroutine(RemoveUnlockText());
     }
 
     // Coroutines
-
-    public virtual IEnumerator RemoveUnlockText()
-    {
-        yield return new WaitForSeconds(5);
-
-        unlockText.text = "";
-    }
 
     protected override IEnumerator Dashing()
     {
@@ -765,6 +736,7 @@ public class Player : Character
 
         switch (currentLeftWeaponState)
         {
+            //(parryStat, blockStat, damageStat, swordStunDuration)
             case LeftWeaponState.Idling:
                 SetLeftCombatValues(0, 0, 0, 0);
                 break;
@@ -821,32 +793,10 @@ public class Player : Character
 
         // parry/ block/ attack values are equal to the greater value among both weapons
 
-        if(leftParryValue > rightParryValue)
-        {
-            parryValue = leftParryValue;
-        }
-        else
-        {
-            parryValue = rightParryValue;
-        }
+        parryValue = leftParryValue > rightParryValue ? leftParryValue: rightParryValue;
+        blockValue = leftBlockValue > rightBlockValue ? leftBlockValue : rightBlockValue;
+        damageValue = leftDamageValue > rightDamageValue ? leftDamageValue: rightDamageValue;
 
-        if (leftBlockValue > rightBlockValue)
-        {
-            blockValue = leftBlockValue;
-        }
-        else
-        {
-            blockValue = rightBlockValue;
-        }
-
-        if(leftDamageValue > rightDamageValue)
-        {
-            damageValue = leftDamageValue;
-        }
-        else
-        {
-            damageValue = rightDamageValue;
-        }
     }
 
     public void ChangeState()
