@@ -1,894 +1,1006 @@
 
 Character Metroidvania 2 export.png
-size: 6605,6603
+size: 6979,6979
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 BitterBruteImages/Chest
   rotate: false
-  xy: 5275, 2787
+  xy: 4308, 613
   size: 489, 405
   orig: 489, 405
   offset: 0, 0
   index: -1
 BitterBruteImages/Collar_Back
   rotate: false
-  xy: 6361, 3962
+  xy: 6720, 682
   size: 215, 308
   orig: 215, 308
   offset: 0, 0
   index: -1
 MadMageImages/Collar-Back
   rotate: false
-  xy: 6361, 3962
+  xy: 6720, 682
   size: 215, 308
   orig: 215, 308
   offset: 0, 0
   index: -1
 BitterBruteImages/Crotch
   rotate: false
-  xy: 4436, 1678
+  xy: 4308, 261
   size: 490, 350
   orig: 490, 350
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Crotch
   rotate: false
-  xy: 4436, 1678
+  xy: 4308, 261
   size: 490, 350
   orig: 490, 350
   offset: 0, 0
   index: -1
 BitterBruteImages/Head
   rotate: true
-  xy: 889, 10
+  xy: 5038, 1151
   size: 443, 525
   orig: 443, 525
   offset: 0, 0
   index: -1
 BitterBruteImages/Left_Hand
-  rotate: true
-  xy: 5977, 345
+  rotate: false
+  xy: 6306, 287
   size: 194, 187
   orig: 194, 187
   offset: 0, 0
   index: -1
 BitterBruteImages/Left_Lower_Arm
   rotate: false
-  xy: 4978, 1792
+  xy: 6698, 5826
   size: 279, 468
   orig: 279, 468
   offset: 0, 0
   index: -1
 BitterBruteImages/Left_Lower_Leg
   rotate: false
-  xy: 4013, 3984
+  xy: 4013, 4220
   size: 922, 738
   orig: 922, 738
   offset: 0, 0
   index: -1
 RegulusImages/Left_Lower_Leg
   rotate: false
-  xy: 4013, 3984
+  xy: 4013, 4220
   size: 922, 738
   orig: 922, 738
   offset: 0, 0
   index: -1
 BitterBruteImages/Left_Shoulder
-  rotate: true
-  xy: 4420, 2805
+  rotate: false
+  xy: 4379, 1020
   size: 520, 263
   orig: 520, 263
   offset: 0, 0
   index: -1
 BitterBruteImages/Left_Thigh
   rotate: true
-  xy: 5711, 4985
+  xy: 1272, 844
   size: 351, 824
   orig: 351, 824
   offset: 0, 0
   index: -1
 BitterBruteImages/Right_Hand
-  rotate: true
-  xy: 3819, 3506
+  rotate: false
+  xy: 6183, 552
   size: 170, 192
   orig: 170, 192
   offset: 0, 0
   index: -1
 BitterBruteImages/Right_Lower_Arm
-  rotate: false
-  xy: 5805, 1107
+  rotate: true
+  xy: 5543, 292
   size: 373, 306
   orig: 373, 306
   offset: 0, 0
   index: -1
 BitterBruteImages/Right_Lower_Leg
   rotate: false
-  xy: 685, 455
+  xy: 625, 831
   size: 645, 984
   orig: 645, 984
   offset: 0, 0
   index: -1
 BitterBruteImages/Right_Shoulder
-  rotate: true
-  xy: 6212, 2251
+  rotate: false
+  xy: 6539, 2256
   size: 411, 382
   orig: 411, 382
   offset: 0, 0
   index: -1
 BitterBruteImages/Right_Thigh
   rotate: false
-  xy: 5853, 6074
+  xy: 4013, 3691
   size: 741, 527
   orig: 741, 527
   offset: 0, 0
   index: -1
 BitterBruteImages/Waist
-  rotate: false
-  xy: 5678, 3210
+  rotate: true
+  xy: 6088, 3464
   size: 625, 516
   orig: 625, 516
   offset: 0, 0
   index: -1
 BulwarkImages/Chest
   rotate: true
-  xy: 3328, 4934
+  xy: 3328, 5310
   size: 1081, 745
   orig: 1081, 745
   offset: 0, 0
   index: -1
 BulwarkImages/Crotch
-  rotate: false
-  xy: 5683, 3728
+  rotate: true
+  xy: 2326, 2865
   size: 676, 499
   orig: 676, 499
   offset: 0, 0
   index: -1
 BulwarkImages/Head
-  rotate: true
-  xy: 5259, 1800
+  rotate: false
+  xy: 3806, 128
   size: 479, 440
   orig: 479, 440
   offset: 0, 0
   index: -1
 BulwarkImages/Left_Hand
   rotate: true
-  xy: 5253, 117
+  xy: 5851, 233
   size: 245, 266
   orig: 245, 266
   offset: 0, 0
   index: -1
 BulwarkImages/Left_Lower_Arm
   rotate: false
-  xy: 5251, 2281
+  xy: 5088, 2009
   size: 466, 504
   orig: 466, 504
   offset: 0, 0
   index: -1
 BulwarkImages/Left_Lower_Leg
-  rotate: false
-  xy: 1097, 2264
+  rotate: true
+  xy: 5704, 4827
   size: 732, 901
   orig: 732, 901
   offset: 0, 0
   index: -1
 BulwarkImages/Left_Shoulder
   rotate: false
-  xy: 2073, 4939
+  xy: 2073, 5315
   size: 1253, 1076
   orig: 1253, 1076
   offset: 0, 0
   index: -1
 BulwarkImages/Left_Thigh
   rotate: false
-  xy: 4933, 5266
+  xy: 4933, 5642
   size: 776, 964
   orig: 776, 964
   offset: 0, 0
   index: -1
 BulwarkImages/Right_Hand
   rotate: false
-  xy: 6166, 432
+  xy: 5907, 480
   size: 274, 264
   orig: 274, 264
   offset: 0, 0
   index: -1
 BulwarkImages/Right_Lower_Arm
-  rotate: true
-  xy: 4524, 1171
+  rotate: false
+  xy: 5999, 1564
   size: 505, 465
   orig: 505, 465
   offset: 0, 0
   index: -1
 BulwarkImages/Right_Lower_Leg
   rotate: false
-  xy: 1235, 1444
+  xy: 842, 11
   size: 707, 818
   orig: 707, 818
   offset: 0, 0
   index: -1
 BulwarkImages/Right_Shoulder
   rotate: false
-  xy: 1658, 3876
+  xy: 1658, 4252
   size: 1159, 1061
   orig: 1159, 1061
   offset: 0, 0
   index: -1
 BulwarkImages/Right_Thigh
   rotate: false
-  xy: 3254, 3976
+  xy: 3254, 4352
   size: 757, 956
   orig: 757, 956
   offset: 0, 0
   index: -1
 BulwarkImages/Waist
   rotate: true
-  xy: 2620, 3182
+  xy: 2620, 3558
   size: 692, 597
   orig: 692, 597
   offset: 0, 0
   index: -1
 BulwarkImages/shield
   rotate: false
-  xy: 2, 3284
+  xy: 2, 3660
   size: 1073, 1726
   orig: 1073, 1726
   offset: 0, 0
   index: -1
 Enemy1Images/Chest_Light
   rotate: false
-  xy: 5711, 6123
+  xy: 5711, 6499
   size: 114, 107
   orig: 114, 107
   offset: 0, 0
   index: -1
 Enemy1Images/Left_Handle
-  rotate: false
-  xy: 2731, 6
+  rotate: true
+  xy: 3993, 3026
   size: 663, 684
   orig: 663, 684
   offset: 0, 0
   index: -1
 Enemy1Images/Left_Sword
   rotate: false
-  xy: 3995, 6232
+  xy: 3995, 6608
   size: 1856, 369
   orig: 1856, 369
   offset: 0, 0
   index: -1
+MadCivilianImages/Chest
+  rotate: true
+  xy: 1936, 1252
+  size: 762, 702
+  orig: 762, 702
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Crotch
+  rotate: false
+  xy: 6515, 992
+  size: 408, 280
+  orig: 408, 280
+  offset: 0, 0
+  index: -1
+SoddenSoldierImages/Crotch
+  rotate: false
+  xy: 6515, 992
+  size: 408, 280
+  orig: 408, 280
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Head
+  rotate: false
+  xy: 4075, 4960
+  size: 850, 714
+  orig: 850, 714
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Left_Hand
+  rotate: true
+  xy: 6355, 476
+  size: 199, 217
+  orig: 199, 217
+  offset: 0, 0
+  index: -1
+SoddenSoldierImages/Left_Hand
+  rotate: true
+  xy: 6355, 476
+  size: 199, 217
+  orig: 199, 217
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Left_Lower_Arm
+  rotate: false
+  xy: 3612, 2216
+  size: 276, 652
+  orig: 276, 652
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Left_Lower_Leg
+  rotate: false
+  xy: 5711, 5561
+  size: 985, 733
+  orig: 985, 733
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Left_Shoulder
+  rotate: false
+  xy: 3864, 1319
+  size: 573, 265
+  orig: 573, 265
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Left_Shoulder_Plate
+  rotate: false
+  xy: 3069, 1019
+  size: 180, 226
+  orig: 180, 226
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Left_Thigh
+  rotate: false
+  xy: 1097, 2951
+  size: 348, 949
+  orig: 348, 949
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Right_Lower_Arm
+  rotate: false
+  xy: 3807, 570
+  size: 499, 476
+  orig: 499, 476
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Right_Lower_Leg
+  rotate: false
+  xy: 2, 729
+  size: 621, 1081
+  orig: 621, 1081
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Right_Shoulder
+  rotate: false
+  xy: 4799, 614
+  size: 381, 404
+  orig: 381, 404
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Right_Shoulder_Plate
+  rotate: true
+  xy: 1447, 3654
+  size: 246, 194
+  orig: 246, 194
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Right_Thigh
+  rotate: false
+  xy: 4927, 4988
+  size: 775, 652
+  orig: 775, 652
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Waist
+  rotate: false
+  xy: 3355, 3838
+  size: 656, 512
+  orig: 656, 512
+  offset: 0, 0
+  index: -1
 MadMageImages/Book
   rotate: true
-  xy: 6180, 1013
+  xy: 2098, 844
   size: 406, 412
   orig: 406, 412
   offset: 0, 0
   index: -1
 MadMageImages/Chest
   rotate: true
-  xy: 4991, 1301
+  xy: 6506, 1765
   size: 489, 405
   orig: 489, 405
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Chest
   rotate: true
-  xy: 4991, 1301
+  xy: 6506, 1765
   size: 489, 405
   orig: 489, 405
   offset: 0, 0
   index: -1
 MadMageImages/Chet_Design
   rotate: true
-  xy: 1077, 3306
+  xy: 4287, 41
   size: 218, 370
   orig: 218, 370
   offset: 0, 0
   index: -1
 MadMageImages/Crotch
-  rotate: true
-  xy: 4980, 2262
+  rotate: false
+  xy: 3851, 1048
   size: 526, 269
   orig: 526, 269
   offset: 0, 0
   index: -1
 MadMageImages/Left_Hand
   rotate: false
-  xy: 5977, 541
+  xy: 6574, 469
   size: 187, 206
   orig: 187, 206
   offset: 0, 0
   index: -1
 MadMageImages/Left_Lower_Arm
   rotate: true
-  xy: 3397, 1662
+  xy: 6539, 2640
   size: 304, 438
   orig: 304, 438
   offset: 0, 0
   index: -1
 MadMageImages/Left_Lower_Leg
   rotate: true
-  xy: 3070, 949
+  xy: 2827, 2869
   size: 687, 526
   orig: 687, 526
   offset: 0, 0
   index: -1
 MadMageImages/Left_Shoulder
   rotate: true
-  xy: 6328, 4272
+  xy: 2733, 149
   size: 711, 264
   orig: 711, 264
   offset: 0, 0
   index: -1
 MadMageImages/Left_thigh
   rotate: true
-  xy: 3845, 2403
+  xy: 3890, 2102
   size: 399, 596
   orig: 399, 596
   offset: 0, 0
   index: -1
 MadMageImages/Mage_hat
   rotate: false
-  xy: 1960, 653
+  xy: 1272, 1197
   size: 662, 793
   orig: 662, 793
   offset: 0, 0
   index: -1
 MadMageImages/Right_Lower_Arm
   rotate: true
-  xy: 4163, 1121
+  xy: 5556, 1996
   size: 519, 359
   orig: 519, 359
   offset: 0, 0
   index: -1
 MadMageImages/Right_Lower_Leg
-  rotate: true
-  xy: 2019, 15
+  rotate: false
+  xy: 3355, 3126
   size: 636, 710
   orig: 636, 710
   offset: 0, 0
   index: -1
 MadMageImages/Right_Shoulder
-  rotate: true
-  xy: 5701, 1864
+  rotate: false
+  xy: 5565, 1110
   size: 411, 488
   orig: 411, 488
   offset: 0, 0
   index: -1
 MadMageImages/Right_hand
   rotate: false
-  xy: 6361, 3755
+  xy: 6763, 475
   size: 197, 205
   orig: 197, 205
   offset: 0, 0
   index: -1
 MadMageImages/Right_thigh
-  rotate: true
-  xy: 3396, 13
+  rotate: false
+  xy: 4756, 3593
   size: 678, 508
   orig: 678, 508
   offset: 0, 0
   index: -1
 MadMageImages/Waist
   rotate: false
-  xy: 3219, 3201
+  xy: 4488, 2038
   size: 598, 475
   orig: 598, 475
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Armorshoulder
   rotate: false
-  xy: 5683, 4229
+  xy: 2439, 2109
   size: 643, 754
   orig: 643, 754
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Crotch
   rotate: false
-  xy: 4443, 2304
+  xy: 5978, 1078
   size: 535, 484
   orig: 535, 484
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Ellipse-1
   rotate: false
-  xy: 3845, 2804
+  xy: 3890, 2503
   size: 573, 521
   orig: 573, 521
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Eye
   rotate: true
-  xy: 6169, 698
+  xy: 6355, 677
   size: 313, 363
   orig: 313, 363
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Left_Hand
-  rotate: true
-  xy: 6166, 245
+  rotate: false
+  xy: 6119, 278
   size: 185, 200
   orig: 185, 200
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Left_Leg
   rotate: false
-  xy: 4075, 5300
+  xy: 4075, 5676
   size: 856, 930
   orig: 856, 930
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Left_Lower_Arm
-  rotate: true
-  xy: 2, 15
+  rotate: false
+  xy: 2640, 1222
   size: 405, 885
   orig: 405, 885
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Left_Shoulder
-  rotate: true
-  xy: 3906, 181
+  rotate: false
+  xy: 4465, 2515
   size: 575, 419
   orig: 575, 419
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Left_Sword
   rotate: false
-  xy: 2073, 6017
+  xy: 2073, 6393
   size: 1920, 584
   orig: 1920, 584
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Left_Thigh
   rotate: false
-  xy: 5337, 3194
+  xy: 6564, 4136
   size: 339, 657
   orig: 339, 657
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Left_handle
   rotate: true
-  xy: 2510, 2305
+  xy: 3047, 1247
   size: 860, 250
   orig: 860, 250
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Right_Hand
-  rotate: true
-  xy: 6442, 524
+  rotate: false
+  xy: 6119, 119
   size: 172, 157
   orig: 172, 157
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Right_Leg
-  rotate: false
-  xy: 2, 422
+  rotate: true
+  xy: 5853, 6296
   size: 681, 1012
   orig: 681, 1012
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Right_Lower_Arm
   rotate: false
-  xy: 4685, 3255
+  xy: 5436, 3493
   size: 650, 596
   orig: 650, 596
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Right_Shield
   rotate: false
-  xy: 2, 1436
+  xy: 2, 1812
   size: 566, 1846
   orig: 566, 1846
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Right_Shoulder
   rotate: false
-  xy: 4013, 3327
+  xy: 4679, 2936
   size: 670, 655
   orig: 670, 655
   offset: 0, 0
   index: -1
 NullifiedKnightImages/Right_Thigh
   rotate: false
-  xy: 3598, 1126
+  xy: 3864, 1586
   size: 563, 514
   orig: 563, 514
   offset: 0, 0
   index: -1
 RegulusImages/Cape
   rotate: false
-  xy: 2, 5012
+  xy: 2, 5388
   size: 2069, 1589
   orig: 2069, 1589
   offset: 0, 0
   index: -1
 RegulusImages/Chest
   rotate: false
-  xy: 5766, 2698
+  xy: 3261, 60
   size: 543, 510
   orig: 543, 510
   offset: 0, 0
   index: -1
 RegulusImages/Crotch
   rotate: true
-  xy: 6305, 3277
+  xy: 5243, 251
   size: 449, 298
   orig: 449, 298
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Crotch
   rotate: true
-  xy: 6305, 3277
+  xy: 5243, 251
   size: 449, 298
   orig: 449, 298
   offset: 0, 0
   index: -1
 RegulusImages/Head
-  rotate: true
-  xy: 4923, 4738
+  rotate: false
+  xy: 3084, 2114
   size: 526, 753
   orig: 526, 753
   offset: 0, 0
   index: -1
 RegulusImages/Left_Hand
   rotate: false
-  xy: 3819, 3327
+  xy: 6703, 290
   size: 173, 177
   orig: 173, 177
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Left_Hand
   rotate: false
-  xy: 3819, 3327
+  xy: 6703, 290
   size: 173, 177
   orig: 173, 177
   offset: 0, 0
   index: -1
 RegulusImages/Left_Lower_Arm
-  rotate: true
-  xy: 1831, 2288
+  rotate: false
+  xy: 1447, 2864
   size: 877, 677
   orig: 877, 677
   offset: 0, 0
   index: -1
 RegulusImages/Left_Shoulder
   rotate: false
-  xy: 4426, 2030
+  xy: 3299, 1085
   size: 550, 272
   orig: 550, 272
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Left_Shoulder
   rotate: false
-  xy: 4426, 2030
+  xy: 3299, 1085
   size: 550, 272
   orig: 550, 272
   offset: 0, 0
   index: -1
 RegulusImages/Left_Thigh
   rotate: false
-  xy: 2819, 3975
+  xy: 2819, 4351
   size: 433, 962
   orig: 433, 962
   offset: 0, 0
   index: -1
 RegulusImages/Right_Hand
   rotate: true
-  xy: 4840, 91
+  xy: 5543, 119
   size: 171, 172
   orig: 171, 172
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Right_Hand
   rotate: true
-  xy: 4840, 91
+  xy: 5543, 119
   size: 171, 172
   orig: 171, 172
   offset: 0, 0
   index: -1
 RegulusImages/Right_Lower_Arm
   rotate: false
-  xy: 570, 1441
+  xy: 570, 1817
   size: 663, 810
   orig: 663, 810
   offset: 0, 0
   index: -1
 RegulusImages/Right_Lower_Leg
   rotate: true
-  xy: 1658, 3167
+  xy: 1658, 3543
   size: 707, 960
   orig: 707, 960
   offset: 0, 0
   index: -1
 RegulusImages/Right_Shoulder
-  rotate: false
-  xy: 6170, 1421
+  rotate: true
+  xy: 6581, 3034
   size: 428, 396
   orig: 428, 396
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Right_Shoulder
-  rotate: false
-  xy: 6170, 1421
+  rotate: true
+  xy: 6581, 3034
   size: 428, 396
   orig: 428, 396
   offset: 0, 0
   index: -1
 RegulusImages/Right_Thigh
   rotate: true
-  xy: 2624, 692
+  xy: 2287, 88
   size: 754, 444
   orig: 754, 444
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Right_Thigh
   rotate: true
-  xy: 2624, 692
+  xy: 2287, 88
   size: 754, 444
   orig: 754, 444
   offset: 0, 0
   index: -1
 RegulusImages/Waist
-  rotate: false
-  xy: 3598, 758
+  rotate: true
+  xy: 6607, 4795
   size: 559, 366
   orig: 559, 366
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Waist
-  rotate: false
-  xy: 3598, 758
+  rotate: true
+  xy: 6607, 4795
   size: 559, 366
   orig: 559, 366
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Chest
   rotate: false
-  xy: 3070, 693
+  xy: 3355, 2870
   size: 480, 254
   orig: 480, 254
   offset: 0, 0
   index: -1
-SoddenSoldierImages/Crotch
-  rotate: true
-  xy: 4716, 761
-  size: 408, 280
-  orig: 408, 280
-  offset: 0, 0
-  index: -1
 SoddenSoldierImages/Head
   rotate: true
-  xy: 5726, 749
+  xy: 4800, 256
   size: 356, 441
   orig: 356, 441
   offset: 0, 0
   index: -1
-SoddenSoldierImages/Left_Hand
-  rotate: false
-  xy: 1449, 3307
-  size: 199, 217
-  orig: 199, 217
-  offset: 0, 0
-  index: -1
 SoddenSoldierImages/Left_Lower_Arm
-  rotate: true
-  xy: 3254, 3678
+  rotate: false
+  xy: 6606, 3479
   size: 296, 655
   orig: 296, 655
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Left_Lower_Leg
-  rotate: true
-  xy: 1944, 1448
+  rotate: false
+  xy: 2, 12
   size: 838, 715
   orig: 838, 715
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Left_Shoulder
   rotate: false
-  xy: 3837, 1642
+  xy: 4439, 1285
   size: 597, 309
   orig: 597, 309
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Left_Thigh
   rotate: false
-  xy: 2661, 1463
+  xy: 1551, 2
   size: 405, 840
   orig: 405, 840
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Right_Hand
-  rotate: true
-  xy: 6442, 354
+  rotate: false
+  xy: 4659, 96
+  size: 168, 158
+  orig: 168, 158
+  offset: 0, 0
+  index: -1
+MadCivilianImages/Right_Hand
+  rotate: false
+  xy: 4659, 96
   size: 168, 158
   orig: 168, 158
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Right_Lower_Arm
   rotate: true
-  xy: 6191, 1819
+  xy: 5535, 2517
   size: 430, 412
   orig: 430, 412
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Right_Lower_Leg
   rotate: false
-  xy: 1332, 572
+  xy: 1235, 1992
   size: 626, 870
   orig: 626, 870
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Right_Shoulder
   rotate: false
-  xy: 5805, 1415
+  xy: 5182, 702
   size: 363, 447
   orig: 363, 447
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Right_Thigh
   rotate: true
-  xy: 2762, 2427
+  xy: 3299, 1359
   size: 753, 563
   orig: 753, 563
   offset: 0, 0
   index: -1
 SoddenSoldierImages/Waist
   rotate: false
-  xy: 4159, 761
+  xy: 2512, 862
   size: 555, 358
   orig: 555, 358
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Chest
-  rotate: true
-  xy: 4327, 215
+  rotate: false
+  xy: 3261, 572
   size: 544, 511
   orig: 544, 511
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Head
   rotate: true
-  xy: 5719, 2277
+  xy: 5042, 2515
   size: 419, 491
   orig: 419, 491
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Left_Lower_Arm
   rotate: false
-  xy: 6311, 2664
+  xy: 2999, 249
   size: 260, 611
   orig: 260, 611
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Left_Lower_Leg
   rotate: false
-  xy: 5711, 5338
+  xy: 5683, 4091
   size: 879, 734
   orig: 879, 734
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Left_Thigh
   rotate: false
-  xy: 3068, 1638
+  xy: 1958, 55
   size: 327, 787
   orig: 327, 787
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Right_Lower_Arm
-  rotate: true
-  xy: 4998, 834
+  rotate: false
+  xy: 5532, 1600
   size: 465, 394
   orig: 465, 394
   offset: 0, 0
   index: -1
 SorrowfulStriderImages/Right_Lower_Leg
   rotate: false
-  xy: 570, 2253
+  xy: 570, 2629
   size: 525, 1029
   orig: 525, 1029
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Chest
   rotate: true
-  xy: 5398, 1309
+  xy: 6515, 1274
   size: 489, 405
   orig: 489, 405
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Collarlike
   rotate: true
-  xy: 1416, 28
+  xy: 5351, 2949
   size: 542, 601
   orig: 542, 601
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Head
-  rotate: true
-  xy: 5534, 389
+  rotate: false
+  xy: 5547, 667
   size: 358, 441
   orig: 358, 441
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Layer-10
   rotate: false
-  xy: 1077, 3526
+  xy: 1077, 3902
   size: 579, 1484
   orig: 579, 1484
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Left_Foot
   rotate: false
-  xy: 4937, 3853
+  xy: 4937, 4103
   size: 744, 883
   orig: 744, 883
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Left_Lower_Arm
   rotate: false
-  xy: 5253, 364
+  xy: 6698, 5356
   size: 279, 468
   orig: 279, 468
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Left_Shoulder
   rotate: false
-  xy: 3839, 1953
+  xy: 5917, 2031
   size: 585, 448
   orig: 585, 448
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Left_hand
   rotate: false
-  xy: 3906, 22
+  xy: 2999, 90
   size: 217, 157
   orig: 217, 157
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Left_thigh
-  rotate: false
-  xy: 3397, 1968
+  rotate: true
+  xy: 4429, 1596
   size: 440, 604
   orig: 440, 604
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Right_Foot
-  rotate: true
-  xy: 4075, 4724
+  rotate: false
+  xy: 1863, 2016
   size: 574, 846
   orig: 574, 846
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Right_Hand
   rotate: false
-  xy: 4125, 2
+  xy: 6502, 290
   size: 199, 177
   orig: 199, 177
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Right_Lower_Arm
-  rotate: true
-  xy: 5394, 853
+  rotate: false
+  xy: 5907, 746
   size: 446, 330
   orig: 446, 330
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Right_Shoulder
-  rotate: false
-  xy: 4840, 264
+  rotate: true
+  xy: 5035, 1596
   size: 411, 495
   orig: 411, 495
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Right_Thigh
   rotate: true
-  xy: 4685, 2790
+  xy: 5949, 2481
   size: 463, 588
   orig: 463, 588
   offset: 0, 0
   index: -1
 WistfulWarriorImages/Waist
-  rotate: true
-  xy: 3327, 2574
+  rotate: false
+  xy: 5954, 2946
   size: 625, 516
   orig: 625, 516
   offset: 0, 0

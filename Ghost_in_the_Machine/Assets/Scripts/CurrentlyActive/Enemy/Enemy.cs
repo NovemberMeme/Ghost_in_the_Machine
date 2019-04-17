@@ -13,7 +13,8 @@ public class Enemy : Character
         NullifiedKnight,
         BitterBrute,
         Bulwark,
-        Regulus
+        Regulus,
+        MadCivilian
     }
 
     protected enum EnemyControlState

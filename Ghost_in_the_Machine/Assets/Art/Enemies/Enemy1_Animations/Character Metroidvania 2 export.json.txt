@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "5+yHDLRgGuit16hCRZBA8dEUT74", "spine": "3.7.91", "width": 3253.38, "height": 3223.36 },
+"skeleton": { "hash": "XSF5GXNI069id6P6M0ofWkHrtsE", "spine": "3.7.91", "width": 2188.21, "height": 2401.66 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "length": 2270.3, "rotation": 90, "x": -2.53, "y": -5.27 },
@@ -24,7 +24,9 @@
 	{ "name": "Head", "parent": "Chest", "length": 361.76, "rotation": -4.76, "x": 228.19 },
 	{ "name": "Chest_Light", "parent": "Chest", "length": 67.96, "rotation": -47.76, "x": 21.56, "y": -28.77 },
 	{ "name": "Collar_Back", "parent": "Chest", "length": 229.81, "rotation": -63.46, "x": 148.55, "y": -104.12 },
-	{ "name": "Collar_Front", "parent": "Chest", "length": 274.85, "rotation": 105, "x": 144.86, "y": -95.75 }
+	{ "name": "Collar_Front", "parent": "Chest", "length": 274.85, "rotation": 105, "x": 144.86, "y": -95.75 },
+	{ "name": "Left_Shoulder_Plate", "parent": "Chest", "length": 216.63, "rotation": 111.68, "x": 183.28, "y": 185.76 },
+	{ "name": "Right_Shoulder_Plate", "parent": "Chest", "length": 173.72, "rotation": -60.91, "x": 306.01, "y": -72.36 }
 ],
 "slots": [
 	{ "name": "Right_Lower_Arm", "bone": "Right_Lower_Arm", "attachment": "Right_Lower_ArmHolder" },
@@ -39,6 +41,7 @@
 	{ "name": "Waist", "bone": "Waist", "attachment": "WaistHolder" },
 	{ "name": "Chest", "bone": "Chest", "attachment": "ChestHolder" },
 	{ "name": "Chest_Light", "bone": "Chest_Light", "attachment": "Chest_LightHolder" },
+	{ "name": "Right_Shoulder_Plate", "bone": "Right_Shoulder_Plate", "attachment": "Right_Shoulder_PlateHolder" },
 	{ "name": "Collar_Back", "bone": "Collar_Back", "attachment": "Collar_BackHolder" },
 	{ "name": "Head", "bone": "Head", "attachment": "HeadHolder" },
 	{ "name": "Collar_Front", "bone": "Collar_Front", "attachment": "Collar_FrontHolder" },
@@ -49,7 +52,8 @@
 	{ "name": "Left_Sword", "bone": "Left_Sword", "attachment": "Left_SwordHolder" },
 	{ "name": "Left_Handle", "bone": "Left_Handle", "attachment": "Left_HandleHolder" },
 	{ "name": "Left_Hand", "bone": "Left_Hand", "attachment": "Left_HandHolder" },
-	{ "name": "Head_Bite_Hitbox", "bone": "Head" }
+	{ "name": "Head_Bite_Hitbox", "bone": "Head" },
+	{ "name": "Left_Shoulder_Plate", "bone": "Left_Shoulder_Plate", "attachment": "Left_Shoulder_PlateHolder" }
 ],
 "skins": {
 	"default": {
@@ -162,6 +166,56 @@
 		},
 		"Waist": {
 			"WaistHolder": { "name": "BulwarkImages/Waist", "x": 187.9, "y": 74.48, "rotation": -49.43, "width": 692, "height": 597 }
+		}
+	},
+	"MadCivilian": {
+		"Chest": {
+			"ChestHolder": { "name": "MadCivilianImages/Chest", "x": 149.07, "y": 46.01, "rotation": -47.76, "width": 762, "height": 702 }
+		},
+		"Crotch": {
+			"CrotchHolder": { "name": "MadCivilianImages/Crotch", "x": -23.48, "y": -1.19, "rotation": -50.24, "width": 408, "height": 280 }
+		},
+		"Head": {
+			"HeadHolder": { "name": "MadCivilianImages/Head", "x": 486.91, "y": 181.64, "rotation": -43.01, "width": 850, "height": 714 }
+		},
+		"Left_Hand": {
+			"Left_HandHolder": { "name": "MadCivilianImages/Left_Hand", "x": 60.02, "y": 6.13, "rotation": 94.01, "width": 199, "height": 217 }
+		},
+		"Left_Lower_Arm": {
+			"Left_Lower_ArmHolder": { "name": "MadCivilianImages/Left_Lower_Arm", "x": 43.9, "y": -15.82, "rotation": 111.33, "width": 276, "height": 652 }
+		},
+		"Left_Lower_Leg": {
+			"Left_Lower_LegHolder": { "name": "MadCivilianImages/Left_Lower_Leg", "x": 227.81, "y": 64.48, "rotation": 137.54, "width": 985, "height": 733 }
+		},
+		"Left_Shoulder": {
+			"Left_ShoulderHolder": { "name": "MadCivilianImages/Left_Shoulder", "x": 220.64, "y": -8.3, "rotation": 163.07, "width": 573, "height": 265 }
+		},
+		"Left_Shoulder_Plate": {
+			"Left_Shoulder_PlateHolder": { "name": "MadCivilianImages/Left_Shoulder_Plate", "x": 133.67, "y": -129.33, "rotation": -159.44, "width": 180, "height": 226 }
+		},
+		"Left_Thigh": {
+			"Left_ThighHolder": { "name": "MadCivilianImages/Left_Thigh", "x": 179.57, "y": -43.51, "rotation": 99.63, "width": 348, "height": 949 }
+		},
+		"Right_Hand": {
+			"Right_HandHolder": { "name": "MadCivilianImages/Right_Hand", "x": 67.83, "y": 29.95, "rotation": -42.51, "width": 168, "height": 158 }
+		},
+		"Right_Lower_Arm": {
+			"Right_Lower_ArmHolder": { "name": "MadCivilianImages/Right_Lower_Arm", "x": 81.78, "y": -48.91, "rotation": -30.88, "width": 499, "height": 476 }
+		},
+		"Right_Lower_Leg": {
+			"Right_Lower_LegHolder": { "name": "MadCivilianImages/Right_Lower_Leg", "x": 257.69, "y": 79.77, "rotation": 56.44, "width": 621, "height": 1081 }
+		},
+		"Right_Shoulder": {
+			"Right_ShoulderHolder": { "name": "MadCivilianImages/Right_Shoulder", "x": 182.21, "y": 1.29, "rotation": 47.51, "width": 381, "height": 404 }
+		},
+		"Right_Shoulder_Plate": {
+			"Right_Shoulder_PlateHolder": { "name": "MadCivilianImages/Right_Shoulder_Plate", "x": 100.38, "y": 80.68, "width": 246, "height": 194 }
+		},
+		"Right_Thigh": {
+			"Right_ThighHolder": { "name": "MadCivilianImages/Right_Thigh", "x": 268.43, "y": 22.55, "rotation": 38.43, "width": 775, "height": 652 }
+		},
+		"Waist": {
+			"WaistHolder": { "name": "MadCivilianImages/Waist", "x": 196.66, "y": 62, "rotation": -43.89, "width": 656, "height": 512 }
 		}
 	},
 	"MadMage": {
@@ -13705,6 +13759,17 @@
 			"Right_Shield": {
 				"rotate": [
 					{ "time": 1, "angle": 1.37 }
+				]
+			}
+		}
+	},
+	"Test": {
+		"bones": {
+			"Left_Shoulder_Plate": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.1667, "angle": 35.38 },
+					{ "time": 0.3333, "angle": 0 }
 				]
 			}
 		}
